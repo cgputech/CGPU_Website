@@ -8,4 +8,3 @@
 - `/statistics` - Placement & training metrics ([app/statistics/page.tsx](file:///d:/WORK/cgpu/CGPU_Website/app/statistics/page.tsx)) - Dynamic SVG chart analytics detailing year-over-year job offers and sector distribution.
 - `/about` - About CGPU cell ([app/about/page.tsx](file:///d:/WORK/cgpu/CGPU_Website/app/about/page.tsx)) - Placement operations overview, academic affiliations, contact forms.
 - `/team` - CGPU Coordination Team ([app/team/page.tsx](file:///d:/WORK/cgpu/CGPU_Website/app/team/page.tsx)) - Board members, faculty heads, and student placement coordinators.
-- `/admin` - Administrative gateway ([app/admin/page.tsx](file:///d:/WORK/cgpu/CGPU_Website/app/admin/page.tsx)) - Secured portal gateway leading to the Strapi CMS administrative endpoint.

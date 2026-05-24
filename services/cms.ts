@@ -126,7 +126,7 @@ export interface PlacementPoster {
 }
 
 // ----------------------------------------------------
-// Mock Data Store (easily pluggable with Strapi APIs)
+// Mock Data Store
 // ----------------------------------------------------
 
 const mockStats: YearStats[] = [
@@ -309,7 +309,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "Microsoft",
     companyLogo: "MSFT",
     title: "Microsoft SWE Recruitment Drive",
-    posterImage: "/posters/microsoft.png",
+    posterImage: "/posters/bosch.png",
     placementCount: 12,
     packageValue: "45.0 LPA",
     roleName: "Software Engineering Intern / FTE",
@@ -336,7 +336,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "Google",
     companyLogo: "GOOG",
     title: "Google Associate SWE Selection",
-    posterImage: "",
+    posterImage: "/posters/bosch.png",
     placementCount: 4,
     packageValue: "42.5 LPA",
     roleName: "Associate Software Engineer",
@@ -361,7 +361,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "NVIDIA",
     companyLogo: "NVDA",
     title: "NVIDIA Core Engineering Drive",
-    posterImage: "",
+    posterImage: "/posters/bosch.png",
     placementCount: 6,
     packageValue: "36.0 LPA",
     roleName: "ASIC Design / System Software Engineer",
@@ -388,7 +388,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "Oracle",
     companyLogo: "ORCL",
     title: "Oracle Financial Services Software Drive",
-    posterImage: "",
+    posterImage: "/posters/bosch.png",
     placementCount: 15,
     packageValue: "18.0 LPA",
     roleName: "Associate Member of Technical Staff",
