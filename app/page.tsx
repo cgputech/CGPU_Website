@@ -50,6 +50,7 @@ export default function Home() {
   
   // Autoplay for poster carousel
   const carouselTimer = useRef<NodeJS.Timeout | null>(null);
+  const constraintsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -241,12 +242,15 @@ export default function Home() {
             </div>
 
             {/* Right Visual Floating Card Stack */}
-            <div className="lg:col-span-5 relative h-[380px] w-full flex items-center justify-center select-none">
+            <div 
+              ref={constraintsRef} 
+              className="lg:col-span-5 relative h-[320px] sm:h-[380px] w-full flex items-center justify-center select-none overflow-hidden sm:overflow-visible"
+            >
               
               {/* Card 1: Google Placement Success */}
               <motion.div
                 drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragConstraints={constraintsRef}
                 dragElastic={0.15}
                 whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -259,21 +263,21 @@ export default function Home() {
                     opacity: { duration: 0.6 }
                   } 
                 }}
-                className="absolute top-0 right-4 w-72 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20 cursor-grab active:cursor-grabbing touch-none animate-none"
+                className="absolute top-2 right-2 sm:right-4 w-[250px] xs:w-[280px] sm:w-72 bg-white border border-border-custom rounded-2xl p-4 sm:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Active Drive Success</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-emerald-600">Active Drive Success</span>
                   </div>
                   <Badge variant="red">42.5 LPA</Badge>
                 </div>
-                <h4 className="font-extrabold text-sm text-text-primary mb-1">Google Selection Campaign</h4>
-                <p className="text-[11px] text-text-secondary mb-3">4 Associate Software Engineers secured international standard packages.</p>
+                <h4 className="font-extrabold text-xs sm:text-sm text-text-primary mb-1">Google Selection Campaign</h4>
+                <p className="text-[10px] sm:text-[11px] text-text-secondary mb-3">4 Associate Software Engineers secured international standard packages.</p>
                 <div className="flex items-center space-x-2">
                   <div className="flex -space-x-2">
-                    <span className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-[10px] font-bold border border-white">LI</span>
-                    <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold border border-white">DS</span>
+                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-100 flex items-center justify-center text-[9px] sm:text-[10px] font-bold border border-white">LI</span>
+                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-100 flex items-center justify-center text-[9px] sm:text-[10px] font-bold border border-white">DS</span>
                   </div>
                   <span className="text-[9px] text-text-secondary font-medium">Verified by SCTCE CGPU Coordinator</span>
                 </div>
@@ -282,7 +286,7 @@ export default function Home() {
               {/* Card 2: Recruiter Metrics */}
               <motion.div
                 drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragConstraints={constraintsRef}
                 dragElastic={0.15}
                 whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -295,23 +299,23 @@ export default function Home() {
                     opacity: { duration: 0.8 }
                   } 
                 }}
-                className="absolute bottom-4 left-4 w-64 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-10 cursor-grab active:cursor-grabbing touch-none animate-none"
+                className="absolute bottom-2 left-2 sm:left-4 w-[210px] xs:w-[230px] sm:w-64 bg-white border border-border-custom rounded-2xl p-4 sm:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-10 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
                 <div className="flex items-center space-x-2.5 mb-3">
-                  <div className="p-2 bg-soft-red rounded-lg text-primary-red">
-                    <Building className="h-5 w-5" />
+                  <div className="p-1.5 sm:p-2 bg-soft-red rounded-lg text-primary-red">
+                    <Building className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
                     <h5 className="font-bold text-xs text-text-primary">Recruiting Core</h5>
-                    <span className="text-[9px] text-text-secondary">Fortune 500 Network</span>
+                    <span className="text-[8px] sm:text-[9px] text-text-secondary">Fortune 500 Network</span>
                   </div>
                 </div>
                 <div className="space-y-1.5 border-t border-slate-100 pt-3">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-[10px] sm:text-xs">
                     <span className="text-text-secondary">Active Partners</span>
                     <span className="font-bold text-text-primary">300+ Companies</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-[10px] sm:text-xs">
                     <span className="text-text-secondary">Average Package</span>
                     <span className="font-bold text-primary-red">8.4 LPA</span>
                   </div>
@@ -321,7 +325,7 @@ export default function Home() {
               {/* Card 3: Mini Stat Indicator */}
               <motion.div
                 drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragConstraints={constraintsRef}
                 dragElastic={0.15}
                 whileDrag={{ scale: 1.05, cursor: "grabbing" }}
                 initial={{ opacity: 0, x: 20 }}
@@ -333,10 +337,10 @@ export default function Home() {
                     opacity: { duration: 0.7 }
                   } 
                 }}
-                className="absolute top-1/2 left-8 -translate-y-1/2 bg-primary-red text-white rounded-xl py-2 px-3.5 shadow-md flex items-center space-x-2 z-30 cursor-grab active:cursor-grabbing touch-none animate-none"
+                className="absolute top-1/2 left-2 xs:left-4 sm:left-8 -translate-y-1/2 bg-primary-red text-white rounded-xl py-1.5 px-3 sm:py-2 sm:px-3.5 shadow-md flex items-center space-x-2 z-30 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
-                <Sparkles className="h-4 w-4 animate-spin-slow" />
-                <span className="text-[10px] font-extrabold tracking-wider uppercase">94.2% Placed</span>
+                <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin-slow" />
+                <span className="text-[9px] sm:text-[10px] font-extrabold tracking-wider uppercase">94.2% Placed</span>
               </motion.div>
 
             </div>
