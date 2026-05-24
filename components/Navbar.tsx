@@ -52,9 +52,6 @@ export default function Navbar() {
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight text-text-primary flex items-center">
                 CGPU
-                <span className="ml-1.5 px-2 py-0.5 text-[10px] font-semibold bg-soft-red text-primary-red rounded">
-                  SCTCE
-                </span>
               </span>
               <span className="text-[9px] text-text-secondary font-medium tracking-wide">
                 Sree Chitra Thirunal College of Engineering

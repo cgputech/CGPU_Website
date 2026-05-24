@@ -35,20 +35,15 @@ export default function Footer() {
 
 
 
-          {/* Students Info Column */}
+          {/* Resources Column */}
           <div>
             <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4">
-              For Students
+              Resources
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/drives" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  Active Drives & Internships
-                </Link>
-              </li>
-              <li>
-                <Link href="/training" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  Training Schedules
+                <Link href="/team" className="text-sm text-text-primary hover:text-primary-red transition-colors">
+                  CGPU Coordination Team
                 </Link>
               </li>
               <li>
@@ -58,7 +53,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/about" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  Student Coordinators
+                  About CGPU Cell
                 </Link>
               </li>
             </ul>

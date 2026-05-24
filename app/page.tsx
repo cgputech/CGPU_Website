@@ -241,10 +241,14 @@ export default function Home() {
             </div>
 
             {/* Right Visual Floating Card Stack */}
-            <div className="lg:col-span-5 relative h-[380px] w-full flex items-center justify-center">
+            <div className="lg:col-span-5 relative h-[380px] w-full flex items-center justify-center select-none">
               
               {/* Card 1: Google Placement Success */}
               <motion.div
+                drag
+                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragElastic={0.15}
+                whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ 
                   opacity: 1, 
@@ -255,7 +259,7 @@ export default function Home() {
                     opacity: { duration: 0.6 }
                   } 
                 }}
-                className="absolute top-0 right-4 w-72 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20"
+                className="absolute top-0 right-4 w-72 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
@@ -277,6 +281,10 @@ export default function Home() {
 
               {/* Card 2: Recruiter Metrics */}
               <motion.div
+                drag
+                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragElastic={0.15}
+                whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 animate={{ 
                   opacity: 1, 
@@ -287,7 +295,7 @@ export default function Home() {
                     opacity: { duration: 0.8 }
                   } 
                 }}
-                className="absolute bottom-4 left-4 w-64 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-10"
+                className="absolute bottom-4 left-4 w-64 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-10 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
                 <div className="flex items-center space-x-2.5 mb-3">
                   <div className="p-2 bg-soft-red rounded-lg text-primary-red">
@@ -312,6 +320,10 @@ export default function Home() {
 
               {/* Card 3: Mini Stat Indicator */}
               <motion.div
+                drag
+                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
+                dragElastic={0.15}
+                whileDrag={{ scale: 1.05, cursor: "grabbing" }}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ 
                   opacity: 1, 
@@ -321,7 +333,7 @@ export default function Home() {
                     opacity: { duration: 0.7 }
                   } 
                 }}
-                className="absolute top-1/2 left-8 -translate-y-1/2 bg-primary-red text-white rounded-xl py-2 px-3.5 shadow-md flex items-center space-x-2 z-30"
+                className="absolute top-1/2 left-8 -translate-y-1/2 bg-primary-red text-white rounded-xl py-2 px-3.5 shadow-md flex items-center space-x-2 z-30 cursor-grab active:cursor-grabbing touch-none animate-none"
               >
                 <Sparkles className="h-4 w-4 animate-spin-slow" />
                 <span className="text-[10px] font-extrabold tracking-wider uppercase">94.2% Placed</span>
@@ -429,6 +441,38 @@ export default function Home() {
             </div>
           </div>
 
+          {/* JSON-LD Schema for AI and Google Search SEO */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "EducationalOrganization",
+                "name": "Sree Chitra Thirunal College of Engineering (SCTCE) - CGPU Placement Cell",
+                "url": "https://www.sctce.ac.in",
+                "logo": "https://www.sctce.ac.in/logo.png",
+                "sameAs": [
+                  "https://linkedin.com/school/sree-chitra-thirunal-college-of-engineering"
+                ],
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "+91-471-2490572",
+                  "contactType": "Placement Office",
+                  "email": "placement@sctce.ac.in",
+                  "areaServed": "IN"
+                },
+                "award": "NBA & NAAC Accredited Tier-1 Engineering Outcomes",
+                "offers": {
+                  "@type": "AggregateOffer",
+                  "priceCurrency": "INR",
+                  "highPrice": "4500000",
+                  "lowPrice": "500000",
+                  "offerCount": "1200"
+                }
+              })
+            }}
+          />
+
           {/* Active Poster Display (Aesthetic HTML Placeholder Poster Cards) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             
@@ -441,48 +485,56 @@ export default function Home() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 30 }}
                   transition={{ duration: 0.4 }}
-                  className="w-full max-w-[340px] aspect-[4/5] bg-gradient-to-br from-slate-900 via-slate-800 to-red-950 border border-slate-700 rounded-2xl shadow-xl flex flex-col justify-between p-6 text-white relative overflow-hidden group"
+                  className="w-full max-w-[340px] aspect-[4/5] relative rounded-2xl overflow-hidden shadow-xl border border-border-custom group"
                 >
-                  {/* Decorative element */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary-red/10 rounded-full blur-3xl group-hover:bg-primary-red/20 transition-all duration-300 pointer-events-none" />
-                  
-                  {/* Poster Header */}
-                  <div className="flex justify-between items-start z-10">
-                    <span className="px-3 py-1 rounded bg-white/10 text-[9px] font-bold uppercase tracking-widest border border-white/15 backdrop-blur-xs">
-                      SCTCE Campus Placement
-                    </span>
-                    <Badge variant="red" className="bg-primary-red/80 border-none text-white">
-                      {posters[activePosterIndex]?.year} Drive
-                    </Badge>
-                  </div>
-
-                  {/* Company Showcase */}
-                  <div className="space-y-4 my-auto z-10">
-                    <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center text-2xl font-black tracking-widest border border-white/20">
-                      {posters[activePosterIndex]?.companyLogo}
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className="text-2xl font-black tracking-tight">{posters[activePosterIndex]?.companyName.toUpperCase()}</h3>
-                      <p className="text-xs text-slate-300 font-medium">{posters[activePosterIndex]?.roleName}</p>
-                    </div>
-                  </div>
-
-                  {/* Highlights Summary */}
-                  <div className="border-t border-white/10 pt-4 space-y-3 z-10">
-                    <div className="flex justify-between items-end">
-                      <div>
-                        <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Placement Offers</span>
-                        <span className="text-2xl font-bold text-white">{posters[activePosterIndex]?.placementCount} Offers</span>
+                  {posters[activePosterIndex]?.posterImage ? (
+                    <img 
+                      src={posters[activePosterIndex].posterImage} 
+                      alt={posters[activePosterIndex].title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-red-950 p-6 flex flex-col justify-between text-white">
+                      {/* Poster Header */}
+                      <div className="flex justify-between items-start z-10">
+                        <span className="px-3 py-1 rounded bg-white/10 text-[9px] font-bold uppercase tracking-widest border border-white/15 backdrop-blur-xs">
+                          SCTCE Campus Placement
+                        </span>
+                        <Badge variant="red" className="bg-primary-red/80 border-none text-white">
+                          {posters[activePosterIndex]?.year} Drive
+                        </Badge>
                       </div>
-                      <div className="text-right">
-                        <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Highest Package</span>
-                        <span className="text-2xl font-extrabold text-primary-red">{posters[activePosterIndex]?.packageValue}</span>
+
+                      {/* Company Showcase */}
+                      <div className="space-y-4 my-auto z-10">
+                        <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center text-2xl font-black tracking-widest border border-white/20">
+                          {posters[activePosterIndex]?.companyLogo}
+                        </div>
+                        <div className="space-y-1">
+                          <h3 className="text-2xl font-black tracking-tight">{posters[activePosterIndex]?.companyName.toUpperCase()}</h3>
+                          <p className="text-xs text-slate-300 font-medium">{posters[activePosterIndex]?.roleName}</p>
+                        </div>
+                      </div>
+
+                      {/* Highlights Summary */}
+                      <div className="border-t border-white/10 pt-4 space-y-3 z-10">
+                        <div className="flex justify-between items-end">
+                          <div>
+                            <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Placement Offers</span>
+                            <span className="text-2xl font-bold text-white">{posters[activePosterIndex]?.placementCount} Offers</span>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Highest Package</span>
+                            <span className="text-2xl font-extrabold text-primary-red">{posters[activePosterIndex]?.packageValue}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
+
 
             {/* Poster Details and Students Grid Right */}
             <div className="lg:col-span-7 flex flex-col justify-between">

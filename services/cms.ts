@@ -277,7 +277,32 @@ const mockAnnouncements: Announcement[] = [
   { id: "3", title: "VLSI Boot Camp Details", date: "May 19, 2026", content: "The schedule for VLSI Boot Camp in association with Intel is finalized. Registered students check training portal for lab allocations.", category: "Training", important: false }
 ];
 
+
 const mockPlacementPosters: PlacementPoster[] = [
+  {
+    id: "poster-0",
+    slug: "bosch-core-2026",
+    companyName: "Bosch",
+    companyLogo: "BOSCH",
+    title: "Bosch Recruitment Drive - 2026 Batch",
+    posterImage: "/posters/bosch.png",
+    placementCount: 3,
+    packageValue: "6.5 LPA",
+    roleName: "Graduate Engineer Trainee / Core Engineers",
+    date: "May 2026",
+    year: 2026,
+    description: "Bosch's campus recruitment drive selected core engineering students for key technical roles, highlighting the strength of Mechanical and Automobile engineering branches at SCTCE.",
+    highlights: [
+      { id: "h0-1", studentName: "Arjun Sekhar", department: "Mechanical Engineering (ME)", role: "Graduate Engineer Trainee", salaryPackage: "6.5 LPA" },
+      { id: "h0-2", studentName: "Aswin AS", department: "Mechanical (Automobile) (MA)", role: "Graduate Engineer Trainee", salaryPackage: "6.5 LPA" },
+      { id: "h0-3", studentName: "Bharath MK", department: "Mechanical Engineering (ME)", role: "Graduate Engineer Trainee", salaryPackage: "6.5 LPA" }
+    ],
+    companyDetails: {
+      description: "Robert Bosch GmbH, commonly known as Bosch, is a German multinational engineering and technology company headquartered in Gerlingen. The company's core operating areas are spread across four business sectors: mobility, industrial technology, consumer goods, and energy and building technology.",
+      websiteUrl: "https://bosch.com",
+      sector: "Core Engineering"
+    }
+  },
   {
     id: "poster-1",
     slug: "microsoft-swe-2025",
@@ -311,7 +336,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "Google",
     companyLogo: "GOOG",
     title: "Google Associate SWE Selection",
-    posterImage: "/posters/google.png",
+    posterImage: "",
     placementCount: 4,
     packageValue: "42.5 LPA",
     roleName: "Associate Software Engineer",
@@ -336,7 +361,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "NVIDIA",
     companyLogo: "NVDA",
     title: "NVIDIA Core Engineering Drive",
-    posterImage: "/posters/nvidia.png",
+    posterImage: "",
     placementCount: 6,
     packageValue: "36.0 LPA",
     roleName: "ASIC Design / System Software Engineer",
@@ -363,7 +388,7 @@ const mockPlacementPosters: PlacementPoster[] = [
     companyName: "Oracle",
     companyLogo: "ORCL",
     title: "Oracle Financial Services Software Drive",
-    posterImage: "/posters/oracle.png",
+    posterImage: "",
     placementCount: 15,
     packageValue: "18.0 LPA",
     roleName: "Associate Member of Technical Staff",
