@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { cmsService, YearStats, Recruiter } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import InteractiveChart from "@/components/ui/InteractiveChart";
+import { Card } from "@/components/ui/old/Card";
+import InteractiveChart from "@/components/ui/old/InteractiveChart";
 import { 
   TrendingUp, 
   DollarSign, 

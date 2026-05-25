@@ -4,8 +4,8 @@ import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Globe, Building, ShieldCheck, Briefcase, Award } from "lucide-react";
 import { cmsService, PlacementPoster } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/old/Card";
+import { Badge } from "@/components/ui/old/Badge";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

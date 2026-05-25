@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { cmsService, PlacementDrive } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/old/Card";
+import { Badge } from "@/components/ui/old/Badge";
 import { Search, Calendar, Award, UserCheck, AlertCircle, ArrowUpRight } from "lucide-react";
 
 export default function DrivesPage() {

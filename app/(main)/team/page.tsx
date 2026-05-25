@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Mail, Phone, ShieldCheck, Users } from "lucide-react";
 import { cmsService, TeamMember } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/old/Card";
+import { Badge } from "@/components/ui/old/Badge";
 
 export default function TeamPage() {
   const [team, setTeam] = useState<TeamMember[]>([]);

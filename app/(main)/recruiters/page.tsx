@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Search, Building, Award, ShieldCheck, Briefcase } from "lucide-react";
 import { cmsService, Recruiter } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/old/Card";
+import { Badge } from "@/components/ui/old/Badge";
 
 export default function RecruitersPage() {
   const [recruiters, setRecruiters] = useState<Recruiter[]>([]);

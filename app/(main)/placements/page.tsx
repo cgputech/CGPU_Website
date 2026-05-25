@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Search, Calendar, Award } from "lucide-react";
 import { cmsService, PlacementPoster } from "@/services/cms";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/old/Card";
+import { Badge } from "@/components/ui/old/Badge";
 
 export default function PlacementsPage() {
   const [posters, setPosters] = useState<PlacementPoster[]>([]);
