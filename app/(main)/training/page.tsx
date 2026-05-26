@@ -59,7 +59,7 @@ export default function TrainingPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12 -mt-[--navbar-height]">
       
       {/* Header */}
       <div className="border-b border-border-custom pb-6 mb-8">

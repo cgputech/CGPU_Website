@@ -55,18 +55,17 @@ export default function Navbar() {
       "inline-flex h-9 w-max items-center justify-center !rounded-full px-4 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
       active
         ? "bg-primary-red text-white shadow-sm hover:bg-primary-red hover:text-white focus:bg-primary-red focus:text-white active:bg-primary-red active:text-white"
-        : "text-muted-foreground hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground active:bg-muted active:text-foreground"
+        : "text-muted-foreground hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground active:bg-muted active:text-foreground",
     );
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300"
+        "fixed top-0 left-0 right-0 z-50 w-full bg-white pointer-events-none h-[--navbar-height] py-3",
+        "md:top-3 md:bg-transparent",
       )}
     >
-      <div className="h-0.5 w-full bg-primary-red" />
-
-      <div className="relative mx-auto flex h-[4.25rem] max-w-4xl items-center justify-center px-5 sm:px-8">
+      <div className="relative mx-auto flex max-w-4xl items-center justify-center px-5 py-3 sm:px-8 md:py-0 pointer-events-auto">
         {/* Mobile — shadcn Sheet + Button */}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
@@ -80,10 +79,7 @@ export default function Navbar() {
             </Button>
           </SheetTrigger>
 
-          <SheetContent
-            side="left"
-            className="flex w-72 flex-col gap-0 p-0"
-          >
+          <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
             <SheetHeader className="border-b px-6 py-5 text-left">
               <SheetTitle>CGPU</SheetTitle>
               <p className="text-xs text-muted-foreground">Navigation</p>
@@ -110,7 +106,10 @@ export default function Navbar() {
             </nav>
 
             <div className="border-t px-4 py-5">
-              <Button className="w-full bg-primary-red hover:bg-primary-red-hover" asChild>
+              <Button
+                className="w-full bg-primary-red hover:bg-primary-red-hover"
+                asChild
+              >
                 <Link href={reportLink.href}>Placement Report</Link>
               </Button>
             </div>

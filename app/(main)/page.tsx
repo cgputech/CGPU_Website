@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   TrendingUp, 
-  Award, 
   Briefcase, 
   ArrowRight, 
   GraduationCap, 
@@ -16,11 +15,9 @@ import {
   Users,
   Download,
   Calendar,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   FileText,
-  Building
 } from "lucide-react";
 import { 
   cmsService, 
@@ -33,6 +30,7 @@ import {
 } from "@/services/cms";
 import { Card } from "@/components/ui/old/Card";
 import { Badge } from "@/components/ui/old/Badge";
+import PlacementCarousel from "@/components/home/carousel";
 
 export default function Home() {
   const [stats, setStats] = useState<YearStats | null>(null);
@@ -173,174 +171,95 @@ export default function Home() {
     <div className="relative overflow-hidden bg-background">
       
       {/* 1. HERO SECTION */}
-      <section className="relative pt-12 pb-20 md:py-32 border-b border-border-custom bg-white overflow-hidden">
-        {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
+      <section className="relative overflow-hidden border-b border-border-custom bg-background top-0">
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--soft-red),transparent_70%)]"
+          aria-hidden
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border-custom to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Content */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <motion.div 
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-                className="inline-flex items-center space-x-2 px-3 py-1 bg-soft-red border border-red-200/50 rounded-full"
-              >
-                <Award className="h-4 w-4 text-primary-red" />
-                <span className="text-xs font-semibold text-primary-red uppercase tracking-wider">
-                  Accredited Tier-1 Engineering Outcomes
-                </span>
-              </motion.div>
+        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center px-6 py-20 text-center sm:py-28 md:py-36">
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mb-10"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/cgpu-header-logo.png"
+              alt="CGPU SCTCE"
+              className="mx-auto h-16 w-auto object-contain sm:h-20 md:h-24"
+            />
+          </motion.div>
 
-              <motion.h1 
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-                className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary leading-[1.1]"
-              >
-                Fueling Innovation by Connecting{" "}
-                <span className="text-primary-red relative inline-block">
-                  Top-Tier Talent
-                  <span className="absolute bottom-2 left-0 w-full h-2 bg-soft-red -z-10" />
-                </span>{" "}
-                With Global Leaders.
-              </motion.h1>
+          <motion.p
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="text-[11px] font-medium uppercase tracking-[0.28em] text-text-secondary"
+          >
+            Career Guidance & Placement Unit
+          </motion.p>
 
-              <motion.p 
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-                className="text-base sm:text-lg text-text-secondary max-w-xl leading-relaxed"
-              >
-                The Placement & Career Guidance Unit (CGPU) of SCTCE facilitates premium hiring drives, industry-backed training campaigns, and internships to accelerate engineering success.
-              </motion.p>
+          <motion.h1
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mt-5 font-sans text-[2.75rem] font-semibold leading-[1.05] tracking-[-0.03em] text-text-primary sm:text-6xl md:text-7xl"
+          >
+            <span className="block sm:inline">CGPU</span>
+            <span
+              className="mx-2 hidden font-extralight text-text-secondary/30 sm:inline"
+              aria-hidden
+            >
+              /
+            </span>
+            <span className="mt-1 block font-medium tracking-[-0.02em] text-text-primary sm:mt-0 sm:inline">
+              SCTCE
+            </span>
+          </motion.h1>
 
-              <motion.div 
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-                className="flex flex-col sm:flex-row gap-4 pt-4"
-              >
-                <Link
-                  href="/statistics"
-                  className="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold rounded-md shadow-sm text-white bg-primary-red hover:bg-primary-red-hover transition-colors"
-                >
-                  Placement Statistics
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-                <Link
-                  href="/recruiters"
-                  className="inline-flex items-center justify-center px-6 py-3.5 border border-border-custom text-sm font-semibold rounded-md text-text-primary bg-card hover:bg-slate-50 transition-colors"
-                >
-                  Top Recruiters
-                  <ArrowUpRight className="ml-2 h-4 w-4 text-text-secondary" />
-                </Link>
-              </motion.div>
-            </div>
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mt-6 h-px w-12 bg-primary-red/60"
+            aria-hidden
+          />
 
-            {/* Right Visual Floating Card Stack */}
-            <div className="lg:col-span-5 relative h-[380px] w-full flex items-center justify-center select-none">
-              
-              {/* Card 1: Google Placement Success */}
-              <motion.div
-                drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
-                dragElastic={0.15}
-                whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: [-10, 10, -10],
-                  scale: 1,
-                  transition: { 
-                    y: { repeat: Infinity, duration: 5, ease: "easeInOut" },
-                    opacity: { duration: 0.6 }
-                  } 
-                }}
-                className="absolute top-0 right-4 w-72 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20 cursor-grab active:cursor-grabbing touch-none animate-none"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Active Drive Success</span>
-                  </div>
-                  <Badge variant="red">42.5 LPA</Badge>
-                </div>
-                <h4 className="font-extrabold text-sm text-text-primary mb-1">Google Selection Campaign</h4>
-                <p className="text-[11px] text-text-secondary mb-3">4 Associate Software Engineers secured international standard packages.</p>
-                <div className="flex items-center space-x-2">
-                  <div className="flex -space-x-2">
-                    <span className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-[10px] font-bold border border-white">LI</span>
-                    <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold border border-white">DS</span>
-                  </div>
-                  <span className="text-[9px] text-text-secondary font-medium">Verified by SCTCE CGPU Coordinator</span>
-                </div>
-              </motion.div>
+          <motion.p
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mt-6 max-w-lg text-base font-normal leading-[1.75] text-text-secondary sm:text-lg sm:leading-relaxed"
+          >
+            Connecting industry-ready graduates with leading recruiters through
+            placements, training, and career guidance at Sree Chitra Thirunal
+            College of Engineering, Thiruvananthapuram.
+          </motion.p>
 
-              {/* Card 2: Recruiter Metrics */}
-              <motion.div
-                drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
-                dragElastic={0.15}
-                whileDrag={{ scale: 1.05, cursor: "grabbing", boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
-                initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: [10, -10, 10],
-                  scale: 1,
-                  transition: { 
-                    y: { repeat: Infinity, duration: 6, ease: "easeInOut" },
-                    opacity: { duration: 0.8 }
-                  } 
-                }}
-                className="absolute bottom-4 left-4 w-64 bg-white border border-border-custom rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-10 cursor-grab active:cursor-grabbing touch-none animate-none"
-              >
-                <div className="flex items-center space-x-2.5 mb-3">
-                  <div className="p-2 bg-soft-red rounded-lg text-primary-red">
-                    <Building className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-xs text-text-primary">Recruiting Core</h5>
-                    <span className="text-[9px] text-text-secondary">Fortune 500 Network</span>
-                  </div>
-                </div>
-                <div className="space-y-1.5 border-t border-slate-100 pt-3">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-text-secondary">Active Partners</span>
-                    <span className="font-bold text-text-primary">300+ Companies</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-text-secondary">Average Package</span>
-                    <span className="font-bold text-primary-red">8.4 LPA</span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 3: Mini Stat Indicator */}
-              <motion.div
-                drag
-                dragConstraints={{ left: -120, right: 120, top: -120, bottom: 120 }}
-                dragElastic={0.15}
-                whileDrag={{ scale: 1.05, cursor: "grabbing" }}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ 
-                  opacity: 1, 
-                  x: [0, 15, 0],
-                  transition: { 
-                    x: { repeat: Infinity, duration: 4, ease: "easeInOut" },
-                    opacity: { duration: 0.7 }
-                  } 
-                }}
-                className="absolute top-1/2 left-8 -translate-y-1/2 bg-primary-red text-white rounded-xl py-2 px-3.5 shadow-md flex items-center space-x-2 z-30 cursor-grab active:cursor-grabbing touch-none animate-none"
-              >
-                <Sparkles className="h-4 w-4 animate-spin-slow" />
-                <span className="text-[10px] font-extrabold tracking-wider uppercase">94.2% Placed</span>
-              </motion.div>
-
-            </div>
-          </div>
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mt-10 flex flex-wrap items-center justify-center gap-3"
+          >
+            <Link
+              href="/placements"
+              className="inline-flex items-center gap-2 rounded-full bg-primary-red px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-red-hover"
+            >
+              View Placements
+              <ArrowRight className="size-4" />
+            </Link>
+            <Link
+              href="/statistics"
+              className="inline-flex items-center gap-2 rounded-full border border-border-custom px-5 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-muted/60"
+            >
+              Statistics
+              <ArrowUpRight className="size-4 text-text-secondary" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -410,195 +329,7 @@ export default function Home() {
       </section>
 
       {/* 3. RECENT PLACEMENT POSTERS CAROUSEL */}
-      <section className="py-16 md:py-24 border-b border-border-custom bg-white overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-primary-red uppercase tracking-widest block">Outcomes In Action</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">
-                Recent Placement Success Campaigns
-              </h2>
-              <p className="text-sm text-text-secondary">
-                Explore recruitment highlights of major corporate drives featuring student select lists.
-              </p>
-            </div>
-            <div className="flex items-center space-x-2 mt-4 md:mt-0">
-              <button 
-                onClick={handlePrevPoster}
-                className="p-2 border border-border-custom rounded-lg hover:bg-slate-50 transition-colors text-text-secondary hover:text-text-primary cursor-pointer"
-                aria-label="Previous Poster"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button 
-                onClick={handleNextPoster}
-                className="p-2 border border-border-custom rounded-lg hover:bg-slate-50 transition-colors text-text-secondary hover:text-text-primary cursor-pointer"
-                aria-label="Next Poster"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* JSON-LD Schema for AI and Google Search SEO */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "EducationalOrganization",
-                "name": "Sree Chitra Thirunal College of Engineering (SCTCE) - CGPU Placement Cell",
-                "url": "https://www.sctce.ac.in",
-                "logo": "https://www.sctce.ac.in/logo.png",
-                "sameAs": [
-                  "https://linkedin.com/school/sree-chitra-thirunal-college-of-engineering"
-                ],
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "+91-471-2490572",
-                  "contactType": "Placement Office",
-                  "email": "placement@sctce.ac.in",
-                  "areaServed": "IN"
-                },
-                "award": "NBA & NAAC Accredited Tier-1 Engineering Outcomes",
-                "offers": {
-                  "@type": "AggregateOffer",
-                  "priceCurrency": "INR",
-                  "highPrice": "4500000",
-                  "lowPrice": "500000",
-                  "offerCount": "1200"
-                }
-              })
-            }}
-          />
-
-          {/* Active Poster Display (Aesthetic HTML Placeholder Poster Cards) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            {/* Poster Card Left Placeholder (Aspect ratio 4:5 representation) */}
-            <div className="lg:col-span-5 flex justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={activePosterIndex}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 30 }}
-                  transition={{ duration: 0.4 }}
-                  className="w-full max-w-[340px] aspect-[4/5] relative rounded-2xl overflow-hidden shadow-xl border border-border-custom group"
-                >
-                  {posters[activePosterIndex]?.posterImage ? (
-                    <img 
-                      src={posters[activePosterIndex].posterImage} 
-                      alt={posters[activePosterIndex].title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-red-950 p-6 flex flex-col justify-between text-white">
-                      {/* Poster Header */}
-                      <div className="flex justify-between items-start z-10">
-                        <span className="px-3 py-1 rounded bg-white/10 text-[9px] font-bold uppercase tracking-widest border border-white/15 backdrop-blur-xs">
-                          SCTCE Campus Placement
-                        </span>
-                        <Badge variant="red" className="bg-primary-red/80 border-none text-white">
-                          {posters[activePosterIndex]?.year} Drive
-                        </Badge>
-                      </div>
-
-                      {/* Company Showcase */}
-                      <div className="space-y-4 my-auto z-10">
-                        <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center text-2xl font-black tracking-widest border border-white/20">
-                          {posters[activePosterIndex]?.companyLogo}
-                        </div>
-                        <div className="space-y-1">
-                          <h3 className="text-2xl font-black tracking-tight">{posters[activePosterIndex]?.companyName.toUpperCase()}</h3>
-                          <p className="text-xs text-slate-300 font-medium">{posters[activePosterIndex]?.roleName}</p>
-                        </div>
-                      </div>
-
-                      {/* Highlights Summary */}
-                      <div className="border-t border-white/10 pt-4 space-y-3 z-10">
-                        <div className="flex justify-between items-end">
-                          <div>
-                            <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Placement Offers</span>
-                            <span className="text-2xl font-bold text-white">{posters[activePosterIndex]?.placementCount} Offers</span>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-[10px] text-slate-400 block uppercase tracking-wider">Highest Package</span>
-                            <span className="text-2xl font-extrabold text-primary-red">{posters[activePosterIndex]?.packageValue}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-
-            {/* Poster Details and Students Grid Right */}
-            <div className="lg:col-span-7 flex flex-col justify-between">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePosterIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                  className="space-y-6"
-                >
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-text-primary">
-                      {posters[activePosterIndex]?.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary mt-2 leading-relaxed">
-                      {posters[activePosterIndex]?.description}
-                    </p>
-                  </div>
-
-                  {/* Student Highlight Listing */}
-                  <div>
-                    <h4 className="text-xs font-bold text-text-secondary uppercase tracking-widest mb-3">
-                      Selected Candidates Spotlight
-                    </h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {posters[activePosterIndex]?.highlights.slice(0, 4).map((student) => (
-                        <div 
-                          key={student.id} 
-                          className="flex items-center space-x-3 p-3 bg-card border border-border-custom rounded-xl"
-                        >
-                          <div className="w-8 h-8 rounded-full bg-soft-red flex items-center justify-center text-[11px] font-extrabold text-primary-red">
-                            {student.studentName.split(" ").map(n => n[0]).join("")}
-                          </div>
-                          <div>
-                            <span className="text-xs font-bold text-text-primary block leading-none">{student.studentName}</span>
-                            <span className="text-[10px] text-text-secondary mt-0.5 block">{student.department.split(" (")[0]}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* CTA link */}
-                  <div className="pt-4 flex items-center space-x-4">
-                    <Link
-                      href={`/placements/${posters[activePosterIndex]?.slug}`}
-                      className="inline-flex items-center justify-center px-5 py-2.5 text-xs font-bold text-white bg-primary-red hover:bg-primary-red-hover rounded shadow-xs transition-colors"
-                    >
-                      View Details & Complete Selection List
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                    </Link>
-                    <span className="text-xs text-text-secondary">
-                      {posters[activePosterIndex]?.highlights.length} total students selected in this batch.
-                    </span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      <PlacementCarousel />
 
       {/* 4. RECRUITERS SECTION */}
       <section className="py-16 md:py-24 border-b border-border-custom bg-white">

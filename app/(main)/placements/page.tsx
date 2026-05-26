@@ -39,7 +39,7 @@ export default function PlacementsPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex justify-center items-center min-h-[70vh]">
+      <div className="flex-1 flex justify-center items-center min-h-[70vh] -mt-[--navbar-height]">
         <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
       </div>
     );
@@ -57,7 +57,7 @@ export default function PlacementsPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12">
       
       {/* Header */}
       <div className="border-b border-border-custom pb-6 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">

@@ -40,7 +40,7 @@ export default function PlacementDetailPage({ params }: PageProps) {
 
   if (!poster) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-6">
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-6 -mt-[4.25rem]">
         <h2 className="text-2xl font-extrabold text-text-primary">Campaign Not Found</h2>
         <p className="text-sm text-text-secondary">The placement campaign you requested does not exist or has been archived.</p>
         <Link href="/placements" className="inline-flex items-center text-xs font-bold text-primary-red hover:underline">
@@ -62,7 +62,7 @@ export default function PlacementDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12 -mt-[--navbar-height]">
       
       {/* Back CTA */}
       <Link href="/placements" className="inline-flex items-center text-xs font-bold text-text-secondary hover:text-text-primary mb-8 transition-colors">
