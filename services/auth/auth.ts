@@ -1,3 +1,4 @@
+import envs from "@/utils/config";
 export const ADMIN_ACCESS_COOKIE = "admin_access";
 export const ADMIN_COOKIE_MAX_AGE = 60 * 60 * 8; // 8 hours
 
@@ -14,7 +15,7 @@ export class AuthError extends Error {
 }
 
 export function getAdminEmail(): string | undefined {
-  return process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+  return envs.admin.email;
 }
 
 export function isAdminEmail(email: string | undefined | null): boolean {
@@ -24,9 +25,7 @@ export function isAdminEmail(email: string | undefined | null): boolean {
 }
 
 export function validateAdminToken(token: string): boolean {
-  const expected =
-    process.env.ADMIN_LOGIN_TOKEN ??
-    process.env.NEXT_PUBLIC_ADMIN_LOGIN_TOKEN;
+  const expected = envs.admin.loginKey
   if (!expected) return false;
   return token === expected;
 }
