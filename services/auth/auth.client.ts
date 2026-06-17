@@ -1,49 +1,39 @@
-import { createClient } from "@/utils/supabase/client";
 import {
   AuthError,
-  isAdminEmail,
-  mapSupabaseAuthError,
   type LoginCredentials,
 } from "@/services/auth/auth";
+import { signInAction, signOutAction, getSessionAction } from "./auth.actions";
 
 export type { LoginCredentials };
 export { AuthError };
 
-/** Client-side: sign in with Supabase and enforce admin email. */
+/** Client-side: sign in via Server Action. */
 export async function signIn(credentials: LoginCredentials) {
-  const supabase = createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: credentials.email.trim(),
-    password: credentials.password,
-  });
+  const result = await signInAction(credentials);
 
-  if (error) {
-    throw new AuthError(mapSupabaseAuthError(error.message));
+  if (result.error) {
+    throw new AuthError(result.error);
   }
 
-  if (!isAdminEmail(data.user?.email)) {
-    await supabase.auth.signOut();
-    throw new AuthError("This account is not authorized for admin access.");
-  }
-
-  return data;
+  return result;
 }
 
-/** Client-side: end Supabase session. */
+/** Client-side: end session via Server Action. */
 export async function signOut() {
-  const supabase = createClient();
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    throw new AuthError(error.message);
+  const result = await signOutAction();
+
+  if (result.error) {
+    throw new AuthError(result.error);
   }
 }
 
-/** Client-side: current session (if any). */
+/** Client-side: current session via Server Action. */
 export async function getClientSession() {
-  const supabase = createClient();
-  const { data, error } = await supabase.auth.getSession();
-  if (error) {
-    throw new AuthError(error.message);
+  const result = await getSessionAction();
+
+  if (result.error) {
+    throw new AuthError(result.error);
   }
-  return data.session;
+
+  return result.session;
 }
