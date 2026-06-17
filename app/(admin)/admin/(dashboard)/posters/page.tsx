@@ -79,6 +79,7 @@ export default function AdminPostersPage() {
       setStatus({ type: "success", message: "Poster uploaded successfully." });
       await load();
     } catch (e) {
+      console.log(e);
       setStatus({
         type: "error",
         message:
