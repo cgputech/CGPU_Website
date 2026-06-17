@@ -31,6 +31,7 @@ import {
 import { Card } from "@/components/ui/old/Card";
 import { Badge } from "@/components/ui/old/Badge";
 import PlacementCarousel from "@/components/home/carousel";
+import TestimonialSection from "@/components/home/testimonial";
 
 export default function Home() {
   const [stats, setStats] = useState<YearStats | null>(null);
@@ -413,60 +414,7 @@ export default function Home() {
       </section>
 
       {/* 6. STUDENT SUCCESS STORIES */}
-      <section className="py-16 md:py-24 border-b border-border-custom bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="max-w-xl mb-12 space-y-2">
-            <span className="text-xs font-bold text-primary-red uppercase tracking-widest block">Success Stories</span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">
-              Voices of Achievements
-            </h2>
-            <p className="text-sm text-text-secondary">
-              Read how engineering students transformed academic preparation into competitive industry offers.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stories.slice(0, 4).map((story) => (
-              <Card key={story.id} className="h-full flex flex-col justify-between">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2.5">
-                      <div className="w-9 h-9 rounded-full bg-soft-red flex items-center justify-center font-extrabold text-xs text-primary-red">
-                        {story.studentName.split(" ").map(n => n[0]).join("")}
-                      </div>
-                      <div>
-                        <h4 className="font-extrabold text-xs text-text-primary leading-tight">{story.studentName}</h4>
-                        <span className="text-[9px] text-text-secondary block mt-0.5">{story.department.split(" (")[0]}</span>
-                      </div>
-                    </div>
-                    <Badge variant="red" className="text-[10px]">{story.salaryPackage}</Badge>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-relaxed italic">
-                    "{story.testimonial}"
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-slate-100 mt-5 flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold text-text-primary flex items-center uppercase tracking-wider">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 mr-1" />
-                    Placed: {story.companyName}
-                  </span>
-                  <a
-                    href={story.linkedinUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[9px] font-bold text-blue-600 hover:text-blue-800 flex items-center"
-                  >
-                    LinkedIn
-                    <ArrowUpRight className="ml-0.5 h-2.5 w-2.5" />
-                  </a>
-                </div>
-              </Card>
-            ))}
-          </div>
-
-        </div>
-      </section>
+      <TestimonialSection />
 
       {/* 7. TRAINING & ECOSYSTEM SECTION */}
       <section className="py-16 md:py-24 border-b border-border-custom bg-background">
