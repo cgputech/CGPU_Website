@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Quote } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 interface TestimonialCardProps {
@@ -20,7 +21,7 @@ interface TestimonialCardProps {
   className?: string;
 }
 
-function getYoutubeThumbnail(
+export function getYoutubeThumbnail(
   youtubeId?: string,
   videoUrl?: string,
 ): string | undefined {
@@ -34,7 +35,7 @@ function getYoutubeThumbnail(
   return undefined;
 }
 
-function TestimonialCard({
+export function TestimonialCard({
   name,
   description,
   videoUrl,
@@ -92,7 +93,7 @@ function TestimonialCard({
           )}
         </div>
       )}
-      <CardHeader className="flex-1 gap-2 pt-4">
+      <CardHeader className="gap-2 pt-4 pb-4 mt-2 mb-2">
         {isYoutube && (
           <Badge
             variant="destructive"
@@ -182,12 +183,14 @@ export default function TestimonialSection() {
           </div>
         </div>
 
-        <Button
-          variant="link"
-          className="mt-8 cursor-pointer text-primary-red hover:text-primary-red-hover font-semibold"
-        >
-          See More Testimonials
-        </Button>
+        <Link href="/testimonials">
+          <Button
+            variant="link"
+            className="mt-8 cursor-pointer text-primary-red hover:text-primary-red-hover font-semibold"
+          >
+            See More Testimonials
+          </Button>
+        </Link>
       </div>
     </section>
   );
