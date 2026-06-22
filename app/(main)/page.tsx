@@ -32,6 +32,7 @@ import { Card } from "@/components/ui/old/Card";
 import { Badge } from "@/components/ui/old/Badge";
 import PlacementCarousel from "@/components/home/carousel";
 import TestimonialSection from "@/components/home/testimonial";
+import RecruitmentBanner from "@/components/home/recruitment-banner";
 
 export default function Home() {
   const [stats, setStats] = useState<YearStats | null>(null);
@@ -153,20 +154,6 @@ export default function Home() {
   }
 
   // Brand color mapping for recruiter logos (simulation of color transition)
-  const getBrandColors = (name: string) => {
-    switch (name.toUpperCase()) {
-      case "GOOGLE": return "hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200";
-      case "MICROSOFT": return "hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200";
-      case "NVIDIA": return "hover:bg-green-50 hover:text-green-600 hover:border-green-200";
-      case "AMAZON": return "hover:bg-amber-50 hover:text-amber-600 hover:border-amber-200";
-      case "DELOITTE": return "hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200";
-      case "GOLDMAN SACHS": return "hover:bg-yellow-50 hover:text-yellow-700 hover:border-yellow-200";
-      case "TATA MOTORS": return "hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200";
-      case "L&T CONSTRUCTION": return "hover:bg-amber-100/50 hover:text-amber-800 hover:border-amber-300";
-      case "JP MORGAN CHASE": return "hover:bg-blue-100/50 hover:text-blue-900 hover:border-blue-300";
-      default: return "hover:bg-red-50 hover:text-primary-red hover:border-red-200";
-    }
-  };
 
   return (
     <div className="relative overflow-hidden bg-background">
@@ -329,56 +316,16 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* 4. RECRUITERS SECTION */}
+      <RecruitmentBanner />
+
       {/* 3. RECENT PLACEMENT POSTERS CAROUSEL */}
       <PlacementCarousel />
 
-      {/* 4. RECRUITERS SECTION */}
-      <section className="py-16 md:py-24 border-b border-border-custom bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12">
-          
-          <div className="max-w-xl mx-auto space-y-2">
-            <span className="text-xs font-bold text-primary-red uppercase tracking-widest block">Recruitment Alliances</span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary">
-              Industry Leaders Trust SCTCE Graduates
-            </h2>
-            <p className="text-sm text-text-secondary">
-              Graduating engineering students secure placements across core and software technical domains.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {recruiters.map((company) => (
-              <div
-                key={company.id}
-                className={`p-5 border border-border-custom rounded-xl bg-card shadow-[0_1px_4px_rgba(0,0,0,0.01)] transition-all duration-300 flex flex-col justify-center items-center h-28 group ${getBrandColors(company.name)}`}
-              >
-                <span className="text-lg font-black tracking-widest text-text-secondary group-hover:text-inherit transition-colors">
-                  {company.logo}
-                </span>
-                <span className="font-bold text-xs mt-2 block text-text-primary group-hover:text-inherit">
-                  {company.name}
-                </span>
-                <span className="text-[9px] font-medium text-text-secondary mt-1 block group-hover:text-inherit">
-                  {company.sector}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <Link
-              href="/recruiters"
-              className="inline-flex items-center text-xs font-bold text-primary-red hover:text-primary-red-hover"
-            >
-              Explore Recruiter Directory
-              <ArrowRight className="ml-1 h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* 5. LATEST PLACEMENTS FEED (ticker) */}
-      <section className="py-8 bg-slate-900 border-b border-slate-800 overflow-hidden relative">
+      {/* <section className="py-8 bg-slate-900 border-b border-slate-800 overflow-hidden relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
 
@@ -411,7 +358,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* 6. STUDENT SUCCESS STORIES */}
       <TestimonialSection />
