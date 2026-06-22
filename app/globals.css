@@ -55,7 +55,7 @@
   --color-border-custom: var(--border);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "heveltica", ui-sans-serif, system-ui, sans-serif;
 }
 
 body {

@@ -99,7 +99,7 @@ export default function TestimonialsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12 -mt-[--navbar-height]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12">
       {/* Header */}
       <div className="border-b border-border-custom pb-6 mb-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-primary text-center">

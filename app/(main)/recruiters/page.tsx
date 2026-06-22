@@ -63,7 +63,7 @@ export default function RecruitersPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-[4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       
       {/* Header */}
       <div className="border-b border-border-custom pb-6 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
