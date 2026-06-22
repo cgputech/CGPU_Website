@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     remotePatterns: [
-      new URL("https://placehold.co/**")
+      new URL("https://res.cloudinary.com/dlzy7vwio/**")
     ]
   }
 };

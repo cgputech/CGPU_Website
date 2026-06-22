@@ -1,111 +1,154 @@
 "use client";
 
-import { cmsService, Recruiter } from "@/services/cms";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Badge } from "../ui/badge";
-import Image from "next/image";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
+import { Badge } from "../ui/badge";
+import { listRecruiters } from "@/services/recruiters";
+import { Recruiter } from "@/services/types/db";
 
 interface CompanyIconProps {
   company: Recruiter;
 }
 
-const CompanyIcon = ({ company }: CompanyIconProps) => {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative h-32 w-32">
+const CompanyIcon = ({ company }: CompanyIconProps) => (
+  <div className="flex w-40 shrink-0 flex-col items-center gap-3">
+    <div className="relative h-24 w-32">
+      {company.logo_url ? (
         <Image
-          src="https://placehold.co/400"
-          alt={`${company.name} logo`}
+          src={company.logo_url}
+          alt={company.company_name}
           fill
+          sizes="128px"
           className="object-contain"
-          unoptimized
+          priority
         />
-      </div>
+      ) : null}
+    </div>
 
-      <p className="text-center text-sm font-medium">{company.name}</p>
+    <p className="text-center text-sm font-medium">
+      {company.company_name}
+    </p>
+  </div>
+);
+
+async function fetchRelevantRecruiters() {
+  const recruiters = await listRecruiters();
+
+  const companies = [
+    "Zoho",
+    "Wipro",
+    "Quest Global",
+    "Oracle",
+    "Mu-Sigma",
+    "InApp",
+    "EY",
+  ];
+
+  return recruiters.filter((r) => companies.includes(r.company_name));
+}
+
+function AnimatedRow({
+  recruiters,
+  reverse = false,
+}: {
+  recruiters: Recruiter[];
+  reverse?: boolean;
+}) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [distance, setDistance] = useState(0);
+
+  useLayoutEffect(() => {
+    if (!rowRef.current) return;
+
+    const resize = () => {
+      setDistance(rowRef.current!.scrollWidth);
+    };
+
+    resize();
+
+    const observer = new ResizeObserver(resize);
+    observer.observe(rowRef.current);
+
+    return () => observer.disconnect();
+  }, [recruiters]);
+
+  if (recruiters.length === 0) return null;
+
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        className="flex"
+        animate={
+          distance > 0
+            ? { x: reverse ? [-distance, 0] : [0, -distance] }
+            : undefined
+        }
+        transition={{
+          duration: 20,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      >
+        {/* This is the element we measure — it must always mount */}
+        <div ref={rowRef} className="flex shrink-0 items-center gap-8 pr-8">
+          {recruiters.map((company) => (
+            <CompanyIcon key={company.company_name} company={company} />
+          ))}
+        </div>
+
+        <div className="flex shrink-0 items-center gap-8 pr-8">
+          {recruiters.map((company) => (
+            <CompanyIcon
+              key={`${company.company_name}-copy`}
+              company={company}
+            />
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
-};
+}
 
 export default function RecruitmentBanner() {
   const [recruiters, setRecruiters] = useState<Recruiter[]>([]);
 
   useEffect(() => {
-    cmsService.getRecruiters().then((data) => setRecruiters(data));
+    fetchRelevantRecruiters().then(setRecruiters);
   }, [recruiters]);
 
-  const Rows = () => {
-    return recruiters.map((item, index) => {
-      return <CompanyIcon company={item} key={index} />;
-    });
-  };
-
-  const AnimatedRow = ({direction}: { direction: boolean }) => {
-    return (
-      <div>
-        <motion.div
-          className="flex w-max"
-          animate={{ x: direction ? ["0%", "-50%"] : ['-50%', '0%' ]}}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear",
-          }}
-        >
-          <div className="flex shrink-0 gap-6 mx-2">
-            <Rows />
-          </div>
-
-          <div className="flex shrink-0 gap-6 mx-2">
-            <Rows />
-          </div>
-        </motion.div>
-      </div>
-    );
-  };
-
   return (
-    <section className="border-b border-border-custom bg-white py-16 md:py-12">
-      <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <Badge className="mb-1">Recruiters</Badge>
+    <section className="border-b border-border-custom bg-white py-16">
+      <div className="mx-auto max-w-7xl px-4 text-center">
+        <Badge className="mb-2">Recruiters</Badge>
 
-        <div className="mb-6 flex flex-wrap items-baseline justify-center gap-2 font-bold">
-          <span className="text-3xl text-foreground md:text-5xl">
-            Trusted by
-          </span>
+        <h2 className="mb-8 text-4xl font-bold">
+          Trusted by{" "}
+          <span className="italic text-destructive">100+</span>{" "}
+          companies worldwide
+        </h2>
 
-          <span className="leading-none tracking-tight text-3xl md:text-5xl font-extrabold italic text-destructive">
-            100+
-          </span>
+        <div className="relative">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
 
-          <span className="text-3xl md:text-5xl">companies worldwide</span>
-        </div>
-
-        {/* Marquee */}
-        <div className="relative overflow-hidden">
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-linear-to-r from-white to-transparent" />
-
-          {/* Right Fade */}
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-linear-to-l from-white to-transparent" />
-          <div className="flex flex-col gap-8">
-            <AnimatedRow direction={true}/>
-            <AnimatedRow direction={false}/>
+          <div className="space-y-8">
+            <AnimatedRow recruiters={recruiters} />
+            <AnimatedRow recruiters={recruiters} reverse />
           </div>
         </div>
 
-        <div className="mt-8">
-          <Link
-            href="/recruiters"
-            className="inline-flex items-center text-xs font-bold text-primary-red hover:text-primary-red-hover"
-          >
-            Explore Recruiter Directory
-            <ArrowRight className="ml-1 h-3.5 w-3.5" />
-          </Link>
-        </div>
+        <Link
+          href="/recruiters"
+          className="mt-10 inline-flex items-center text-sm font-semibold text-primary-red"
+        >
+          Explore Recruiter Directory
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
       </div>
     </section>
   );
