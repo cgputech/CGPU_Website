@@ -361,7 +361,7 @@ export default function AdminStudentsPage() {
                   <option value="">Select drive</option>
                   {drives.map((d) => (
                     <option key={d.id} value={d.id}>
-                      {d.recruiter.company_name} · {d.placement_year.year}
+                      {d.recruiter!.company_name} · {d.placement_year!.year}
                     </option>
                   ))}
                 </select>

@@ -109,7 +109,7 @@ export default function AdminPostersPage() {
     if (!recruitmentId) return "—";
     const drive = drives.find((d) => d.id === recruitmentId);
     return drive
-      ? `${drive.recruiter.company_name} · ${drive.placement_year.year}`
+      ? `${drive.recruiter!.company_name} · ${drive.placement_year!.year}`
       : `Drive #${recruitmentId}`;
   };
 
@@ -152,7 +152,7 @@ export default function AdminPostersPage() {
                   <option value="">Select drive</option>
                   {drives.map((d) => (
                     <option key={d.id} value={d.id}>
-                      {d.recruiter.company_name} · {d.placement_year.year}
+                      {d.recruiter!.company_name} · {d.placement_year!.year}
                     </option>
                   ))}
                 </select>
