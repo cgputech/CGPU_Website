@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -102,23 +103,21 @@ export default function PlacementsPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
-      </div>
+      <Loading />
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
       {/* Header */}
-      <div className="border-b border-border-custom pb-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="pb-6 mb-10 border-b border-border-custom flex flex-col md:flex-row items-center justify-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-text-primary">
-            Placement Campaigns
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-text-primary text-center">
+            Placement <span className="text-3xl md:text-5xl font-bold tracking-tight text-primary-red italic">Campaigns</span>
           </h1>
         </div>
 
-        <div className="relative w-full md:w-64">
+        {/* <div className="relative w-full md:w-64">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-text-secondary" />
           <input
             type="text"
@@ -127,7 +126,7 @@ export default function PlacementsPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 border border-border-custom rounded-lg bg-card text-xs text-text-primary focus:outline-none focus:border-primary-red transition-colors"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Filter Row */}
@@ -200,16 +199,16 @@ export default function PlacementsPage() {
                       </CardTitle>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="col-span-2 rounded-xl bg-primary-red p-5 text-white">
-                        <p className="text-4xl font-bold leading-none">
+                      <div className="col-span-2 rounded-xl p-5 text-primary border-2">
+                        <p className="text-4xl font-bold leading-none text-primary-red">
                           {placementCount}
                         </p>
-                        <p className="mt-2 text-sm font-medium text-white/90">
+                        <p className="mt-2 text-sm font-medium text-primary/90">
                           Student{placementCount !== 1 ? "s" : ""} Placed
                         </p>
                       </div>
                       <div className="rounded-xl border bg-white p-4">
-                        <p className="text-xl font-bold text-primary-red">
+                        <p className="text-xl font-bold text-primary">
                           {packageDisplay}
                         </p>
                         <p className="mt-1 text-sm text-muted-foreground">

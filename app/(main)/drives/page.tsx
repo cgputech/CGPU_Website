@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 
 import { useEffect, useState } from "react";
 import { cmsService, PlacementDrive } from "@/services/cms";
@@ -69,9 +70,7 @@ export default function DrivesPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
-      </div>
+      <Loading />
     );
   }
 

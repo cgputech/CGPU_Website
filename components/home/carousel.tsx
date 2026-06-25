@@ -1,48 +1,40 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
+  CardContent,
   CardFooter,
-  CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-
-import {
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  Building2,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
 
 const placements = [
   {
     id: 1,
     company: "BOSCH",
-    batch: "2026 Batch",
-    placedCount: "3 Students Placed",
-    students: "Arjun Sekhar, Aswin AS, Bharath MK",
+    avgLpa: "8.5 LPA",
+    studentsPlaced: 3,
+    year: 2026,
     posterUrl: "/posters/bosch.png",
   },
   {
     id: 2,
     company: "TCS Digital",
-    batch: "2026 Batch",
-    placedCount: "12 Students Placed",
-    students: "Anjali Nair, Rahul Krishnan, +10 others",
+    avgLpa: "7.0 LPA",
+    studentsPlaced: 12,
+    year: 2026,
     posterUrl: "/posters/bosch.png",
   },
   {
     id: 3,
     company: "Infosys",
-    batch: "2026 Batch",
-    placedCount: "8 Students Placed",
-    students: "Siddharth V, Meera Jasmine, +6 others",
+    avgLpa: "6.5 LPA",
+    studentsPlaced: 8,
+    year: 2026,
     posterUrl: "/posters/bosch.png",
   },
 ];
@@ -52,47 +44,71 @@ export default function PlacementCarousel() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
 
-  const nextPlacement = () =>
+  const nextPlacement = () => {
     setCurrentIndex((prev) => (prev + 1) % placements.length);
-  const prevPlacement = () =>
+  };
+
+  const prevPlacement = () => {
     setCurrentIndex(
       (prev) => (prev - 1 + placements.length) % placements.length,
     );
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
   };
+
   const handleMouseUp = (e: React.MouseEvent) => {
     if (!isDragging) return;
+
     setIsDragging(false);
+
     const diff = startX - e.clientX;
-    if (Math.abs(diff) > 50) diff > 0 ? nextPlacement() : prevPlacement();
+
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextPlacement() : prevPlacement();
+    }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) =>
+  const handleTouchStart = (e: React.TouchEvent) => {
     setStartX(e.touches[0].clientX);
+  };
+
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) diff > 0 ? nextPlacement() : prevPlacement();
+
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? nextPlacement() : prevPlacement();
+    }
   };
 
-  const getCardStyle = (index: number) => {
-    const diff = index - currentIndex;
+  const getCardStyle = (index: number): React.CSSProperties => {
     const totalCards = placements.length;
+    const diff = index - currentIndex;
+
     let normalizedDiff = diff;
-    if (diff > totalCards / 2) normalizedDiff = diff - totalCards;
-    else if (diff < -totalCards / 2) normalizedDiff = diff + totalCards;
+
+    if (diff > totalCards / 2) {
+      normalizedDiff = diff - totalCards;
+    } else if (diff < -totalCards / 2) {
+      normalizedDiff = diff + totalCards;
+    }
 
     const isActive = normalizedDiff === 0;
-    const isNext = normalizedDiff === 1 || normalizedDiff === -(totalCards - 1);
-    const isPrev = normalizedDiff === -1 || normalizedDiff === totalCards - 1;
+    const isNext =
+      normalizedDiff === 1 ||
+      normalizedDiff === -(totalCards - 1);
 
-    let zIndex = 1,
-      opacity = 0,
-      scale = 0.8,
-      translateX = 0,
-      rotate = 0;
+    const isPrev =
+      normalizedDiff === -1 ||
+      normalizedDiff === totalCards - 1;
+
+    let zIndex = 1;
+    let opacity = 0;
+    let scale = 0.8;
+    let translateX = 0;
+    let rotate = 0;
 
     if (isActive) {
       zIndex = 30;
@@ -100,153 +116,149 @@ export default function PlacementCarousel() {
       scale = 1;
     } else if (isNext) {
       zIndex = 20;
-      opacity = 0.4;
+      opacity = 0.45;
       scale = 0.9;
-      translateX = 80;
+      translateX = 110;
       rotate = 6;
     } else if (isPrev) {
       zIndex = 20;
-      opacity = 0.4;
+      opacity = 0.45;
       scale = 0.9;
-      translateX = -80;
+      translateX = -110;
       rotate = -6;
     }
 
-    // Desktop responsive offset modifications
-    if (typeof window !== "undefined" && window.innerWidth >= 768) {
-      if (isNext) translateX = 120;
-      if (isPrev) translateX = -120;
-    }
-
     return {
-      position: "absolute" as const,
+      position: "absolute",
+      inset: 0,
       zIndex,
       opacity,
       transform: `translateX(${translateX}px) scale(${scale}) rotate(${rotate}deg)`,
-      transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
-      pointerEvents: isActive
-        ? "auto"
-        : ("none" as React.CSSProperties["pointerEvents"]),
-      filter: isActive ? "none" : "blur(3px)",
+      transition:
+        "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+      pointerEvents: isActive ? "auto" : "none",
+      filter: isActive ? "none" : "blur(2px)",
     };
   };
 
   return (
     <section
       id="placements"
-      className="py-16 md:py-20 relative overflow-hidden bg-background"
+      className="relative overflow-hidden bg-background py-16 md:py-20"
     >
-      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+      <div className="absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/4 translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header section */}
-        <div className="text-center mb-12 md:mb-16 space-y-3">
-          <Badge
-            variant="default"
-            className="px-4 py-1 border-primary/20 text-white bg backdrop-blur-sm"
-          >
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <Badge className="mb-4 px-4 py-1">
             Achievements
           </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+
+          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
             Our Campus{" "}
-            <span className="text-primary-red italic">Placements</span>
+            <span className="text-primary-red italic">
+              Placements
+            </span>
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto font-medium">
-            Celebrating our students transitioning from academic excellence to
-            milestones with top tier global enterprises.
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground md:text-base">
+            Celebrating our students transitioning from
+            academic excellence to professional success with
+            leading global organizations.
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
-          {/* Core Deck Frame Viewport */}
+        {/* Carousel */}
+        <div className="flex justify-center">
           <div
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={() => setIsDragging(false)}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="relative w-full max-w-[340px] sm:max-w-[400px] h-[520px] sm:h-[620px] flex items-center justify-center cursor-grab active:cursor-grabbing"
+            className="relative h-[620px] w-full max-w-[360px] cursor-grab active:cursor-grabbing md:h-[700px] md:max-w-[420px]"
           >
             {placements.map((placement, index) => (
               <div
                 key={placement.id}
                 style={getCardStyle(index)}
-                className="w-full h-full"
               >
-                <Card className="relative w-full h-full rounded-2xl overflow-hidden border border-border/60 shadow-2xl bg-white">
-                  {/* Top Segment: Edge-to-Edge Poster pinned to the top without cropping */}
-                  <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full bg-white">
+                <Card className="flex h-full flex-col overflow-hidden border-border/60 py-0 shadow-2xl">
+                  {/* Poster */}
+                  <CardContent className="relative flex-1 p-0 bg-white">
                     <Image
                       src={placement.posterUrl}
-                      alt={`${placement.company} Placement Poster`}
+                      alt={`${placement.company} placement poster`}
                       fill
                       priority={index === currentIndex}
-                      className="object-contain object-top select-none pointer-events-none" // Changed to object-contain to stop the zoom/crop
-                      sizes="(max-w-400px) 100vw, 400px"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 360px, 420px"
                     />
-                  </div>
+                  </CardContent>
 
-                  {/* Bottom Segment: Absolute positioned overlay at the bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 flex flex-col justify-between border-t border-border/40 bg-card/95 backdrop-blur-sm z-10">
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg font-bold tracking-tight text-foreground flex items-center gap-1.5">
-                          <Building2 className="w-4 h-4 text-primary shrink-0" />
+                  {/* Footer */}
+                  <CardFooter className="border-t bg-card p-4">
+                    <div className="w-full space-y-4 flex flex-col items-center">
+                      <div className="text-center">
+                        <h3 className="text-lg font-bold tracking-tight">
                           {placement.company}
-                        </CardTitle>
-                        <Badge
-                          variant="secondary"
-                          className="text-xs font-semibold px-2 py-0.5"
-                        >
-                          {placement.batch}
-                        </Badge>
+                        </h3>
+
+                        <p className="text-xs text-muted-foreground">
+                          Campus Recruitment Drive
+                        </p>
                       </div>
 
-                      <CardDescription className="text-xs font-semibold text-primary flex items-center gap-1">
-                        <Users className="w-3.5 h-3.5 shrink-0" />
-                        {placement.placedCount}
-                      </CardDescription>
+                      <div className="flex flex-row gap-2">
+                        <Badge className="bg-primary-red text-white px-3 py-2">
+                          {placement.avgLpa}
+                        </Badge>
 
-                      <p className="text-[11px] sm:text-xs text-muted-foreground font-medium line-clamp-1">
-                        {placement.students}
-                      </p>
+                        <Badge
+                          variant="default"
+                          className="px-3 py-2"
+                        >
+                          {placement.studentsPlaced} placed
+                        </Badge>
+
+                        <Badge
+                          variant="default"
+                          className="px-3 py-2"
+                        >
+                          {placement.year}
+                        </Badge>
+                      </div>
                     </div>
-
-                    <CardFooter className="p-0 mt-3 sm:mt-4">
-                      <Button className="w-full text-xs sm:text-sm font-medium flex items-center justify-center gap-2 shadow-sm">
-                        View Details
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Button>
-                    </CardFooter>
-                  </div>
+                  </CardFooter>
                 </Card>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Mobile Action Controls Indicator */}
-        <div className="mt-8 flex items-center justify-center gap-6">
+        {/* Controls */}
+        <div className="mt-10 flex items-center justify-center gap-6">
           <Button
             variant="ghost"
             size="icon"
             onClick={prevPlacement}
-            className="h-10 w-10 rounded-full border border-border/60 hover:bg-primary/5"
+            className="h-10 w-10 rounded-full border"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
 
           <div className="flex items-center gap-2">
-            {placements.map((_, i) => (
+            {placements.map((_, index) => (
               <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className={`transition-all duration-300 ${
-                  i === currentIndex
-                    ? "h-2 w-6 rounded-full bg-primary-red"
-                    : "h-2 w-2 rounded-full bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                }`}
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={
+                  index === currentIndex
+                    ? "h-2 w-8 rounded-full bg-primary-red transition-all"
+                    : "h-2 w-2 rounded-full bg-muted-foreground/30 transition-all"
+                }
               />
             ))}
           </div>
@@ -255,7 +267,7 @@ export default function PlacementCarousel() {
             variant="ghost"
             size="icon"
             onClick={nextPlacement}
-            className="h-10 w-10 rounded-full border border-border/60 hover:bg-primary/5"
+            className="h-10 w-10 rounded-full border"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>

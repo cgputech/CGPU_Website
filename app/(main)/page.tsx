@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -143,23 +144,12 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [loading]);
 
-  if (loading) {
-    return (
-      <div className="flex-1 flex flex-col justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
-        <span className="mt-4 text-xs font-semibold text-text-secondary tracking-wider uppercase">
-          Loading Outcomes Platform...
-        </span>
-      </div>
-    );
-  }
-
 
   return (
     <div className="relative overflow-hidden">
       <Hero />
       {/* 2. PLACEMENT STATISTICS METRIC STRIP */}
-      <section className="py-16 md:py-20 border-b border-border-custom bg-card relative">
+      <section className="py-16 md:py-20 border border-border-custom bg-card relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             variants={stagger}

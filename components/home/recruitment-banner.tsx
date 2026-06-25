@@ -114,12 +114,25 @@ function AnimatedRow({
   );
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export default function RecruitmentBanner() {
-  const [recruiters, setRecruiters] = useState<Recruiter[]>([]);
+  const [row1, setRow1] = useState<Recruiter[]>([]);
+  const [row2, setRow2] = useState<Recruiter[]>([]);
 
   useEffect(() => {
-    fetchRelevantRecruiters().then(setRecruiters);
-  }, [recruiters]);
+    fetchRelevantRecruiters().then((data) => {
+      setRow1(shuffleArray(data));
+      setRow2(shuffleArray(data));
+    });
+  }, []);
 
   return (
     <motion.div 
@@ -143,8 +156,8 @@ export default function RecruitmentBanner() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-card to-transparent" />
 
           <div className="space-y-12 md:space-y-16">
-            <AnimatedRow recruiters={recruiters} />
-            <AnimatedRow recruiters={recruiters} reverse />
+            <AnimatedRow recruiters={row1} />
+            <AnimatedRow recruiters={row2} reverse />
           </div>
         </div>
 

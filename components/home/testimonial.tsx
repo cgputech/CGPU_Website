@@ -1,194 +1,204 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Quote } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface TestimonialCardProps {
-  name: string;
-  description: string;
+  name?: string;
+  role?: string;
+  company?: string;
+  /** URL to the uploaded video file */
   videoUrl?: string;
+  /** Poster/thumbnail image shown before play */
   thumbnailUrl?: string;
-  youtubeId?: string;
-  isYoutube?: boolean;
+  /** Short caption shown in the overlay (optional) */
+  caption?: string;
   className?: string;
 }
 
-export function getYoutubeThumbnail(
-  youtubeId?: string,
-  videoUrl?: string,
-): string | undefined {
-  if (youtubeId)
-    return `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
-  if (videoUrl) {
-    const match = videoUrl.match(/embed\/([a-zA-Z0-9_-]+)/);
-    if (match)
-      return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
-  }
-  return undefined;
-}
+// ── Short-form Video Card ─────────────────────────────────────────────────────
 
 export function TestimonialCard({
   name,
-  description,
+  role,
+  company,
   videoUrl,
   thumbnailUrl,
-  youtubeId,
-  isYoutube,
+  caption,
   className,
 }: TestimonialCardProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
-  const thumbnail = thumbnailUrl ?? getYoutubeThumbnail(youtubeId, videoUrl);
+  function togglePlay() {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
+  }
 
   return (
-    <Card
+    <div
       className={cn(
-        "overflow-hidden h-full flex flex-col pt-0 border border-border",
+        "group relative w-full overflow-hidden rounded-2xl bg-slate-900 shadow-md",
+        "aspect-[9/16]",
         className,
       )}
     >
+      {/* ── Video ── */}
+      {videoUrl ? (
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          poster={thumbnailUrl}
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
+          onEnded={() => setPlaying(false)}
+        />
+      ) : thumbnailUrl ? (
+        <img
+          src={thumbnailUrl}
+          alt={`${name} testimonial`}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        /* Fallback gradient when no media */
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-700" />
+      )}
+
+      {/* ── Dark scrim ── */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+      {/* ── Play / Pause button ── */}
       {videoUrl && (
-        <div className="relative aspect-video w-full bg-black shrink-0">
-          {playing ? (
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src={videoUrl}
-              title={`${name}'s testimonial`}
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            />
-          ) : (
-            <button
-              onClick={() => setPlaying(true)}
-              className="absolute inset-0 w-full h-full flex items-center justify-center group"
-              aria-label={`Play ${name}'s testimonial`}
-            >
-              {thumbnail && (
-                <img
-                  src={thumbnail}
-                  alt={`${name} testimonial thumbnail`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
+        <button
+          onClick={togglePlay}
+          className="absolute inset-0 flex items-center justify-center focus:outline-none"
+          aria-label={
+            playing
+              ? `Pause ${name}'s testimonial`
+              : `Play ${name}'s testimonial`
+          }
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span
+              className={cn(
+                "flex h-14 w-14 items-center justify-center rounded-full",
+                "bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg",
+                "transition-all duration-200",
+                playing
+                  ? "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100"
+                  : "opacity-100 scale-100",
               )}
-              <span className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors" />
-              <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition-transform group-hover:scale-105">
+            >
+              {playing ? (
                 <svg
-                  className="h-6 w-6 text-gray-900"
+                  className="h-5 w-5 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
-                  aria-hidden="true"
+                  aria-hidden
+                >
+                  <path d="M6 19h4V5H6zm8-14v14h4V5z" />
+                </svg>
+              ) : (
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden
                 >
                   <path d="M8 5v14l11-7z" />
                 </svg>
-              </span>
-            </button>
-          )}
-        </div>
+              )}
+            </span>
+          </div>
+        </button>
       )}
-      <CardHeader className="gap-2 pt-4 pb-4 mt-2 mb-2">
-        {isYoutube && (
-          <Badge
-            variant="destructive"
-            className="w-fit flex items-center gap-1"
-          >
-            <svg
-              className="w-3 h-3 fill-current"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" />
-            </svg>
-            YouTube
-          </Badge>
-        )}
-        <CardTitle className="text-lg flex justify-between">
-          <h1>{name}</h1>
-          <Quote />
-        </CardTitle>
-        <CardDescription>
-          <p className="italic text-sm leading-relaxed text-foreground/80">
-            {description}
+
+      {/* ── Bottom overlay info ── */}
+      {/* <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 pt-10 pointer-events-none">
+        {caption && (
+          <p className="mb-2 text-xs text-white/70 leading-snug italic line-clamp-2">
+            &ldquo;{caption}&rdquo;
           </p>
-        </CardDescription>
-      </CardHeader>
-    </Card>
+        )}
+        {name && (
+          <p className="text-sm font-bold text-white leading-tight">{name}</p>
+        )}
+        {(role || company) && (
+          <p className="mt-0.5 text-xs text-white/60 truncate">
+            {[role, company].filter(Boolean).join(" · ")}
+          </p>
+        )}
+      </div> */}
+    </div>
   );
 }
 
-const primary = {
-  name: "Abhiram A R",
-  description:
-    "The CGPU cell provided immense support throughout the placement season. The mock interviews and technical workshops were instrumental in helping me secure a position at my dream company. I'm truly grateful for the guidance and opportunities provided by the college.",
-  videoUrl:
-    "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&loop=1&modestbranding=1",
-  youtubeId: "tOwjEOt1zYU",
-  isYoutube: true,
-};
+// ── Testimonial data — add videoUrl/thumbnailUrl when ready ──────────────────
 
-const secondary = [
+const testimonials: TestimonialCardProps[] = [
   {
-    name: "Sarah Johnson",
-    description:
-      "The placement cell was incredibly helpful in preparing me for the technical rounds. I landed a dream job at a top tech firm!",
+    caption:
+      "The mock interviews gave me the confidence I needed to crack my dream role.",
     videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
+      "https://res.cloudinary.com/dlzy7vwio/video/upload/v1782396808/WhatsApp_Video_2026-06-24_at_8.10.12_PM_zqgms3.mp4", // ← replace with uploaded video URL
+    thumbnailUrl: undefined, // ← replace with poster image
   },
   {
-    name: "Michael Chen",
-    description:
-      "The training programs here are top-notch. I learned more in two months than I did in a whole year of self-study.",
+    caption:
+      "The placement cell's support made all the difference in landing my first job.",
     videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
-  },
-  {
-    name: "Elena Rodriguez",
-    description:
-      "Great experience with the mock interviews. It really boosted my confidence for the actual placement rounds.",
-    videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
+      "https://res.cloudinary.com/dlzy7vwio/video/upload/v1782396760/WhatsApp_Video_2026-06-24_at_8.10.12_PM_1_n8qtj9.mp4",
+    thumbnailUrl: undefined,
   },
 ];
+
+// ── Section ───────────────────────────────────────────────────────────────────
 
 export default function TestimonialSection() {
   return (
     <section className="py-16 md:py-24 border-b border-border bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4">
         <Badge variant="default">Testimonials</Badge>
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center">
           Words from Those Who{" "}
-          <span className="italic font-normal text-primary-red">lived it</span>
+          <span className="italic font-bold md:text-5xl text-3xl text-primary-red">
+            lived it
+          </span>
         </h2>
-        <div className="flex flex-col gap-4 w-full mt-8">
-          {/* Primary large card */}
-          <TestimonialCard {...primary} />
 
-          {/* Three sub cards side by side */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {secondary.map((t, i) => (
-              <TestimonialCard key={i} {...t} />
-            ))}
-          </div>
+        {/*
+          Bento — 2 equal portrait cards
+          Desktop / tablet: side-by-side (max ~380px each, centred)
+          Mobile: stacked full-width
+        */}
+        <div className="w-full mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          {testimonials.map((t, i) => (
+            <TestimonialCard key={i} {...t} />
+          ))}
         </div>
 
-        <Link href="/testimonials">
+        {/* <Link href="/testimonials">
           <Button
             variant="link"
             className="mt-8 cursor-pointer text-primary-red hover:text-primary-red-hover font-semibold"
           >
             See More Testimonials
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </section>
   );

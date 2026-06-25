@@ -101,13 +101,10 @@ export default function AdminDrivesPage() {
         recruiter_id: Number(form.recruiter_id),
         placement_year_id: Number(form.placement_year_id),
         visit_date: form.visit_date || undefined,
-        roles_offered: form.roles_offered || undefined,
-        students_placed: Number(form.students_placed) || 0,
-        avg_package: form.avg_package ? Number(form.avg_package) : undefined,
-        highest_package: form.highest_package
+        average_package: form.avg_package ? Number(form.avg_package) : undefined,
+        max_package: form.highest_package
           ? Number(form.highest_package)
           : undefined,
-        total_offers_made: Number(form.total_offers_made) || 0,
       });
       setForm({
         recruiter_id: "",
@@ -318,15 +315,10 @@ export default function AdminDrivesPage() {
                 {drives.map((d) => (
                   <li key={d.id} className="py-3 first:pt-0">
                     <p className="font-medium">
-                      {d.recruiter.company_name}{" "}
+                      {d.recruiter!.company_name}{" "}
                       <span className="text-muted-foreground">
-                        · {d.placement_year.year}
+                        · {d.placement_year!.year}
                       </span>
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {d.roles_offered ?? "—"} · {d.students_placed} placed ·{" "}
-                      {d.total_offers_made} offers
-                      {d.visit_date ? ` · ${d.visit_date}` : ""}
                     </p>
                   </li>
                 ))}

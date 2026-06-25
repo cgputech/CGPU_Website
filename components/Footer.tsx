@@ -1,102 +1,138 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, ExternalLink, ShieldCheck } from "lucide-react";
+import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-border-custom text-text-primary mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Institution Column */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <img 
-                src="/cgpulogo.png" 
-                alt="SCTCE CGPU Logo" 
-                className="h-12 w-auto object-contain bg-white p-0.5 border border-border-custom rounded shadow-xs" 
+    <footer className="border-t bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2">
+          {/* Brand */}
+          <div className="max-w-md">
+            <div className="flex items-center gap-3">
+              <img
+                src="/cgpulogo.png"
+                alt="CGPU SCTCE"
+                className="h-10 w-10 object-contain"
               />
-              <div className="flex flex-col">
-                <span className="font-extrabold text-lg text-text-primary tracking-tight">
+
+              <div>
+                <h3 className="font-semibold tracking-tight">
                   CGPU SCTCE
-                </span>
-                <span className="text-xs text-text-secondary">
-                  Sree Chitra Thirunal College of Engineering
-                </span>
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Career Guidance & Placement Unit
+                </p>
               </div>
             </div>
-            <p className="text-sm text-text-secondary leading-relaxed">
-              Empowering students with industry-aligned skillsets and connecting global organizations with top-tier engineering talent.
+
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Connecting students with opportunities through
+              campus recruitment, internships, and industry
+              engagement.
             </p>
-            <div className="flex items-center space-x-2 text-xs font-semibold text-primary-red">
-              <ShieldCheck className="h-4 w-4" />
-              <span>NBA & NAAC Accredited Institution</span>
+          </div>
+
+          {/* Links + Contact */}
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <h4 className="mb-4 text-sm font-medium">
+                Quick Links
+              </h4>
+
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>
+                  <Link
+                    href="/about"
+                    className="hover:text-primary transition-colors"
+                  >
+                    About
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/team"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Team
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/testimonials"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Testimonials
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-sm font-medium">
+                Contact
+              </h4>
+
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>Thiruvananthapuram, Kerala</span>
+                </li>
+
+                <li className="flex gap-2">
+                  <Mail className="h-4 w-4 shrink-0" />
+                  <a
+                    href="mailto:placement@sctce.ac.in"
+                    className="hover:text-primary"
+                  >
+                    placement@sctce.ac.in
+                  </a>
+                </li>
+
+                <li className="flex gap-2">
+                  <Phone className="h-4 w-4 shrink-0" />
+                  <span>+91 471 2490572</span>
+                </li>
+              </ul>
             </div>
           </div>
-
-
-
-          {/* Resources Column */}
-          <div>
-            <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4">
-              Resources
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/team" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  CGPU Coordination Team
-                </Link>
-              </li>
-              <li>
-                <Link href="/testimonials" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  Success Testimonials
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-sm text-text-primary hover:text-primary-red transition-colors">
-                  About CGPU Cell
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Column */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-4">
-              Contact Office
-            </h3>
-            <ul className="space-y-3 text-sm text-text-secondary">
-              <li className="flex items-start">
-                <MapPin className="h-4 w-4 mr-2.5 mt-0.5 text-primary-red flex-shrink-0" />
-                <span>SCTCE Campus, Pappanamcode, Thiruvananthapuram, Kerala, PIN: 695018</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="h-4 w-4 mr-2.5 text-primary-red flex-shrink-0" />
-                <a href="mailto:placement@sctce.ac.in" className="hover:text-primary-red transition-colors">
-                  placement@sctce.ac.in
-                </a>
-              </li>
-              <li className="flex items-center">
-                <Phone className="h-4 w-4 mr-2.5 text-primary-red flex-shrink-0" />
-                <span>+91-471-2490572</span>
-              </li>
-            </ul>
-          </div>
-
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-border-custom mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-text-secondary">
-          <p>© {new Date().getFullYear()} CGPU Placement Cell. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="https://www.sctce.ac.in" target="_blank" rel="noreferrer" className="hover:text-primary-red flex items-center transition-colors">
-              SCTCE Website
-              <ExternalLink className="h-3 w-3 ml-1" />
+        <div className="mt-10 flex flex-col gap-4 border-t pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {new Date().getFullYear()} CGPU SCTCE.
+            All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-5">
+            <a
+              href="https://www.sctce.ac.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-primary"
+            >
+              SCTCE
+              <ExternalLink className="h-3 w-3" />
             </a>
-            <a href="#" className="hover:text-primary-red transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary-red transition-colors">Terms of Service</a>
+
+            <Link
+              href="/privacy"
+              className="hover:text-primary"
+            >
+              Privacy
+            </Link>
+
+            <Link
+              href="/terms"
+              className="hover:text-primary"
+            >
+              Terms
+            </Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

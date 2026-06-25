@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 
 import { useEffect, useState } from "react";
 import {
@@ -106,24 +107,22 @@ export default function RecruitersPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
-      </div>
+      <Loading />
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
-      <div className="border-b border-border-custom pb-6 mb-10 flex flex-col md:flex-row justify-between gap-4 items-center">
+      <div className="border-b border-border-custom pb-6 mb-10 flex flex-col md:flex-row justify-center gap-4 items-center">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-text-primary">
-            Our Recruitment Partners
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-text-primary text-center">
+            Our Recruitment <span className="text-3xl md:text-5xl font-bold tracking-tight text-primary-red italic">Partners</span>
           </h1>
         </div>
 
         {/* Search */}
-        <div className="relative w-full md:w-64">
+        {/* <div className="relative w-full md:w-64">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-text-secondary" />
           <input
             type="text"
@@ -132,7 +131,7 @@ export default function RecruitersPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 border border-border-custom rounded-lg bg-card text-xs text-text-primary focus:outline-none focus:border-primary-red transition-colors"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Grid of Recruiter Cards */}

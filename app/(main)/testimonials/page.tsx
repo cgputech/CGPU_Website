@@ -1,48 +1,46 @@
 "use client";
+import Loading from "@/app/loading";
 
 import { useEffect, useState } from "react";
 import { cmsService, SuccessStory } from "@/services/cms";
 import { Card } from "@/components/ui/old/Card";
 import { Badge } from "@/components/ui/old/Badge";
-import { Search, ChevronDown, CheckCircle2, Quote } from "lucide-react";
+import { Search, ChevronDown, Quote } from "lucide-react";
 import { TestimonialCard } from "@/components/home/testimonial";
 
 const data = [
   {
     name: "Abhiram A R",
-    description:
-      "The CGPU cell provided immense support throughout the placement season. The mock interviews and technical workshops were instrumental in helping me secure a position at my dream company. I'm truly grateful for the guidance and opportunities provided by the college.",
-    videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&loop=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
-    isYoutube: true,
+    role: "Software Engineer",
+    company: "TCS",
+    caption:
+      "The mock interviews and workshops were instrumental in helping me secure my dream role.",
+    videoUrl: undefined,      // replace with uploaded video URL
+    thumbnailUrl: undefined,
   },
   {
     name: "Sarah Johnson",
-    description:
-      "The placement cell was incredibly helpful in preparing me for the technical rounds. I landed a dream job at a top tech firm!",
-    videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
-    isYoutube: true,
+    role: "Data Analyst",
+    company: "Infosys",
+    caption: "I landed a top tech role thanks to the placement cell's support!",
+    videoUrl: undefined,
+    thumbnailUrl: undefined,
   },
   {
     name: "Michael Chen",
-    description:
-      "The training programs here are top-notch. I learned more in two months than I did in a whole year of self-study.",
-    videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
-    isYoutube: true,
+    role: "UI/UX Designer",
+    company: "Wipro",
+    caption: "Training programs here are absolutely top-notch.",
+    videoUrl: undefined,
+    thumbnailUrl: undefined,
   },
   {
     name: "Elena Rodriguez",
-    description:
-      "Great experience with the mock interviews. It really boosted my confidence for the actual placement rounds.",
-    videoUrl:
-      "https://www.youtube.com/embed/tOwjEOt1zYU?controls=1&autoplay=1&mute=1&modestbranding=1",
-    youtubeId: "tOwjEOt1zYU",
-    isYoutube: true,
+    role: "Backend Developer",
+    company: "Zoho",
+    caption: "Mock interviews really boosted my confidence for placement rounds.",
+    videoUrl: undefined,
+    thumbnailUrl: undefined,
   },
 ];
 
@@ -92,9 +90,7 @@ export default function TestimonialsPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex justify-center items-center min-h-[70vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-primary-red"></div>
-      </div>
+      <Loading />
     );
   }
 
