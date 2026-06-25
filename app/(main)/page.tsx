@@ -33,6 +33,7 @@ import { Badge } from "@/components/ui/old/Badge";
 import PlacementCarousel from "@/components/home/carousel";
 import TestimonialSection from "@/components/home/testimonial";
 import RecruitmentBanner from "@/components/home/recruitment-banner";
+import Hero from "@/components/home/hero";
 
 export default function Home() {
   const [stats, setStats] = useState<YearStats | null>(null);
@@ -153,106 +154,12 @@ export default function Home() {
     );
   }
 
-  // Brand color mapping for recruiter logos (simulation of color transition)
 
   return (
-    <div className="relative overflow-hidden bg-background">
-      
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden border-b border-border-custom bg-background top-0">
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--soft-red),transparent_70%)]"
-          aria-hidden
-        />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border-custom to-transparent" />
-
-        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center px-6 py-20 text-center sm:py-28 md:py-36">
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="mb-10"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/cgpu-header-logo.png"
-              alt="CGPU SCTCE"
-              className="mx-auto h-16 w-auto object-contain sm:h-20 md:h-24"
-            />
-          </motion.div>
-
-          <motion.p
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="text-[11px] font-medium uppercase tracking-[0.28em] text-text-secondary"
-          >
-            Career Guidance & Placement Unit
-          </motion.p>
-
-          <motion.h1
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="mt-5 font-sans text-[2.75rem] font-semibold leading-[1.05] tracking-[-0.03em] text-text-primary sm:text-6xl md:text-7xl"
-          >
-            <span className="block sm:inline">CGPU</span>
-            <span
-              className="mx-2 hidden font-extralight text-text-secondary/30 sm:inline"
-              aria-hidden
-            >
-              /
-            </span>
-            <span className="mt-1 block font-medium tracking-[-0.02em] text-text-primary sm:mt-0 sm:inline">
-              SCTCE
-            </span>
-          </motion.h1>
-
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="mt-6 h-px w-12 bg-primary-red/60"
-            aria-hidden
-          />
-
-          <motion.p
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="mt-6 max-w-lg text-base font-normal leading-[1.75] text-text-secondary sm:text-lg sm:leading-relaxed"
-          >
-            Connecting industry-ready graduates with leading recruiters through
-            placements, training, and career guidance at Sree Chitra Thirunal
-            College of Engineering, Thiruvananthapuram.
-          </motion.p>
-
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="mt-10 flex flex-wrap items-center justify-center gap-3"
-          >
-            <Link
-              href="/placements"
-              className="inline-flex items-center gap-2 rounded-full bg-primary-red px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-red-hover"
-            >
-              View Placements
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              href="/statistics"
-              className="inline-flex items-center gap-2 rounded-full border border-border-custom px-5 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-muted/60"
-            >
-              Statistics
-              <ArrowUpRight className="size-4 text-text-secondary" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
+    <div className="relative overflow-hidden">
+      <Hero />
       {/* 2. PLACEMENT STATISTICS METRIC STRIP */}
-      <section className="py-12 border-b border-border-custom bg-card relative z-10">
+      <section className="py-16 md:py-20 border-b border-border-custom bg-card relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             variants={stagger}
@@ -314,18 +221,17 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* 4. RECRUITERS SECTION (Clubbed into this section) */}
+        <RecruitmentBanner />
       </section>
-
-
-      {/* 4. RECRUITERS SECTION */}
-      <RecruitmentBanner />
 
       {/* 3. RECENT PLACEMENT POSTERS CAROUSEL */}
       <PlacementCarousel />
 
 
       {/* 5. LATEST PLACEMENTS FEED (ticker) */}
-      {/* <section className="py-8 bg-slate-900 border-b border-slate-800 overflow-hidden relative">
+      {/* <section className="py-16 md:py-20 bg-slate-900 border-b border-slate-800 overflow-hidden relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
 
@@ -364,7 +270,7 @@ export default function Home() {
       <TestimonialSection />
 
       {/* 7. TRAINING & ECOSYSTEM SECTION */}
-      <section className="py-16 md:py-24 border-b border-border-custom bg-background">
+      {/* <section className="py-16 md:py-20 border-b border-border-custom bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="max-w-xl mb-12 space-y-2">
@@ -417,10 +323,10 @@ export default function Home() {
 
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* 8. ANALYTICS PREVIEW */}
-      <section className="py-16 md:py-24 border-b border-border-custom bg-white">
+      {/* <section className="py-16 md:py-20 border-b border-border-custom bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -442,7 +348,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Mini SVG hiring trend chart */}
             <div className="lg:col-span-7 bg-background border border-border-custom rounded-2xl p-6">
               <div className="flex justify-between items-center mb-6">
                 <div>
@@ -454,14 +359,11 @@ export default function Home() {
                 </span>
               </div>
               
-              {/* Mini SVG Chart layout */}
               <div className="h-44 w-full flex items-end justify-between px-6 pt-4 border-b border-slate-200 relative">
-                {/* Y-axis gridlines */}
                 <div className="absolute left-0 right-0 top-1/4 border-t border-slate-100 border-dashed"></div>
                 <div className="absolute left-0 right-0 top-2/4 border-t border-slate-100 border-dashed"></div>
                 <div className="absolute left-0 right-0 top-3/4 border-t border-slate-100 border-dashed"></div>
 
-                {/* 2023 Bar */}
                 <div className="flex flex-col items-center w-16 group z-10">
                   <div className="w-12 bg-primary-red/10 group-hover:bg-primary-red/20 border border-primary-red/20 rounded-t h-28 flex flex-col justify-end transition-all duration-300">
                     <span className="text-[9px] font-bold text-primary-red text-center mb-1">7.2 LPA</span>
@@ -469,7 +371,6 @@ export default function Home() {
                   <span className="text-[10px] text-text-secondary mt-2 font-semibold">2023</span>
                 </div>
 
-                {/* 2024 Bar */}
                 <div className="flex flex-col items-center w-16 group z-10">
                   <div className="w-12 bg-primary-red/20 group-hover:bg-primary-red/30 border border-primary-red/35 rounded-t h-32 flex flex-col justify-end transition-all duration-300">
                     <span className="text-[9px] font-bold text-primary-red text-center mb-1">7.9 LPA</span>
@@ -477,7 +378,6 @@ export default function Home() {
                   <span className="text-[10px] text-text-secondary mt-2 font-semibold">2024</span>
                 </div>
 
-                {/* 2025 Bar */}
                 <div className="flex flex-col items-center w-16 group z-10">
                   <div className="w-12 bg-primary-red group-hover:bg-primary-red-hover rounded-t h-36 flex flex-col justify-end transition-all duration-300">
                     <span className="text-[9px] font-bold text-white text-center mb-1">8.4 LPA</span>
@@ -489,10 +389,10 @@ export default function Home() {
 
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* 9. REPORTS SECTION */}
-      <section id="reports" className="py-16 md:py-24 border-b border-border-custom bg-background">
+      {/* <section id="reports" className="py-16 md:py-20 border-b border-border-custom bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -506,7 +406,6 @@ export default function Home() {
               </p>
             </div>
             
-            {/* Year Filters */}
             <div className="flex items-center space-x-1.5 mt-4 md:mt-0">
               {["All", "2025", "2024", "2023"].map((y) => (
                 <button
@@ -555,10 +454,10 @@ export default function Home() {
           </div>
 
         </div>
-      </section>
+      </section> */}
 
       {/* 10. CALL TO ACTION NOTICE PANEL (Replacement of CTA strip) */}
-      <section className="py-16 md:py-24 bg-white relative">
+      {/* <section className="py-16 md:py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
@@ -591,7 +490,7 @@ export default function Home() {
 
           </div>
         </div>
-      </section>
+      </section> */}
 
     </div>
   );

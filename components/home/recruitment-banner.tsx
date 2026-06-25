@@ -95,13 +95,13 @@ function AnimatedRow({
         }}
       >
         {/* This is the element we measure — it must always mount */}
-        <div ref={rowRef} className="flex shrink-0 items-center gap-8 pr-8">
+        <div ref={rowRef} className="flex shrink-0 items-center gap-12 md:gap-16 pr-12 md:pr-16">
           {recruiters.map((company) => (
             <CompanyIcon key={company.company_name} company={company} />
           ))}
         </div>
 
-        <div className="flex shrink-0 items-center gap-8 pr-8">
+        <div className="flex shrink-0 items-center gap-12 md:gap-16 pr-12 md:pr-16">
           {recruiters.map((company) => (
             <CompanyIcon
               key={`${company.company_name}-copy`}
@@ -122,21 +122,27 @@ export default function RecruitmentBanner() {
   }, [recruiters]);
 
   return (
-    <section className="border-b border-border-custom bg-white py-16">
-      <div className="mx-auto max-w-7xl px-4 text-center">
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="mt-16 md:mt-24 pt-16 md:pt-24 border-t border-border-custom border-dashed"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <Badge className="mb-2">Recruiters</Badge>
 
-        <h2 className="mb-8 text-4xl font-bold">
+        <h2 className="mb-12 md:mb-16 text-4xl font-bold">
           Trusted by{" "}
           <span className="italic text-destructive">100+</span>{" "}
           companies worldwide
         </h2>
 
         <div className="relative">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-card to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-card to-transparent" />
 
-          <div className="space-y-8">
+          <div className="space-y-12 md:space-y-16">
             <AnimatedRow recruiters={recruiters} />
             <AnimatedRow recruiters={recruiters} reverse />
           </div>
@@ -144,12 +150,12 @@ export default function RecruitmentBanner() {
 
         <Link
           href="/recruiters"
-          className="mt-10 inline-flex items-center text-sm font-semibold text-primary-red"
+          className="mt-14 md:mt-16 inline-flex items-center text-sm font-semibold text-primary-red hover:text-primary-red-hover transition-colors"
         >
           Explore Recruiter Directory
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </div>
-    </section>
+    </motion.div>
   );
 }

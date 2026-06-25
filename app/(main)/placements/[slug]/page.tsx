@@ -62,7 +62,7 @@ export default function PlacementDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12 -mt-[--navbar-height]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
       
       {/* Back CTA */}
       <Link href="/placements" className="inline-flex items-center text-xs font-bold text-text-secondary hover:text-text-primary mb-8 transition-colors">

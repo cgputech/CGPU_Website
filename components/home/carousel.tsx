@@ -134,22 +134,23 @@ export default function PlacementCarousel() {
   return (
     <section
       id="placements"
-      className="py-12 md:py-24 relative overflow-hidden bg-background"
+      className="py-16 md:py-20 relative overflow-hidden bg-background"
     >
       <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header section */}
         <div className="text-center mb-12 md:mb-16 space-y-3">
           <Badge
-            variant="outline"
-            className="px-4 py-1 border-primary/20 text-primary bg-primary/5 backdrop-blur-sm"
+            variant="default"
+            className="px-4 py-1 border-primary/20 text-white bg backdrop-blur-sm"
           >
-            CGPU Achievements
+            Achievements
           </Badge>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-            Our Campus <span className="text-primary italic">Placements</span>
+            Our Campus{" "}
+            <span className="text-primary-red italic">Placements</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto font-medium">
             Celebrating our students transitioning from academic excellence to
@@ -158,14 +159,6 @@ export default function PlacementCarousel() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
-          {/* Desktop Left Button */}
-          <button
-            onClick={prevPlacement}
-            className="hidden md:flex group relative items-center justify-center w-14 h-14 rounded-2xl bg-card border border-border/50 hover:border-primary/50 shadow-sm transition-all duration-300 hover:scale-105"
-          >
-            <ChevronLeft className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
-          </button>
-
           {/* Core Deck Frame Viewport */}
           <div
             onMouseDown={handleMouseDown}
@@ -231,41 +224,40 @@ export default function PlacementCarousel() {
               </div>
             ))}
           </div>
-
-          {/* Desktop Right Button */}
-          <button
-            onClick={nextPlacement}
-            className="hidden md:flex group relative items-center justify-center w-14 h-14 rounded-2xl bg-card border border-border/50 hover:border-primary/50 shadow-sm transition-all duration-300 hover:scale-105"
-          >
-            <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
-          </button>
         </div>
 
         {/* Mobile Action Controls Indicator */}
-        <div className="flex items-center justify-center gap-4 mt-10 md:hidden">
+        <div className="mt-8 flex items-center justify-center gap-6">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             onClick={prevPlacement}
-            className="rounded-full w-9 h-9 border-border bg-card"
+            className="h-10 w-10 rounded-full border border-border/60 hover:bg-primary/5"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
-          <div className="flex gap-1.5">
+
+          <div className="flex items-center gap-2">
             {placements.map((_, i) => (
-              <div
+              <button
                 key={i}
-                className={`h-1.5 rounded-full transition-all duration-500 ${i === currentIndex ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/20"}`}
+                onClick={() => setCurrentIndex(i)}
+                className={`transition-all duration-300 ${
+                  i === currentIndex
+                    ? "h-2 w-6 rounded-full bg-primary-red"
+                    : "h-2 w-2 rounded-full bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                }`}
               />
             ))}
           </div>
+
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             onClick={nextPlacement}
-            className="rounded-full w-9 h-9 border-border bg-card"
+            className="h-10 w-10 rounded-full border border-border/60 hover:bg-primary/5"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
       </div>

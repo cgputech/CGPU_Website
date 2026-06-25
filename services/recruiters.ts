@@ -1,16 +1,24 @@
 import { createClient } from "@/utils/supabase/client";
 import { assertNoError } from "@/services/errors";
-import type { CreateRecruiterInput, Recruiter } from "@/services/types/db";
+import type { CreateRecruiterInput, Recruiter, RecruiterWithStats } from "@/services/types/db";
 
-export async function listRecruiters(): Promise<Recruiter[]> {
+export async function listRecruiters(): Promise<RecruiterWithStats[]> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("recruiter")
-    .select("*")
+    .select(`
+      *,
+      recruiter_visit (
+        average_package,
+        recruiter_visit_department (
+          offers_count
+        )
+      )
+    `)
     .order("company_name");
 
   assertNoError(error);
-  return data ?? [];
+  return (data ?? []) as RecruiterWithStats[];
 }
 
 export async function createRecruiter(

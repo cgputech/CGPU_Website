@@ -36,7 +36,7 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-24 py-12 -mt-[--navbar-height]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
       
       {/* Header */}
       <div className="border-b border-border-custom pb-6 mb-12">

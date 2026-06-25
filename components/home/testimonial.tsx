@@ -56,7 +56,7 @@ export function TestimonialCard({
       )}
     >
       {videoUrl && (
-        <div className="relative aspect-video w-full bg-black flex-shrink-0">
+        <div className="relative aspect-video w-full bg-black shrink-0">
           {playing ? (
             <iframe
               className="absolute inset-0 h-full w-full"
@@ -79,9 +79,9 @@ export function TestimonialCard({
                 />
               )}
               <span className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors" />
-              <span className="relative w-14 h-14 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-105 transition-transform shadow-md">
+              <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition-transform group-hover:scale-105">
                 <svg
-                  className="w-6 h-6 text-gray-900 ml-1"
+                  className="h-6 w-6 text-gray-900"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -164,12 +164,10 @@ export default function TestimonialSection() {
   return (
     <section className="py-16 md:py-24 border-b border-border bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4">
-        <Badge variant="outline">Testimonials</Badge>
+        <Badge variant="default">Testimonials</Badge>
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
           Words from Those Who{" "}
-          <span className="italic font-normal text-muted-foreground">
-            lived it
-          </span>
+          <span className="italic font-normal text-primary-red">lived it</span>
         </h2>
         <div className="flex flex-col gap-4 w-full mt-8">
           {/* Primary large card */}

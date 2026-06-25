@@ -61,18 +61,17 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full bg-white pointer-events-none h-[--navbar-height] py-3",
-        "md:top-3 md:bg-transparent",
+        "sticky top-0 z-50 flex h-[--navbar-height] w-full items-center justify-center bg-white/80 backdrop-blur-md px-4 md:px-0 py-3 md:py-4",
       )}
     >
-      <div className="relative mx-auto flex max-w-4xl items-center justify-center px-5 py-3 sm:px-8 md:py-0 pointer-events-auto">
+      <div className="relative flex w-full max-w-4xl items-center justify-start md:justify-center border-b border-border/40 md:border-none pb-3 md:pb-0">
         {/* Mobile — shadcn Sheet + Button */}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
-              className="absolute left-5 size-9 rounded-full sm:left-8 md:hidden"
+              className="size-9 rounded-full md:hidden"
               aria-label="Open navigation menu"
             >
               <Menu className="size-5" />
@@ -82,7 +81,6 @@ export default function Navbar() {
           <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
             <SheetHeader className="border-b px-6 py-5 text-left">
               <SheetTitle>CGPU</SheetTitle>
-              <p className="text-xs text-muted-foreground">Navigation</p>
             </SheetHeader>
 
             <nav

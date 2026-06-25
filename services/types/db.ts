@@ -5,18 +5,6 @@ export type Department = {
   head_of_dept: string | null;
 };
 
-export type PlacementYear = {
-  id: number;
-  year: number;
-  total_students_eligible: number;
-  total_placed: number;
-  placement_rate: number | null;
-  avg_package: number | null;
-  highest_package: number | null;
-  median_package: number | null;
-  total_offers: number;
-};
-
 export type Recruiter = {
   id: number;
   company_name: string;
@@ -26,6 +14,27 @@ export type Recruiter = {
   contact_email: string | null;
   first_visited_year: number | null;
   logo_url: string | null;
+  created_at: string;
+};
+
+export type RecruiterWithStats = Recruiter & {
+  recruiter_visit: Array<{
+    average_package: number | null;
+    recruiter_visit_department: Array<{
+      offers_count: number;
+    }>;
+  }>;
+};
+
+export type PlacementYear = {
+  id: number;
+  year: number;
+  total_students_eligible: number;
+  placement_rate: number | null;
+  avg_package: number | null;
+  highest_package: number | null;
+  median_package: number | null;
+  total_offers: number;
 };
 
 export type RecruiterVisit = {
@@ -33,16 +42,24 @@ export type RecruiterVisit = {
   recruiter_id: number;
   placement_year_id: number;
   visit_date: string | null;
-  roles_offered: string | null;
-  students_placed: number;
-  avg_package: number | null;
-  highest_package: number | null;
-  total_offers_made: number;
+  min_package: number | null;
+  max_package: number | null;
+  average_package: number | null;
+};
+
+export type RecruiterVisitDepartment = {
+  id: number;
+  recruiter_visit_id: number;
+  department_id: number;
+  offers_count: number;
 };
 
 export type RecruiterVisitWithRelations = RecruiterVisit & {
-  recruiter: Pick<Recruiter, "id" | "company_name" | "industry" | "logo_url">;
-  placement_year: Pick<PlacementYear, "id" | "year">;
+  recruiter?: Pick<Recruiter,
+    "id" | "company_name" | "industry" | "logo_url"
+  > | null;
+  placement_year?: Pick<PlacementYear, "id" | "year"> | null;
+  recruiter_visit_department?: Array<Pick<RecruiterVisitDepartment, "department_id" | "offers_count">>;
 };
 
 export type Student = {
@@ -108,12 +125,13 @@ export type CreatePlacementYearInput = {
 export type CreateDriveInput = {
   recruiter_id: number;
   placement_year_id: number;
-  visit_date?: string;
-  roles_offered?: string;
-  students_placed?: number;
-  avg_package?: number;
-  highest_package?: number;
-  total_offers_made?: number;
+  visit_date?: string | null;
+  min_package?: number | null;
+  max_package?: number | null;
+  average_package?: number | null;
+  // Optional: per-department offer counts to insert into
+  // recruiter_visit_department alongside the visit
+  department_offers?: { department_id: number; offers_count: number }[];
 };
 
 export type CreateStudentInput = {
