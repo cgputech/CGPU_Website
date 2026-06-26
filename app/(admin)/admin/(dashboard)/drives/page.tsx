@@ -37,11 +37,9 @@ export default function AdminDrivesPage() {
     recruiter_id: "",
     placement_year_id: "",
     visit_date: "",
-    roles_offered: "",
-    students_placed: "0",
+    min_package: "",
     avg_package: "",
-    highest_package: "",
-    total_offers_made: "0",
+    max_package: "",
   });
   const [newYear, setNewYear] = useState("");
 
@@ -101,20 +99,17 @@ export default function AdminDrivesPage() {
         recruiter_id: Number(form.recruiter_id),
         placement_year_id: Number(form.placement_year_id),
         visit_date: form.visit_date || undefined,
+        min_package: form.min_package ? Number(form.min_package) : undefined,
         average_package: form.avg_package ? Number(form.avg_package) : undefined,
-        max_package: form.highest_package
-          ? Number(form.highest_package)
-          : undefined,
+        max_package: form.max_package ? Number(form.max_package) : undefined,
       });
       setForm({
         recruiter_id: "",
         placement_year_id: form.placement_year_id,
         visit_date: "",
-        roles_offered: "",
-        students_placed: "0",
+        min_package: "",
         avg_package: "",
-        highest_package: "",
-        total_offers_made: "0",
+        max_package: "",
       });
       setStatus({ type: "success", message: "Placement drive created." });
       await load();
@@ -227,52 +222,27 @@ export default function AdminDrivesPage() {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="roles_offered">Roles offered</Label>
-                <Input
-                  id="roles_offered"
-                  placeholder="Software Engineer, GET, …"
-                  value={form.roles_offered}
-                  onChange={(e) =>
-                    setForm({ ...form, roles_offered: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-3">
                 <div className="space-y-1.5">
-                  <Label htmlFor="students_placed">Students placed</Label>
+                  <Label htmlFor="min_package">Min package (LPA)</Label>
                   <Input
-                    id="students_placed"
+                    id="min_package"
                     type="number"
+                    step="0.01"
                     min={0}
-                    value={form.students_placed}
+                    value={form.min_package}
                     onChange={(e) =>
-                      setForm({ ...form, students_placed: e.target.value })
+                      setForm({ ...form, min_package: e.target.value })
                     }
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="total_offers_made">Total offers</Label>
-                  <Input
-                    id="total_offers_made"
-                    type="number"
-                    min={0}
-                    value={form.total_offers_made}
-                    onChange={(e) =>
-                      setForm({ ...form, total_offers_made: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="avg_package">Avg package (LPA)</Label>
                   <Input
                     id="avg_package"
                     type="number"
                     step="0.01"
+                    min={0}
                     value={form.avg_package}
                     onChange={(e) =>
                       setForm({ ...form, avg_package: e.target.value })
@@ -280,14 +250,15 @@ export default function AdminDrivesPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="highest_package">Highest package (LPA)</Label>
+                  <Label htmlFor="max_package">Max package (LPA)</Label>
                   <Input
-                    id="highest_package"
+                    id="max_package"
                     type="number"
                     step="0.01"
-                    value={form.highest_package}
+                    min={0}
+                    value={form.max_package}
                     onChange={(e) =>
-                      setForm({ ...form, highest_package: e.target.value })
+                      setForm({ ...form, max_package: e.target.value })
                     }
                   />
                 </div>
