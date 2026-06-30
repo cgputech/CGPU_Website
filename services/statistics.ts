@@ -33,9 +33,7 @@ function getClient() {
 
 // ─── 0. List available placement years (for the dropdown) ────────────────────
 
-export async function listPlacementYearOptions(): Promise<
-  PlacementYearOption[]
-> {
+export async function listPlacementYearOptions(): Promise<PlacementYearOption[]> {
   const { data, error } = await getClient()
     .from("placement_year")
     .select("id, year")
@@ -50,9 +48,7 @@ export async function listPlacementYearOptions(): Promise<
 
 // ─── 1. Highest package for a year ───────────────────────────────────────────
 
-export async function fetchHighestPackage(
-  yearId: number,
-): Promise<number | null> {
+export async function fetchHighestPackage(yearId: number): Promise<number | null> {
   // Prefer the pre-computed value on placement_year
   const { data, error } = await getClient()
     .from("placement_year")
@@ -74,7 +70,8 @@ export async function fetchHighestPackage(
     .eq("placement_year_id", yearId)
     .order("max_package", { ascending: false })
     .limit(1)
-    .maybeSingle(); // ← was .single()
+    .single();
+
   if (visitErr) {
     console.error("[fetchHighestPackage] recruiter_visit:", visitErr.message);
     return null;
@@ -85,9 +82,7 @@ export async function fetchHighestPackage(
 
 // ─── 2. Average package for a year ───────────────────────────────────────────
 
-export async function fetchAveragePackage(
-  yearId: number,
-): Promise<number | null> {
+export async function fetchAveragePackage(yearId: number): Promise<number | null> {
   const { data, error } = await getClient()
     .from("placement_year")
     .select("avg_package")
@@ -127,15 +122,11 @@ export async function fetchTotalStudentsPlaced(
   let totalPlaced = 0;
   if (data.placement_rate != null) {
     const raw = Number(data.placement_rate);
-    placedPercentage =
-      raw <= 1
-        ? parseFloat((raw * 100).toFixed(1))
-        : parseFloat(raw.toFixed(1));
+    placedPercentage = raw <= 1 ? parseFloat((raw * 100).toFixed(1)) : parseFloat(raw.toFixed(1));
     // Derive totalPlaced from placement_rate × totalEligible
-    totalPlaced =
-      raw <= 1
-        ? Math.round(raw * totalEligible)
-        : Math.round((raw / 100) * totalEligible);
+    totalPlaced = raw <= 1
+      ? Math.round(raw * totalEligible)
+      : Math.round((raw / 100) * totalEligible);
   } else if (totalEligible > 0) {
     placedPercentage = 0;
   }
@@ -145,9 +136,7 @@ export async function fetchTotalStudentsPlaced(
 
 // ─── 4. Department-wise data for a year ──────────────────────────────────────
 
-export async function fetchDepartmentsData(
-  yearId: number,
-): Promise<DeptStat[]> {
+export async function fetchDepartmentsData(yearId: number): Promise<DeptStat[]> {
   const { data, error } = await getClient()
     .from("dept_year_stats")
     .select(
@@ -171,10 +160,7 @@ export async function fetchDepartmentsData(
   console.log(data);
 
   return (data ?? []).map((row) => {
-    const dept = row.department as unknown as {
-      name: string;
-      code: string;
-    } | null;
+    const dept = (row.department as unknown) as { name: string; code: string } | null;
     const placedCount = row.placed_count ?? 0;
 
     return {
@@ -188,9 +174,7 @@ export async function fetchDepartmentsData(
 
 // ─── 5. Sector-wise placed students for a year ───────────────────────────────
 
-export async function fetchSectorWiseData(
-  yearId: number,
-): Promise<SectorShare[]> {
+export async function fetchSectorWiseData(yearId: number): Promise<SectorShare[]> {
   // Count accepted offers per sector by joining offer → recruiter_visit → recruiter
   const { data, error } = await getClient()
     .from("offer")
@@ -215,7 +199,7 @@ export async function fetchSectorWiseData(
   // Group offer count by recruiter industry/sector, filtered to the requested year
   const sectorMap: Record<string, number> = {};
   (data ?? []).forEach((row) => {
-    const visit = row.recruiter_visit as unknown as {
+    const visit = (row.recruiter_visit as unknown) as {
       placement_year_id: number | null;
       recruiter: { industry: string | null } | null;
     } | null;

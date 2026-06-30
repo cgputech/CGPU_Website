@@ -91,7 +91,6 @@ export default function InteractiveChart({ type, data, yLabel = "", xLabel = "" 
         {/* X Axis Labels */}
         <div className="flex justify-between gap-4 mt-3 px-2">
           {data.map((item, idx) => (
-
             <div
               key={item.label}
               className={`flex-1 text-center text-[10px] sm:text-xs font-medium truncate transition-colors duration-200 ${

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building2, Calendar, GraduationCap, ImageIcon, LayoutGrid } from "lucide-react";
+import { Building2, Calendar, GraduationCap, ImageIcon } from "lucide-react";
 import { PageHeader } from "@/components/admin/page-header";
 import {
   Card,
@@ -27,12 +27,6 @@ const sections = [
     title: "Students & Offers",
     description: "Register students and link offers to drives.",
     icon: GraduationCap,
-  },
-  {
-    href: "/admin/dept-placements",
-    title: "Dept Placements",
-    description: "Track offers per company per department for each placement year.",
-    icon: LayoutGrid,
   },
   {
     href: "/admin/posters",
