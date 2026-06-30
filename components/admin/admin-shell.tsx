@@ -8,6 +8,7 @@ import {
   GraduationCap,
   ImageIcon,
   LayoutDashboard,
+  LayoutGrid,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/admin/drives", label: "Placement Drives", icon: Calendar },
   { href: "/admin/recruiters", label: "Recruiters", icon: Building2 },
   { href: "/admin/students", label: "Students & Offers", icon: GraduationCap },
+  { href: "/admin/dept-placements", label: "Dept Placements", icon: LayoutGrid },
   { href: "/admin/posters", label: "Posters", icon: ImageIcon },
 ];
 
