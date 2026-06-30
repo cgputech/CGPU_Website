@@ -97,7 +97,7 @@ export default function StatisticsPage() {
   const barChartData = departments.map((d) => ({
     label: d.deptCode || d.dept,
     value: d.avgPackage,
-  }));
+  })).filter(item => item.value != 0);
 
   // ── Guards ────────────────────────────────────────────────────────────────
   if (yearsLoading) {
