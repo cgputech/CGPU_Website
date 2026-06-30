@@ -108,7 +108,7 @@ export default function Navbar() {
                 className="w-full bg-primary-red hover:bg-primary-red-hover"
                 asChild
               >
-                <Link href={galleryLink.href}>Placement Report</Link>
+                <Link href={galleryLink.href}>Gallery</Link>
               </Button>
             </div>
           </SheetContent>
