@@ -99,7 +99,7 @@ export type OfferWithRelations = Offer & {
 
 export type Asset = {
   id: string;
-  recruitment_id: number | null;
+  placement_id: number | null;
   asset_type: string;
   image_url: string;
   created_at: string;
@@ -156,7 +156,7 @@ export type CreateOfferInput = {
 };
 
 export type CreateAssetInput = {
-  recruitment_id: number;
+  placement_id: number;
   asset_type: string;
   image_url: string;
 };

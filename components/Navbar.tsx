@@ -29,7 +29,7 @@ const navLinks = [
   { name: "About", href: "/about" },
 ];
 
-const reportLink = { name: "Report", href: "/#reports" };
+const galleryLink = { name: "Gallery", href: "/gallery" };
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -108,7 +108,7 @@ export default function Navbar() {
                 className="w-full bg-primary-red hover:bg-primary-red-hover"
                 asChild
               >
-                <Link href={reportLink.href}>Placement Report</Link>
+                <Link href={galleryLink.href}>Placement Report</Link>
               </Button>
             </div>
           </SheetContent>
@@ -141,7 +141,7 @@ export default function Navbar() {
                 asChild
                 className={pillLinkClass(false, true)}
               >
-                <Link href={reportLink.href}>{reportLink.name}</Link>
+                <Link href={galleryLink.href}>{galleryLink.name}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>

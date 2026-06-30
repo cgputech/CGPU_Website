@@ -17,11 +17,16 @@ import { createAsset, deleteAsset, listAssets } from "@/services/assets";
 import { listDrives } from "@/services/drives";
 import { uploadImage } from "@/services/cloudinary";
 import { ServiceError } from "@/services/errors";
-import type { Asset, RecruiterVisitWithRelations } from "@/services/types/db";
+import type {
+  Asset,
+  PlacementYear,
+  RecruiterVisitWithRelations,
+} from "@/services/types/db";
+import { listPlacementYears } from "@/services/placement-years";
 
 export default function AdminPostersPage() {
   const [assets, setAssets] = useState<Asset[]>([]);
-  const [drives, setDrives] = useState<RecruiterVisitWithRelations[]>([]);
+  const [placementYears, setPlacementYears] = useState<PlacementYear[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{
@@ -29,7 +34,7 @@ export default function AdminPostersPage() {
     message: string;
   } | null>(null);
   const [form, setForm] = useState({
-    recruitment_id: "",
+    placement_year_id: "",
     asset_type: "poster",
   });
   const [posterFile, setPosterFile] = useState<File | null>(null);
@@ -37,12 +42,13 @@ export default function AdminPostersPage() {
   const load = async () => {
     setLoading(true);
     try {
-      const [assetList, driveList] = await Promise.all([
+      const [assetList, yearList] = await Promise.all([
         listAssets(),
-        listDrives(),
+        listPlacementYears(),
       ]);
+
       setAssets(assetList.filter((a) => a.asset_type === "poster"));
-      setDrives(driveList);
+      setPlacementYears(yearList);
     } catch (e) {
       setStatus({
         type: "error",
@@ -70,11 +76,15 @@ export default function AdminPostersPage() {
     try {
       const imageUrl = await uploadImage(posterFile);
       await createAsset({
-        recruitment_id: Number(form.recruitment_id),
+        placement_id: Number(form.placement_year_id),
         asset_type: form.asset_type,
         image_url: imageUrl,
       });
-      setForm({ recruitment_id: form.recruitment_id, asset_type: "poster" });
+
+      setForm({
+        placement_year_id: form.placement_year_id,
+        asset_type: "poster",
+      });
       setPosterFile(null);
       setStatus({ type: "success", message: "Poster uploaded successfully." });
       await load();
@@ -105,12 +115,12 @@ export default function AdminPostersPage() {
     }
   };
 
-  const driveLabel = (recruitmentId: number | null) => {
-    if (!recruitmentId) return "—";
-    const drive = drives.find((d) => d.id === recruitmentId);
-    return drive
-      ? `${drive.recruiter!.company_name} · ${drive.placement_year!.year}`
-      : `Drive #${recruitmentId}`;
+  const yearLabel = (placementYearId: number | null) => {
+    if (!placementYearId) return "—";
+
+    const year = placementYears.find((y) => y.id === placementYearId);
+
+    return year ? year.year.toString() : `Year #${placementYearId}`;
   };
 
   const selectClass =
@@ -139,26 +149,32 @@ export default function AdminPostersPage() {
               )}
 
               <div className="space-y-1.5">
-                <Label htmlFor="recruitment_id">Placement drive *</Label>
+                <Label htmlFor="placement_year_id">Placement Year *</Label>
+
                 <select
-                  id="recruitment_id"
+                  id="placement_year_id"
                   required
                   className={selectClass}
-                  value={form.recruitment_id}
+                  value={form.placement_year_id}
                   onChange={(e) =>
-                    setForm({ ...form, recruitment_id: e.target.value })
+                    setForm({
+                      ...form,
+                      placement_year_id: e.target.value,
+                    })
                   }
                 >
-                  <option value="">Select drive</option>
-                  {drives.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.recruiter!.company_name} · {d.placement_year!.year}
+                  <option value="">Select placement year</option>
+
+                  {placementYears.map((year) => (
+                    <option key={year.id} value={year.id}>
+                      {year.year}
                     </option>
                   ))}
                 </select>
-                {drives.length === 0 && (
+
+                {placementYears.length === 0 && (
                   <p className="text-xs text-muted-foreground">
-                    Create a placement drive first.
+                    Create a placement year first.
                   </p>
                 )}
               </div>
@@ -206,7 +222,7 @@ export default function AdminPostersPage() {
                     />
                     <div className="space-y-2 p-3">
                       <p className="text-xs text-muted-foreground">
-                        {driveLabel(asset.recruitment_id)}
+                        {yearLabel(asset.placement_id)}
                       </p>
                       <Button
                         type="button"

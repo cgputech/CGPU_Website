@@ -2,40 +2,40 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import Link from "next/link";
 
 const placements = [
   {
     id: 1,
-    company: "BOSCH",
-    avgLpa: "8.5 LPA",
-    studentsPlaced: 3,
+    company: "Popular Vehicles and Services",
+    avgLpa: "2.52 LPA",
+    studentsPlaced: 33,
     year: 2026,
-    posterUrl: "/posters/bosch.png",
+    posterUrl:
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782801552/uploads/akru9v9rxmflde8d2rzp.jpg",
   },
   {
     id: 2,
-    company: "TCS Digital",
-    avgLpa: "7.0 LPA",
-    studentsPlaced: 12,
+    company: "Equifax",
+    avgLpa: "5.8 LPA",
+    studentsPlaced: 10,
     year: 2026,
-    posterUrl: "/posters/bosch.png",
+    posterUrl:
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782801632/uploads/bebn8iohvzebn7tpilzv.jpg",
   },
   {
     id: 3,
-    company: "Infosys",
-    avgLpa: "6.5 LPA",
-    studentsPlaced: 8,
+    company: "Amura Health",
+    avgLpa: "4 LPA",
+    studentsPlaced: 4,
     year: 2026,
-    posterUrl: "/posters/bosch.png",
+    posterUrl:
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782807651/uploads/robouqivxytatejtqrux.jpg",
   },
 ];
 
@@ -96,18 +96,14 @@ export default function PlacementCarousel() {
     }
 
     const isActive = normalizedDiff === 0;
-    const isNext =
-      normalizedDiff === 1 ||
-      normalizedDiff === -(totalCards - 1);
+    const isNext = normalizedDiff === 1 || normalizedDiff === -(totalCards - 1);
 
-    const isPrev =
-      normalizedDiff === -1 ||
-      normalizedDiff === totalCards - 1;
+    const isPrev = normalizedDiff === -1 || normalizedDiff === totalCards - 1;
 
     let zIndex = 1;
     let opacity = 0;
     let scale = 0.8;
-    let translateX = 0;
+    let translateX = "0%";
     let rotate = 0;
 
     if (isActive) {
@@ -118,13 +114,13 @@ export default function PlacementCarousel() {
       zIndex = 20;
       opacity = 0.45;
       scale = 0.9;
-      translateX = 110;
+      translateX = "15%";
       rotate = 6;
     } else if (isPrev) {
       zIndex = 20;
       opacity = 0.45;
       scale = 0.9;
-      translateX = -110;
+      translateX = "-15%";
       rotate = -6;
     }
 
@@ -133,9 +129,8 @@ export default function PlacementCarousel() {
       inset: 0,
       zIndex,
       opacity,
-      transform: `translateX(${translateX}px) scale(${scale}) rotate(${rotate}deg)`,
-      transition:
-        "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+      transform: `translateX(${translateX}) scale(${scale}) rotate(${rotate}deg)`,
+      transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
       pointerEvents: isActive ? "auto" : "none",
       filter: isActive ? "none" : "blur(2px)",
     };
@@ -152,21 +147,16 @@ export default function PlacementCarousel() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-14 text-center">
-          <Badge className="mb-4 px-4 py-1">
-            Achievements
-          </Badge>
+          <Badge className="mb-4 px-4 py-1">Achievements</Badge>
 
           <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
             Our Campus{" "}
-            <span className="text-primary-red italic">
-              Placements
-            </span>
+            <span className="text-primary-red italic">Placements</span>
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground md:text-base">
-            Celebrating our students transitioning from
-            academic excellence to professional success with
-            leading global organizations.
+            Celebrating our students transitioning from academic excellence to
+            professional success with leading global organizations.
           </p>
         </div>
 
@@ -178,54 +168,75 @@ export default function PlacementCarousel() {
             onMouseLeave={() => setIsDragging(false)}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="relative h-[620px] w-full max-w-[360px] cursor-grab active:cursor-grabbing md:h-[700px] md:max-w-[420px]"
+            className="relative w-full max-w-[90vw] cursor-grab active:cursor-grabbing md:max-w-[600px]"
           >
+            {/* Hidden placeholder to dynamically size the container based on the card's real height */}
+            <div
+              className="invisible pointer-events-none opacity-0"
+              aria-hidden="true"
+            >
+              <Card className="flex flex-col overflow-hidden border-border/60 py-0">
+                <CardContent className="relative aspect-[3/2] w-full p-0" />
+                <CardFooter className="border-t bg-card p-3 md:p-4">
+                  <div className="w-full space-y-2 md:space-y-4 flex flex-col items-center">
+                    <div className="text-center">
+                      <h3 className="text-base font-bold tracking-tight md:text-lg">
+                        Placeholder
+                      </h3>
+                      <p className="text-[10px] text-muted-foreground md:text-xs">
+                        Placeholder
+                      </p>
+                    </div>
+                    <div className="flex flex-row gap-1 md:gap-2">
+                      <Badge className="px-2 py-1 md:px-3 md:py-2">Badge</Badge>
+                    </div>
+                  </div>
+                </CardFooter>
+              </Card>
+            </div>
             {placements.map((placement, index) => (
-              <div
-                key={placement.id}
-                style={getCardStyle(index)}
-              >
+              <div key={placement.id} style={getCardStyle(index)}>
                 <Card className="flex h-full flex-col overflow-hidden border-border/60 py-0 shadow-2xl">
                   {/* Poster */}
-                  <CardContent className="relative flex-1 p-0 bg-white">
+                  <CardContent className="relative flex-none aspect-[3/2] w-full p-0 bg-white">
                     <Image
                       src={placement.posterUrl}
                       alt={`${placement.company} placement poster`}
                       fill
                       priority={index === currentIndex}
                       className="object-cover"
-                      sizes="(max-width: 768px) 360px, 420px"
+                      sizes="(max-width: 768px) 90vw, 600px"
                     />
                   </CardContent>
 
                   {/* Footer */}
-                  <CardFooter className="border-t bg-card p-4">
-                    <div className="w-full space-y-4 flex flex-col items-center">
+                  <CardFooter className="border-t bg-card p-3 md:p-4">
+                    <div className="w-full space-y-2 md:space-y-4 flex flex-col items-center">
                       <div className="text-center">
-                        <h3 className="text-lg font-bold tracking-tight">
+                        <h3 className="text-base font-bold tracking-tight md:text-lg">
                           {placement.company}
                         </h3>
 
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-[10px] text-muted-foreground md:text-xs">
                           Campus Recruitment Drive
                         </p>
                       </div>
 
-                      <div className="flex flex-row gap-2">
-                        <Badge className="bg-primary-red text-white px-3 py-2">
+                      <div className="flex flex-row gap-1 md:gap-2">
+                        <Badge className="bg-primary-red px-2 py-1 text-[10px] text-white md:px-3 md:py-2 md:text-xs">
                           {placement.avgLpa}
                         </Badge>
 
                         <Badge
                           variant="default"
-                          className="px-3 py-2"
+                          className="px-2 py-1 text-[10px] md:px-3 md:py-2 md:text-xs"
                         >
                           {placement.studentsPlaced} placed
                         </Badge>
 
                         <Badge
                           variant="default"
-                          className="px-3 py-2"
+                          className="px-2 py-1 text-[10px] md:px-3 md:py-2 md:text-xs"
                         >
                           {placement.year}
                         </Badge>
@@ -272,6 +283,15 @@ export default function PlacementCarousel() {
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
+      </div>
+      <div className="flex justify-center mt-10">
+        <Link
+          href="/gallery"
+          className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+        >
+          Explore Gallery
+          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </Link>
       </div>
     </section>
   );

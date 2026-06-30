@@ -22,7 +22,7 @@ export async function createAsset(input: CreateAssetInput): Promise<Asset> {
   const { data, error } = await supabase
     .from("assets")
     .insert({
-      recruitment_id: input.recruitment_id,
+      placement_id: input.placement_id,
       asset_type: input.asset_type,
       image_url: input.image_url,
     })
