@@ -24,7 +24,7 @@ export default function PlacementsPage() {
   const [selectedYear, setSelectedYear] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const ITEMS_PER_PAGE = 9;
+  const ITEMS_PER_PAGE = 10;
 
   useEffect(() => {
     const fetchDrives = async () => {
@@ -39,15 +39,6 @@ export default function PlacementsPage() {
     };
     fetchDrives();
   }, []);
-
-  const formatDate = (dateString?: string | null) => {
-    if (!dateString) return "Date TBD";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
 
   const availableYears = [
     "All",
@@ -165,7 +156,7 @@ export default function PlacementsPage() {
                 ? ""
                 : companyName.substring(0, 2);
               return (
-                <Card key={drive.id} className="group overflow-hidden p-0">
+                placementCount > 0 && <Card key={drive.id} className="group overflow-hidden p-0">
                   <div className="relative flex h-40 items-center justify-center overflow-hidden border-b bg-gradient-to-br from-muted/60 via-background to-muted/40">
                     {drive.recruiter?.logo_url ? (
                       <>
