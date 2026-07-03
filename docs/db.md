@@ -7,7 +7,6 @@
 | `id` | `int4` | Primary |
 | `name` | `varchar` |  Unique |
 | `code` | `varchar` |  Unique |
-| `head_of_dept` | `varchar` |  Nullable |
 
 ## Table `placement_year`
 
@@ -40,22 +39,6 @@
 | `logo_url` | `text` |  Nullable |
 | `created_at` | `timestamptz` |  |
 
-## Table `student`
-
-### Columns
-
-| Name | Type | Constraints |
-|------|------|-------------|
-| `id` | `int4` | Primary |
-| `roll_number` | `varchar` |  Unique |
-| `full_name` | `varchar` |  |
-| `department_id` | `int4` |  |
-| `graduation_year` | `int2` |  |
-| `cgpa` | `numeric` |  Nullable |
-| `email` | `varchar` |  Nullable Unique |
-| `is_eligible` | `bool` |  |
-| `linkedin` | `text` |  Nullable |
-
 ## Table `recruiter_visit`
 
 ### Columns
@@ -68,22 +51,8 @@
 | `visit_date` | `date` |  Nullable |
 | `min_package` | `numeric` |  Nullable |
 | `max_package` | `numeric` |  Nullable |
-| `average_package` | `numeric` |  Nullable |
-
-## Table `offer`
-
-### Columns
-
-| Name | Type | Constraints |
-|------|------|-------------|
-| `id` | `int4` | Primary |
-| `student_id` | `int4` |  |
-| `recruiter_visit_id` | `int4` |  |
-| `package_lpa` | `numeric` |  |
-| `role_title` | `varchar` |  Nullable |
-| `offer_status` | `varchar` |  |
-| `is_accepted` | `bool` |  |
-| `joining_date` | `date` |  Nullable |
+| `total_offers` | `int4` |  Nullable |
+| `visit` | `visit_type` |  Nullable |
 
 ## Table `dept_year_stats`
 
@@ -106,7 +75,7 @@
 | Name | Type | Constraints |
 |------|------|-------------|
 | `id` | `uuid` | Primary |
-| `recruiter_visit_id` | `int4` |  Nullable |
+| `placement_id` | `int4` |  Nullable |
 | `asset_type` | `text` |  |
 | `image_url` | `text` |  |
 | `created_at` | `timestamptz` |  |
@@ -120,14 +89,9 @@
 | `id` | `uuid` | Primary |
 | `name` | `text` |  Nullable |
 | `email` | `text` |  Nullable |
-| `class` | `text` |  Nullable |
-| `roll_number` | `text` |  Nullable |
-| `department` | `text` |  Nullable |
 | `role` | `user_role` |  |
 | `created_at` | `timestamptz` |  |
 | `updated_at` | `timestamptz` |  |
-| `department_id` | `int4` |  Nullable |
-| `student_id` | `int4` |  Nullable |
 
 ## Table `recruiter_contact`
 

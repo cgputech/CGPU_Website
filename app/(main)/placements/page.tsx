@@ -207,13 +207,11 @@ export default function PlacementsPage() {
                         </p>
                       </div>
                       <div className="rounded-xl border bg-white p-4">
-                        <p className="text-xl font-bold">
-                          {drive.average_package
-                            ? `${drive.average_package} LPA`
-                            : "—"}
+                        <p className="text-xl font-bold capitalize">
+                          {drive.visit ? drive.visit.replace('_', ' ') : "—"}
                         </p>
                         <p className="mt-1 text-sm text-muted-foreground">
-                          Average compensation
+                          Visit Type
                         </p>
                       </div>
                     </div>

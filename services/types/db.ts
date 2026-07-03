@@ -19,7 +19,8 @@ export type Recruiter = {
 
 export type RecruiterWithStats = Recruiter & {
   recruiter_visit: Array<{
-    average_package: number | null;
+    min_package: number | null;
+    max_package: number | null;
     recruiter_visit_department: Array<{
       offers_count: number;
     }>;
@@ -44,7 +45,8 @@ export type RecruiterVisit = {
   visit_date: string | null;
   min_package: number | null;
   max_package: number | null;
-  average_package: number | null;
+  total_offers: number | null;
+  visit: 'on_campus' | 'off_campus' | null;
 };
 
 export type RecruiterVisitDepartment = {
@@ -62,40 +64,7 @@ export type RecruiterVisitWithRelations = RecruiterVisit & {
   recruiter_visit_department?: Array<Pick<RecruiterVisitDepartment, "department_id" | "offers_count">>;
 };
 
-export type Student = {
-  id: number;
-  roll_number: string;
-  full_name: string;
-  department_id: number;
-  graduation_year: number;
-  cgpa: number | null;
-  email: string | null;
-  is_eligible: boolean;
-  linkedin: string | null;
-};
 
-export type StudentWithDepartment = Student & {
-  department: Pick<Department, "id" | "name" | "code">;
-};
-
-export type Offer = {
-  id: number;
-  student_id: number;
-  recruiter_visit_id: number;
-  package_lpa: number;
-  role_title: string | null;
-  offer_status: string;
-  is_accepted: boolean;
-  joining_date: string | null;
-};
-
-export type OfferWithRelations = Offer & {
-  student: StudentWithDepartment;
-  recruiter_visit: RecruiterVisit & {
-    recruiter: Pick<Recruiter, "id" | "company_name">;
-    placement_year: Pick<PlacementYear, "id" | "year">;
-  };
-};
 
 export type Asset = {
   id: string;
@@ -128,32 +97,14 @@ export type CreateDriveInput = {
   visit_date?: string | null;
   min_package?: number | null;
   max_package?: number | null;
-  average_package?: number | null;
+  total_offers?: number | null;
+  visit?: 'on_campus' | 'off_campus' | null;
   // Optional: per-department offer counts to insert into
   // recruiter_visit_department alongside the visit
   department_offers?: { department_id: number; offers_count: number }[];
 };
 
-export type CreateStudentInput = {
-  roll_number: string;
-  full_name: string;
-  department_id: number;
-  graduation_year: number;
-  cgpa?: number;
-  email?: string;
-  is_eligible?: boolean;
-  linkedin?: string;
-};
 
-export type CreateOfferInput = {
-  student_id: number;
-  recruiter_visit_id: number;
-  package_lpa: number;
-  role_title?: string;
-  offer_status?: string;
-  is_accepted?: boolean;
-  joining_date?: string;
-};
 
 export type CreateAssetInput = {
   placement_id: number;

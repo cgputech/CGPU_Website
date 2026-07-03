@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createDrive, listDrives } from "@/services/drives";
+import { createDrive, listDrives, updateDrive, deleteDrive } from "@/services/drives";
 import { listRecruiters } from "@/services/recruiters";
 import {
   createPlacementYear,
@@ -38,10 +38,12 @@ export default function AdminDrivesPage() {
     placement_year_id: "",
     visit_date: "",
     min_package: "",
-    avg_package: "",
     max_package: "",
+    total_offers: "",
+    visit: "",
   });
   const [newYear, setNewYear] = useState("");
+  const [editId, setEditId] = useState<number | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -90,28 +92,67 @@ export default function AdminDrivesPage() {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this drive?")) return;
+    try {
+      await deleteDrive(id);
+      await load();
+    } catch (e: any) {
+      alert("Failed to delete: " + e.message);
+    }
+  };
+
+  const handleEdit = (d: RecruiterVisitWithRelations) => {
+    setEditId(d.id);
+    setForm({
+      recruiter_id: String(d.recruiter_id),
+      placement_year_id: String(d.placement_year_id),
+      visit_date: d.visit_date || "",
+      min_package: d.min_package ? String(d.min_package) : "",
+      max_package: d.max_package ? String(d.max_package) : "",
+      total_offers: d.total_offers ? String(d.total_offers) : "",
+      visit: d.visit || "",
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setStatus(null);
     try {
-      await createDrive({
-        recruiter_id: Number(form.recruiter_id),
-        placement_year_id: Number(form.placement_year_id),
-        visit_date: form.visit_date || undefined,
-        min_package: form.min_package ? Number(form.min_package) : undefined,
-        average_package: form.avg_package ? Number(form.avg_package) : undefined,
-        max_package: form.max_package ? Number(form.max_package) : undefined,
-      });
+      if (editId) {
+        await updateDrive(editId, {
+          recruiter_id: Number(form.recruiter_id),
+          placement_year_id: Number(form.placement_year_id),
+          visit_date: form.visit_date || undefined,
+          min_package: form.min_package ? Number(form.min_package) : undefined,
+          max_package: form.max_package ? Number(form.max_package) : undefined,
+          total_offers: form.total_offers ? Number(form.total_offers) : undefined,
+          visit: form.visit ? (form.visit as 'on_campus' | 'off_campus') : undefined,
+        });
+      } else {
+        await createDrive({
+          recruiter_id: Number(form.recruiter_id),
+          placement_year_id: Number(form.placement_year_id),
+          visit_date: form.visit_date || undefined,
+          min_package: form.min_package ? Number(form.min_package) : undefined,
+          max_package: form.max_package ? Number(form.max_package) : undefined,
+          total_offers: form.total_offers ? Number(form.total_offers) : undefined,
+          visit: form.visit ? (form.visit as 'on_campus' | 'off_campus') : undefined,
+        });
+      }
       setForm({
         recruiter_id: "",
         placement_year_id: form.placement_year_id,
         visit_date: "",
         min_package: "",
-        avg_package: "",
         max_package: "",
+        total_offers: "",
+        visit: "",
       });
-      setStatus({ type: "success", message: "Placement drive created." });
+      setStatus({ type: "success", message: editId ? "Placement drive updated." : "Placement drive created." });
+      setEditId(null);
       await load();
     } catch (e) {
       setStatus({
@@ -137,7 +178,7 @@ export default function AdminDrivesPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Create drive</CardTitle>
+            <CardTitle>{editId ? "Edit drive" : "Create drive"}</CardTitle>
             <CardDescription>
               Link a recruiter to a placement year with visit details.
             </CardDescription>
@@ -222,7 +263,7 @@ export default function AdminDrivesPage() {
                 />
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="min_package">Min package (LPA)</Label>
                   <Input
@@ -233,19 +274,6 @@ export default function AdminDrivesPage() {
                     value={form.min_package}
                     onChange={(e) =>
                       setForm({ ...form, min_package: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="avg_package">Avg package (LPA)</Label>
-                  <Input
-                    id="avg_package"
-                    type="number"
-                    step="0.01"
-                    min={0}
-                    value={form.avg_package}
-                    onChange={(e) =>
-                      setForm({ ...form, avg_package: e.target.value })
                     }
                   />
                 </div>
@@ -262,12 +290,49 @@ export default function AdminDrivesPage() {
                     }
                   />
                 </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="total_offers">Total offers</Label>
+                  <Input
+                    id="total_offers"
+                    type="number"
+                    min={0}
+                    value={form.total_offers}
+                    onChange={(e) =>
+                      setForm({ ...form, total_offers: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="visit">Visit type</Label>
+                  <select
+                    id="visit"
+                    className={selectClass}
+                    value={form.visit}
+                    onChange={(e) =>
+                      setForm({ ...form, visit: e.target.value })
+                    }
+                  >
+                    <option value="">Select type</option>
+                    <option value="on_campus">On Campus</option>
+                    <option value="off_campus">Off Campus</option>
+                  </select>
+                </div>
               </div>
 
+              <div className="flex gap-2">{editId && (
+                <Button type="button" variant="outline" onClick={() => {
+                  setEditId(null);
+                  setForm({
+                    recruiter_id: "", placement_year_id: "", visit_date: "", min_package: "", max_package: "", total_offers: "", visit: ""
+                  });
+                }}>
+                  Cancel
+                </Button>
+              )}
               <Button type="submit" disabled={saving}>
-                {saving ? "Saving…" : "Create drive"}
+                {saving ? "Saving…" : editId ? "Update drive" : "Create drive"}
               </Button>
-            </form>
+            </div></form>
           </CardContent>
         </Card>
 
@@ -284,13 +349,17 @@ export default function AdminDrivesPage() {
             ) : (
               <ul className="divide-y">
                 {drives.map((d) => (
-                  <li key={d.id} className="py-3 first:pt-0">
+                  <li key={d.id} className="py-3 first:pt-0 flex justify-between items-center">
                     <p className="font-medium">
                       {d.recruiter!.company_name}{" "}
                       <span className="text-muted-foreground">
                         · {d.placement_year!.year}
                       </span>
                     </p>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(d)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => handleDelete(d.id)}>Delete</Button>
+                    </div>
                   </li>
                 ))}
               </ul>

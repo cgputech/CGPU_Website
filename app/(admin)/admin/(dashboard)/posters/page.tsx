@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import NextImage from "next/image";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusMessage } from "@/components/admin/status-message";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,34 @@ import type {
   RecruiterVisitWithRelations,
 } from "@/services/types/db";
 import { listPlacementYears } from "@/services/placement-years";
+
+/** SVG shimmer encoded as a data URL — shown while the poster image loads. */
+const SHIMMER_DATA_URL =
+  "data:image/svg+xml;base64," +
+  btoa(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='338'>
+      <rect width='600' height='338' fill='#f1f5f9'/>
+      <rect width='600' height='338' fill='url(#g)'/>
+      <defs>
+        <linearGradient id='g' x1='0' y1='0' x2='1' y2='0'>
+          <stop offset='0%' stop-color='#f1f5f9'/>
+          <stop offset='50%' stop-color='#e2e8f0'/>
+          <stop offset='100%' stop-color='#f1f5f9'/>
+          <animateTransform attributeName='gradientTransform' type='translate'
+            from='-1 0' to='2 0' dur='1.4s' repeatCount='indefinite'/>
+        </linearGradient>
+      </defs>
+    </svg>`
+  );
+
+/**
+ * Append Cloudinary transformation params to cap width, auto-compress and
+ * convert to the most efficient format (WebP/AVIF) the browser supports.
+ */
+function cloudinaryOptimize(url: string, width = 600): string {
+  if (!url.startsWith("https://res.cloudinary.com")) return url;
+  return url.replace("/upload/", `/upload/w_${width},q_auto,f_auto/`);
+}
 
 export default function AdminPostersPage() {
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -214,12 +243,18 @@ export default function AdminPostersPage() {
                     key={asset.id}
                     className="overflow-hidden rounded-lg border"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={asset.image_url}
-                      alt="Placement poster"
-                      className="aspect-video w-full object-cover"
-                    />
+                    {/* relative container required for next/image fill */}
+                    <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                      <NextImage
+                        src={cloudinaryOptimize(asset.image_url)}
+                        alt="Placement poster"
+                        fill
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className="object-cover"
+                        placeholder="blur"
+                        blurDataURL={SHIMMER_DATA_URL}
+                      />
+                    </div>
                     <div className="space-y-2 p-3">
                       <p className="text-xs text-muted-foreground">
                         {yearLabel(asset.placement_id)}

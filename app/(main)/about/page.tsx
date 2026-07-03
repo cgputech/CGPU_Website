@@ -15,6 +15,8 @@ type TeamMemberExt = {
   avatar: string;
   tier: TeamTier;
   team?: string;
+  /** CSS object-position override. Defaults to "top" (good for portrait headshots). */
+  avatarPosition?: string;
 };
 
 const TEAM_DATA: TeamMemberExt[] = [
@@ -73,6 +75,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394431/IMG_20240917_175443_1_3_gi1p13.jpg",
     tier: "execom",
     team: "Design",
+    avatarPosition: "top 20%",
   },
   {
     id: "7",
@@ -110,9 +113,10 @@ const TEAM_DATA: TeamMemberExt[] = [
     role: "LinkedIn",
     email: "negha@sctce.ac.in",
     avatar:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394474/Negha_R_R6A_zxuhor.jpg",
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783011138/Untitled_design_4_qkhfpv.png",
     tier: "execom",
     team: "LinkedIn",
+    avatarPosition: "center",
   },
   {
     id: "11",
@@ -153,6 +157,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394434/Sabari_nath_A_B6_fhewwb.heic",
     tier: "execom",
     team: "Activity",
+    avatarPosition: "top 25%",
   },
   {
     id: "15",
@@ -173,6 +178,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394445/IMG-20260103-WA0076_jeq1k3.jpg",
     tier: "execom",
     team: "POC",
+    avatarPosition: "top 20%",
   },
   {
     id: "17",
@@ -190,9 +196,10 @@ const TEAM_DATA: TeamMemberExt[] = [
     role: "POC",
     email: "aashwin@sctce.ac.in",
     avatar:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394439/Aashwin_Suresh_R6A_oi8kje.png",
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783009917/copy_of_aashwin_suresh_r6a_oi8kje.png",
     tier: "execom",
     team: "POC",
+    avatarPosition: "center",
   },
   {
     id: "19",
@@ -246,6 +253,17 @@ function initials(name: string) {
     .join("");
 }
 
+/** Resizes the image on Cloudinary without cropping; CSS handles the rest. */
+function cloudinaryThumb(url: string, size: number = 200): string {
+  if (!url.startsWith("https://res.cloudinary.com")) return url;
+  return url.replace("/upload/", `/upload/c_scale,q_auto,f_auto,w_${size}/`);
+}
+
+/** Returns the CSS object-position for an avatar (defaults to "top"). */
+function avatarPos(member: TeamMemberExt): string {
+  return member.avatarPosition ?? "top";
+}
+
 // ── Bento: Placement Officer card ─────────────────────────────────────────────
 
 function POBentoCard({ member }: { member: TeamMemberExt }) {
@@ -271,9 +289,11 @@ function POBentoCard({ member }: { member: TeamMemberExt }) {
 
       <Avatar className="h-20 w-20 ring-2 ring-white shadow border border-primary-red/20">
         <AvatarImage
-          src={member.avatar}
+          src={cloudinaryThumb(member.avatar, 160)}
           alt={member.name}
-          className="object-cover object-top"
+          loading="lazy"
+          className="object-cover"
+          style={{ objectPosition: avatarPos(member) }}
         />
         <AvatarFallback className="bg-primary-red/10 text-primary-red font-bold text-xl">
           {initials(member.name)}
@@ -318,9 +338,11 @@ function LeadershipBentoCard({ members }: { members: TeamMemberExt[] }) {
           <div key={member.id} className="flex items-center gap-3 group">
             <Avatar className="h-12 w-12 shrink-0 ring-1 ring-slate-200 shadow-sm transition-all duration-200 group-hover:ring-primary-red/50">
               <AvatarImage
-                src={member.avatar}
+                src={cloudinaryThumb(member.avatar, 96)}
                 alt={member.name}
-                className="object-cover object-top"
+                loading="lazy"
+                className="object-cover"
+                style={{ objectPosition: avatarPos(member) }}
               />
               <AvatarFallback className="bg-primary-red/10 text-primary-red font-bold text-sm">
                 {initials(member.name)}
@@ -363,9 +385,11 @@ function ExecomAvatarCell({ member }: { member: TeamMemberExt }) {
       >
         <Avatar className="h-14 w-14">
           <AvatarImage
-            src={member.avatar}
+            src={cloudinaryThumb(member.avatar, 112)}
             alt={member.name}
-            className="object-cover object-top"
+            loading="lazy"
+            className="object-cover"
+            style={{ objectPosition: avatarPos(member) }}
           />
           <AvatarFallback className="bg-primary-red/10 text-primary-red font-bold text-sm">
             {initials(member.name)}
@@ -398,9 +422,11 @@ function ExecomAvatarCell({ member }: { member: TeamMemberExt }) {
 
         <Avatar className="h-12 w-12 border border-slate-100 shadow">
           <AvatarImage
-            src={member.avatar}
+            src={cloudinaryThumb(member.avatar, 96)}
             alt={member.name}
-            className="object-cover object-top"
+            loading="lazy"
+            className="object-cover"
+            style={{ objectPosition: avatarPos(member) }}
           />
           <AvatarFallback className="bg-primary-red/10 text-primary-red font-bold text-xs">
             {initials(member.name)}

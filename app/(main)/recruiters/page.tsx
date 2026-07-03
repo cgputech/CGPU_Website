@@ -84,12 +84,12 @@ export default function RecruitersPage() {
 
     const aMaxPackage =
       a.recruiter_visit?.reduce(
-        (max, visit) => Math.max(max, Number(visit.average_package) || 0),
+        (max, visit) => Math.max(max, Number(visit.max_package) || 0),
         0,
       ) || 0;
     const bMaxPackage =
       b.recruiter_visit?.reduce(
-        (max, visit) => Math.max(max, Number(visit.average_package) || 0),
+        (max, visit) => Math.max(max, Number(visit.max_package) || 0),
         0,
       ) || 0;
 
@@ -156,20 +156,19 @@ export default function RecruitersPage() {
                     : "0 Placed";
               const sinceYear = company.first_visited_year ?? 2023;
               const sinceText = `Since ${sinceYear}`;
-              const avgPackages =
+              const maxPackages =
                 company.recruiter_visit
-                  ?.map((v) => v.average_package)
+                  ?.map((v) => v.max_package)
                   .filter(
                     (pkg): pkg is number => pkg !== null && pkg !== undefined,
                   ) ?? [];
-              const avgLpaVal =
-                avgPackages.length > 0
-                  ? avgPackages.reduce((sum, val) => sum + Number(val), 0) /
-                    avgPackages.length
+              const maxLpaVal =
+                maxPackages.length > 0
+                  ? Math.max(...maxPackages.map(Number))
                   : 0;
               const lpaText =
-                avgLpaVal > 0
-                  ? `${avgLpaVal.toFixed(1).replace(/\.0$/, "")} LPA`
+                maxLpaVal > 0
+                  ? `Up to ${maxLpaVal} LPA`
                   : "TBD";
               return (
                 <Card

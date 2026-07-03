@@ -9,7 +9,8 @@ export async function listRecruiters(): Promise<RecruiterWithStats[]> {
     .select(`
       *,
       recruiter_visit (
-        average_package,
+        min_package,
+        max_package,
         recruiter_visit_department (
           offers_count
         )
@@ -57,4 +58,34 @@ export async function updateRecruiterLogo(
 
   assertNoError(error);
   return data;
+}
+export async function updateRecruiter(
+  id: number,
+  input: Partial<CreateRecruiterInput>,
+): Promise<Recruiter> {
+  const supabase = createClient();
+  const updateData: any = {};
+  if (input.company_name !== undefined) updateData.company_name = input.company_name.trim();
+  if (input.industry !== undefined) updateData.industry = input.industry?.trim() || null;
+  if (input.website !== undefined) updateData.website = input.website?.trim() || null;
+  if (input.contact_name !== undefined) updateData.contact_name = input.contact_name?.trim() || null;
+  if (input.contact_email !== undefined) updateData.contact_email = input.contact_email?.trim() || null;
+  if (input.first_visited_year !== undefined) updateData.first_visited_year = input.first_visited_year ?? null;
+  if (input.logo_url !== undefined) updateData.logo_url = input.logo_url?.trim() || null;
+
+  const { data, error } = await supabase
+    .from("recruiter")
+    .update(updateData)
+    .eq("id", id)
+    .select()
+    .single();
+
+  assertNoError(error);
+  return data;
+}
+
+export async function deleteRecruiter(id: number): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from("recruiter").delete().eq("id", id);
+  assertNoError(error);
 }

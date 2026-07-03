@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createRecruiter, listRecruiters, updateRecruiterLogo } from "@/services/recruiters";
+import { createRecruiter, listRecruiters, updateRecruiterLogo, updateRecruiter, deleteRecruiter } from "@/services/recruiters";
 import { uploadImage } from "@/services/cloudinary";
 import { ServiceError } from "@/services/errors";
 import type { Recruiter } from "@/services/types/db";
@@ -24,6 +24,7 @@ export default function AdminRecruitersPage() {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [editId, setEditId] = useState<number | null>(null);
   const [form, setForm] = useState({
     company_name: "",
     industry: "",
@@ -50,6 +51,30 @@ export default function AdminRecruitersPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this recruiter?")) return;
+    try {
+      await deleteRecruiter(id);
+      await load();
+    } catch (e: any) {
+      alert("Failed to delete: " + e.message);
+    }
+  };
+
+  const handleEdit = (r: Recruiter) => {
+    setEditId(r.id);
+    setForm({
+      company_name: r.company_name,
+      industry: r.industry || "",
+      website: r.website || "",
+      contact_name: r.contact_name || "",
+      contact_email: r.contact_email || "",
+      first_visited_year: r.first_visited_year ? String(r.first_visited_year) : "",
+    });
+    setLogoFile(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +106,8 @@ export default function AdminRecruitersPage() {
         first_visited_year: "",
       });
       setLogoFile(null);
-      setStatus({ type: "success", message: "Recruiter added successfully." });
+      setStatus({ type: "success", message: editId ? "Recruiter updated successfully." : "Recruiter added successfully." });
+      setEditId(null);
       await load();
     } catch (e) {
       setStatus({
@@ -103,7 +129,7 @@ export default function AdminRecruitersPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Add recruiter</CardTitle>
+            <CardTitle>{editId ? "Edit recruiter" : "Add recruiter"}</CardTitle>
             <CardDescription>Stored in the `recruiter` table.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -179,10 +205,20 @@ export default function AdminRecruitersPage() {
                 />
               </div>
 
+              <div className="flex gap-2">{editId && (
+                <Button type="button" variant="outline" onClick={() => {
+                  setEditId(null);
+                  setForm({
+                    company_name: "", industry: "", website: "", contact_name: "", contact_email: "", first_visited_year: ""
+                  });
+                }}>
+                  Cancel
+                </Button>
+              )}
               <Button type="submit" disabled={saving}>
-                {saving ? "Saving…" : "Add recruiter"}
+                {saving ? "Saving…" : editId ? "Update recruiter" : "Add recruiter"}
               </Button>
-            </form>
+            </div></form>
           </CardContent>
         </Card>
 
@@ -218,6 +254,10 @@ export default function AdminRecruitersPage() {
                         {r.industry ?? "—"}
                         {r.contact_email ? ` · ${r.contact_email}` : ""}
                       </p>
+                    </div>
+                    <div className="ml-auto flex items-center gap-2">
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(r)}>Edit</Button>
+                      <Button variant="destructive" size="sm" onClick={() => handleDelete(r.id)}>Delete</Button>
                     </div>
                   </li>
                 ))}
