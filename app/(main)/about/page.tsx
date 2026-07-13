@@ -32,7 +32,7 @@ const TEAM_DATA: TeamMemberExt[] = [
     id: "2",
     name: "Sreenandan",
     role: "Student Lead",
-    email: "sreenandan@sctce.ac.in",
+    email: "imsreenandan@gmail.com",
     avatar:
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394477/Sreenandan_S_R6A_krgknx.jpg",
     tier: "lead",
@@ -113,10 +113,10 @@ const TEAM_DATA: TeamMemberExt[] = [
     role: "LinkedIn",
     email: "negha@sctce.ac.in",
     avatar:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783011138/Untitled_design_4_qkhfpv.png",
+      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394474/Negha_R_R6A_zxuhor.jpg",
     tier: "execom",
     team: "LinkedIn",
-    avatarPosition: "center",
+    avatarPosition: "center 5%",
   },
   {
     id: "11",
@@ -199,7 +199,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783009917/copy_of_aashwin_suresh_r6a_oi8kje.png",
     tier: "execom",
     team: "POC",
-    avatarPosition: "center",
+    avatarPosition: "center 2%",
   },
   {
     id: "19",
@@ -210,6 +210,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394444/Green_K_P_wlukb6.jpg",
     tier: "execom",
     team: "POC",
+    avatarPosition: "center 10%"
   },
   {
     id: "20",
@@ -240,6 +241,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394439/Parthasarathy_esy2ql.png",
     tier: "execom",
     team: "POC",
+    avatarPosition: "center 30%"
   },
 ];
 
@@ -261,7 +263,7 @@ function cloudinaryThumb(url: string, size: number = 200): string {
 
 /** Returns the CSS object-position for an avatar (defaults to "top"). */
 function avatarPos(member: TeamMemberExt): string {
-  return member.avatarPosition ?? "top";
+  return member.avatarPosition ?? "center";
 }
 
 // ── Bento: Placement Officer card ─────────────────────────────────────────────
@@ -289,7 +291,7 @@ function POBentoCard({ member }: { member: TeamMemberExt }) {
 
       <Avatar className="h-20 w-20 ring-2 ring-white shadow border border-primary-red/20">
         <AvatarImage
-          src={cloudinaryThumb(member.avatar, 160)}
+          src={member.avatar}
           alt={member.name}
           loading="lazy"
           className="object-cover"
@@ -338,7 +340,7 @@ function LeadershipBentoCard({ members }: { members: TeamMemberExt[] }) {
           <div key={member.id} className="flex items-center gap-3 group">
             <Avatar className="h-12 w-12 shrink-0 ring-1 ring-slate-200 shadow-sm transition-all duration-200 group-hover:ring-primary-red/50">
               <AvatarImage
-                src={cloudinaryThumb(member.avatar, 96)}
+                src={member.avatar}
                 alt={member.name}
                 loading="lazy"
                 className="object-cover"
@@ -385,7 +387,7 @@ function ExecomAvatarCell({ member }: { member: TeamMemberExt }) {
       >
         <Avatar className="h-14 w-14">
           <AvatarImage
-            src={cloudinaryThumb(member.avatar, 112)}
+            src={member.avatar}
             alt={member.name}
             loading="lazy"
             className="object-cover"
@@ -504,7 +506,7 @@ export default function AboutPage() {
           </a>
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/cgpu_sctce"
+            href="https://www.instagram.com/cgpu.sctce"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
