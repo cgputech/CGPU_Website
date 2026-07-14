@@ -60,10 +60,10 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    href="/testimonials"
+                    href="/gallery"
                     className="hover:text-primary transition-colors"
                   >
-                    Testimonials
+                    Gallery
                   </Link>
                 </li>
               </ul>
@@ -86,13 +86,13 @@ export default function Footer() {
                     href="mailto:placement@sctce.ac.in"
                     className="hover:text-primary"
                   >
-                    placement@sctce.ac.in
+                    cgpu@sctce.ac.in
                   </a>
                 </li>
 
                 <li className="flex gap-2">
                   <Phone className="h-4 w-4 shrink-0" />
-                  <span>+91 471 2490572</span>
+                  <span>+91 8943333543</span>
                 </li>
               </ul>
             </div>
@@ -115,20 +115,6 @@ export default function Footer() {
               SCTCE
               <ExternalLink className="h-3 w-3" />
             </a>
-
-            <Link
-              href="/privacy"
-              className="hover:text-primary"
-            >
-              Privacy
-            </Link>
-
-            <Link
-              href="/terms"
-              className="hover:text-primary"
-            >
-              Terms
-            </Link>
           </div>
         </div>
       </div>

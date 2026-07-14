@@ -170,12 +170,9 @@ export default function StatisticsPage() {
             hoverEffect={false}
           >
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
+              <span className="text-xs font-bold tracking-wider text-text-secondary">
                 Highest Package
               </span>
-              <div className="p-2 rounded-lg bg-soft-red text-primary-red">
-                <Award className="h-4 w-4" />
-              </div>
             </div>
 
             <div>
@@ -183,12 +180,9 @@ export default function StatisticsPage() {
                 <Skeleton className="h-8 w-24" />
               ) : (
                 <>
-                  <div className="text-3xl font-extrabold text-text-primary">
+                  <div className="text-2xl md:text-3xl font-extrabold text-text-primary">
                     {highestPackage ? `${highestPackage} LPA` : "—"}
                   </div>
-                  <p className="mt-2 text-xs text-text-secondary">
-                    Best offer this season
-                  </p>
                 </>
               )}
             </div>
@@ -200,12 +194,9 @@ export default function StatisticsPage() {
             hoverEffect={false}
           >
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
+              <span className="text-xs font-bold tracking-wider text-text-secondary">
                 Average Package
               </span>
-              <div className="p-2 rounded-lg bg-soft-red text-primary-red">
-                <DollarSign className="h-4 w-4" />
-              </div>
             </div>
 
             <div>
@@ -213,12 +204,9 @@ export default function StatisticsPage() {
                 <Skeleton className="h-8 w-24" />
               ) : (
                 <>
-                  <div className="text-3xl font-extrabold text-text-primary">
+                  <div className="text-2xl md:text-3xl font-extrabold text-text-primary">
                     {averagePackage ? `${averagePackage} LPA` : "—"}
                   </div>
-                  <p className="mt-2 text-xs text-text-secondary">
-                    Weighted batch average
-                  </p>
                 </>
               )}
             </div>
@@ -230,12 +218,9 @@ export default function StatisticsPage() {
             hoverEffect={false}
           >
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
+              <span className="text-xs font-bold tracking-wider text-text-secondary">
                 Total Offers
               </span>
-              <div className="p-2 rounded-lg bg-soft-red text-primary-red">
-                <TrendingUp className="h-4 w-4" />
-              </div>
             </div>
 
             <div>
@@ -243,12 +228,9 @@ export default function StatisticsPage() {
                 <Skeleton className="h-8 w-24" />
               ) : (
                 <>
-                  <div className="text-4xl font-extrabold text-text-primary">
+                  <div className="text-3xl md:text-4xl font-extrabold text-text-primary">
                     {totalStudents?.totalOffers ?? "—"}
                   </div>
-                  <p className="mt-2 text-xs text-text-secondary">
-                    Total offers received
-                  </p>
                 </>
               )}
             </div>
@@ -334,7 +316,7 @@ export default function StatisticsPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-border-custom">
                   {departments.map((dept) => {
-                    return (
+                    return dept.placedCount != 0 && (
                       <tr
                         key={`${dept.dept}-${dept.deptCode}`}
                         className="hover:bg-slate-50/50 transition-colors"

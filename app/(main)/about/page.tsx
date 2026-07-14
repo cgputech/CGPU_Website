@@ -41,7 +41,7 @@ const TEAM_DATA: TeamMemberExt[] = [
     id: "3",
     name: "Ashi",
     role: "Student Lead",
-    email: "ashi@sctce.ac.in",
+    email: "Ashi.juby.09@gmail.com",
     avatar:
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394475/Ashi_AnnTJuby_esh4qj.jpg",
     tier: "lead",
