@@ -25,7 +25,8 @@ const TEAM_DATA: TeamMemberExt[] = [
     name: "Sreejith",
     role: "Placement Officer",
     email: "sreejith@sctce.ac.in",
-    avatar: "SR",
+    avatar: "https://res.cloudinary.com/dlzy7vwio/image/upload/v1784010633/1000128137_1_nxahj8.jpg",
+    avatarPosition: "center 30%",
     tier: "po",
   },
   {
@@ -55,6 +56,7 @@ const TEAM_DATA: TeamMemberExt[] = [
       "https://res.cloudinary.com/dlzy7vwio/image/upload/v1782394433/Abhiram_A_P_kcivip.jpg",
     tier: "execom",
     team: "Tech",
+    avatarPosition: "center 30%"
   },
   {
     id: "5",
@@ -387,7 +389,7 @@ function ExecomAvatarCell({ member }: { member: TeamMemberExt }) {
       >
         <Avatar className="h-14 w-14">
           <AvatarImage
-            src={member.avatar}
+            src={cloudinaryThumb(member.avatar, 160)}
             alt={member.name}
             loading="lazy"
             className="object-cover"

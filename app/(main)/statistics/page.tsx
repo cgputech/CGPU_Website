@@ -7,7 +7,6 @@ import {
   fetchAveragePackage,
   fetchTotalStudentsPlaced,
   fetchDepartmentsData,
-  fetchSectorWiseData,
   type PlacementYearOption,
   type TotalStudentsPlacedResult,
   type DeptStat,
@@ -82,10 +81,6 @@ export default function StatisticsPage() {
 
     // Sector donut chart
     setSectorLoading(true);
-    fetchSectorWiseData(yearId).then((data) => {
-      setSectorData(data);
-      setSectorLoading(false);
-    });
   }, []);
 
   useEffect(() => {

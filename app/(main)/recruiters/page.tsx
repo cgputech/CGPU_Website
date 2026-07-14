@@ -38,6 +38,7 @@ export default function RecruitersPage() {
     const fetchRecruiters = async () => {
       try {
         const list = await listRecruiters();
+        console.log(list)
         setRecruiters(list);
       } catch (err) {
         console.error(err);

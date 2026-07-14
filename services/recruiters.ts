@@ -5,18 +5,21 @@ import type { CreateRecruiterInput, Recruiter, RecruiterWithStats } from "@/serv
 export async function listRecruiters(): Promise<RecruiterWithStats[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("recruiter")
-    .select(`
-      *,
-      recruiter_visit (
-        min_package,
-        max_package,
-        recruiter_visit_department (
-          offers_count
-        )
+  .from("recruiter")
+  .select(`
+    *,
+    recruiter_visit (
+      min_package,
+      max_package,
+      recruiter_visit_department!inner (
+        offers_count
       )
-    `)
-    .order("company_name");
+    )
+  `)
+  .gt("recruiter_visit.recruiter_visit_department.offers_count", 0)
+  .order("company_name");
+
+  console.log(data);
 
   assertNoError(error);
   return (data ?? []) as RecruiterWithStats[];
