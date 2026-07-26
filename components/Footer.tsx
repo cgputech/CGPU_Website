@@ -98,25 +98,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
-        <div className="mt-10 flex flex-col gap-4 border-t pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} CGPU SCTCE.
-            All rights reserved.
-          </p>
-
-          <div className="flex items-center gap-5">
-            <a
-              href="https://www.sctce.ac.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 hover:text-primary"
-            >
-              SCTCE
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-        </div>
       </div>
     </footer>
   );

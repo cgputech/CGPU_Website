@@ -131,7 +131,7 @@ export default function RecruitmentBanner() {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="mt-16 md:mt-24 pt-16 md:pt-24 border-t border-border-custom border-dashed flex flex-col items-center overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center w-full">
+      {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center w-full">
         <Badge className="mb-2">Recruiters</Badge>
 
         <h2 className="mb-12 md:mb-16 text-4xl font-bold">
@@ -139,7 +139,7 @@ export default function RecruitmentBanner() {
           <span className="italic font-bold text-primary-red">100+</span>{" "}
           companies worldwide
         </h2>
-      </div>
+      </div> */}
 
       <div className="relative w-full max-w-[100vw]">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-32 bg-gradient-to-r from-background to-transparent" />
@@ -150,7 +150,7 @@ export default function RecruitmentBanner() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center w-full">
+      {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center w-full">
         <Link
           href="/recruiters"
           className="mt-14 md:mt-16 inline-flex items-center text-sm font-semibold text-primary-red hover:text-primary-red-hover transition-colors"
@@ -158,7 +158,7 @@ export default function RecruitmentBanner() {
           Explore Recruiter Directory
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
-      </div>
+      </div> */}
     </motion.div>
   );
 }

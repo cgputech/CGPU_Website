@@ -61,7 +61,7 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex h-[--navbar-height] w-full items-center justify-center bg-white/80 backdrop-blur-md px-4 md:px-0 py-3 md:py-4",
+        "sticky top-0 z-50 flex h-[--navbar-height] items-center justify-center bg-transparent px-4 md:px-0 py-3 md:py-4",
       )}
     >
       <div className="relative flex w-full max-w-4xl items-center justify-start md:justify-center border-b border-border/40 md:border-none pb-3 md:pb-0">
@@ -120,7 +120,7 @@ export default function Navbar() {
           className="hidden max-w-none md:flex"
           aria-label="Main navigation"
         >
-          <NavigationMenuList className="gap-1 rounded-full border border-border bg-background/90 p-1.5 shadow-sm backdrop-blur-md">
+          <NavigationMenuList className="gap-1 rounded-full border border-border bg-transparent/50 p-1.5 shadow-sm backdrop-blur-md">
             {navLinks.map((link) => (
               <NavigationMenuItem key={link.name}>
                 <NavigationMenuLink
