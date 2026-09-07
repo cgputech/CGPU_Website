@@ -43,6 +43,7 @@ export default function LoginForm() {
   const [authError, setAuthError] = useState<string | null>(null);
 
   const form = useForm<LoginFormValues>({
+    // @ts-expect-error Zod version mismatch with hookform/resolvers
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",

@@ -240,7 +240,7 @@ const PlacementCard = memo(function PlacementCard({
       <motion.div
         onClick={() => onSelect(item, suffix)}
         whileHover={{ scale: 1.03 }}
-        transition={{ type: "spring", stiffness: 260, damping: 22 }}
+        transition={{ type: "spring" as const, stiffness: 260, damping: 22 }}
         className="relative h-full w-full overflow-hidden rounded-2xl cursor-pointer bg-zinc-100 shadow-sm"
       >
         <motion.img
@@ -289,7 +289,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 220, damping: 26 },
+    transition: { type: "spring" as const, stiffness: 220, damping: 26 },
   },
 };
 
@@ -379,13 +379,13 @@ export default function PlacementsSection() {
               >
                 <motion.span
                   variants={{ hover: { x: -4 } }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  transition={{ type: "spring" as const, stiffness: 300, damping: 20 }}
                 >
                   More Placements
                 </motion.span>
                 <motion.span
                   variants={{ hover: { x: 4 } }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  transition={{ type: "spring" as const, stiffness: 300, damping: 20 }}
                   className="inline-flex"
                 >
                   <ArrowRight />
