@@ -1,158 +1,534 @@
 "use client";
-import Loading from "@/app/loading";
 
-import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  TrendingUp, 
-  Briefcase, 
-  ArrowRight, 
-  GraduationCap, 
-  Bell, 
-  ArrowUpRight,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Download,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-} from "lucide-react";
-import { 
-  cmsService, 
-  YearStats, 
-  Recruiter, 
-  SuccessStory, 
-  Announcement, 
-  PlacementPoster, 
-  PlacementReport 
-} from "@/services/cms";
-import { Card } from "@/components/ui/old/Card";
-import { Badge } from "@/components/ui/old/Badge";
-import PlacementCarousel from "@/components/home/carousel";
+import AnimatedText from "@/components/AnimatedText";
+import Navbar from "@/components/Navbar";
+import PlacementAnalytics from "@/components/PlacementAnalytics";
+import HeroSection from "@/components/hero";
+import PlacementsSection from "@/components/home/carousel";
+import RevealBox from "@/components/revealBox";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { ArrowRight, Mail } from "lucide-react";
+import Image from "next/image";
+
+import { useEffect, useRef, useState } from "react";
+import { Recruiter } from "@/services/types/db";
+import { listRecruiters } from "@/services/recruiters";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import TestimonialSection from "@/components/home/testimonial";
-import RecruitmentBanner from "@/components/home/recruitment-banner";
-import Hero from "@/components/home/hero";
-import RecruitmentNumbers from "@/components/home/recruitment-numbers";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function Home() {
-  const [stats, setStats] = useState<YearStats | null>(null);
-  const [allStats, setAllStats] = useState<YearStats[]>([]);
-  const [recruiters, setRecruiters] = useState<Recruiter[]>([]);
-  const [stories, setStories] = useState<SuccessStory[]>([]);
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [posters, setPosters] = useState<PlacementPoster[]>([]);
-  const [reports, setReports] = useState<PlacementReport[]>([]);
-  const [loading, setLoading] = useState(true);
+async function fetchRelevantRecruiters() {
+  const recruiters = await listRecruiters();
 
-  // States for interactive components
-  const [activePosterIndex, setActivePosterIndex] = useState(0);
-  const [reportYearFilter, setReportYearFilter] = useState<string>("All");
-  
-  // Autoplay for poster carousel
-  const carouselTimer = useRef<NodeJS.Timeout | null>(null);
+  const companies = [
+    "Zoho",
+    "Infosys",
+    "CareStack",
+    "InApp",
+    "Amazon",
+    "IBM",
+    "Litmus7",
+    "Trimble",
+    "Wipro",
+    "H&R Block"
+  ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statsList = await cmsService.getStatistics();
-        const recruitersList = await cmsService.getRecruiters();
-        const storiesList = await cmsService.getSuccessStories();
-        const announcementsList = await cmsService.getAnnouncements();
-        const postersList = await cmsService.getPlacementPosters();
-        const reportsList = await cmsService.getReports();
+  return recruiters.filter((r) => companies.includes(r.company_name));
+}
 
-        setAllStats(statsList);
-        setStats(statsList[0]); // Current year (2025)
-        setRecruiters(recruitersList);
-        setStories(storiesList);
-        setAnnouncements(announcementsList);
-        setPosters(postersList);
-        setReports(reportsList);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+interface CompanyIconProps {
+  company: Recruiter;
+  priority?: boolean;
+}
 
-  // Autoplay effect for placement posters
-  useEffect(() => {
-    if (posters.length === 0) return;
-    
-    const startTimer = () => {
-      carouselTimer.current = setInterval(() => {
-        setActivePosterIndex((prevIndex) => (prevIndex + 1) % posters.length);
-      }, 5000);
-    };
-
-    startTimer();
-    return () => {
-      if (carouselTimer.current) clearInterval(carouselTimer.current);
-    };
-  }, [posters]);
-
-  const handlePrevPoster = () => {
-    if (carouselTimer.current) clearInterval(carouselTimer.current);
-    setActivePosterIndex((prevIndex) => (prevIndex - 1 + posters.length) % posters.length);
-  };
-
-  const handleNextPoster = () => {
-    if (carouselTimer.current) clearInterval(carouselTimer.current);
-    setActivePosterIndex((prevIndex) => (prevIndex + 1) % posters.length);
-  };
-
-  // Filtered reports
-  const filteredReports = reportYearFilter === "All"
-    ? reports
-    : reports.filter(r => r.year === reportYearFilter);
-
-  // Animation variants
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-  } as const;
-
-  const stagger = {
-    animate: { transition: { staggerChildren: 0.1 } }
-  } as const;
-
-  // Custom counter animation hook simulation
-  const [offersCount, setOffersCount] = useState(0);
-  const [recruitersCount, setRecruitersCount] = useState(0);
-  const [rateCount, setRateCount] = useState(0);
-
-  useEffect(() => {
-    if (loading) return;
-    const duration = 1500;
-    const steps = 60;
-    const intervalTime = duration / steps;
-    
-    let step = 0;
-    const timer = setInterval(() => {
-      step++;
-      setOffersCount(Math.min(Math.round((1200 / steps) * step), 1200));
-      setRecruitersCount(Math.min(Math.round((300 / steps) * step), 300));
-      setRateCount(Math.min(Math.round((92 / steps) * step), 92));
-      
-      if (step >= steps) clearInterval(timer);
-    }, intervalTime);
-
-    return () => clearInterval(timer);
-  }, [loading]);
-
+const CompanyIcon = ({ company, priority = false }: CompanyIconProps) => {
+  if (!company.logo_url) return null;
 
   return (
-    <div className="relative overflow-hidden">
-      <Hero />
-      <RecruitmentNumbers />
-      <RecruitmentBanner />
-      <PlacementCarousel />
-      <TestimonialSection />
+    <div className="relative h-20 w-32 md:h-28 md:w-48 grayscale hover:grayscale-0 transition-all duration-300">
+      <Image
+        src={company.logo_url}
+        alt={company.company_name}
+        fill
+        sizes="(max-width: 768px) 128px, 192px"
+        className="object-contain"
+        priority={priority}
+      />
+    </div>
+  );
+};
+
+/* ── Same container/card stagger shapes used in PlacementsSection ── */
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.94 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 220, damping: 26 },
+  },
+};
+
+/* Reusable staggered heading used across sections */
+const staggerHeadingVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const charVariants = {
+  hidden: { y: "100%", opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 200, damping: 20 },
+  },
+};
+
+function StaggeredHeading({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
+  return (
+    <motion.h1
+      className={
+        className ??
+        "text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+      }
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      variants={staggerHeadingVariants}
+    >
+      {text.split(" ").map((word, wordIdx) => (
+        <span
+          key={wordIdx}
+          className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
+        >
+          {word.split("").map((char, charIdx) => (
+            <motion.span key={charIdx} variants={charVariants} className="inline-block">
+              {char}
+            </motion.span>
+          ))}
+        </span>
+      ))}
+    </motion.h1>
+  );
+}
+
+function RecruitersSection({
+  recruiters,
+  recruitersLoading,
+}: {
+  recruiters: Recruiter[];
+  recruitersLoading: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showRow2, setShowRow2] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Trigger the discrete animation when scroll crosses 20%
+    setShowRow2(latest > 0.2);
+  });
+
+  useEffect(() => {
+    if (scrollYProgress.get() > 0.2) {
+      setShowRow2(true);
+    }
+  }, [scrollYProgress]);
+
+  const rowOne = recruiters.slice(0, 5);
+  const rowTwo = recruiters.slice(5, 10);
+
+  return (
+    <section
+      ref={containerRef}
+      className="bg-white h-auto sm:h-[200vh] relative z-10 py-10 sm:py-0"
+    >
+      <div className="static sm:sticky top-0 h-auto sm:h-screen w-full flex flex-col items-center justify-center gap-8 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8 sm:overflow-hidden">
+        {recruitersLoading ? (
+          <p className="text-slate-400 text-sm">Loading recruiters…</p>
+        ) : recruiters.length === 0 ? (
+          <p className="text-slate-400 text-sm">No recruiters to show yet.</p>
+        ) : (
+          <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-6xl items-center">
+            {/* Mobile: Unified Grid for all 10 items so they pair up perfectly in grid-cols-2 */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              className="grid grid-cols-2 sm:hidden gap-x-4 gap-y-8 w-full place-items-center"
+            >
+              {recruiters.map((item, index) => (
+                <motion.div key={item.id ?? index} variants={cardVariants}>
+                  <CompanyIcon company={item} priority={index < 4} />
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Desktop: First Row */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+            >
+              {rowOne.map((item, index) => (
+                <motion.div key={item.id ?? index} variants={cardVariants}>
+                  <CompanyIcon company={item} priority={true} />
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Desktop: Second Row (Sticky animation) */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={showRow2 ? "visible" : "hidden"}
+              className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+            >
+              {rowTwo.map((item, index) => (
+                <motion.div key={item.id ?? index} variants={cardVariants}>
+                  <CompanyIcon company={item} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        )}
+
+        {/* CTA — only shown after the second row has animated in */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={showRow2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+        >
+          <Link href="/recruiters">
+            <Button
+              variant="outline"
+              className="group border border-black w-56 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
+            >
+              <span>See More Recruiters</span>
+              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+export default function Home() {
+  const [recruiters, setRecruiters] = useState<Recruiter[]>([]);
+  const [recruitersLoading, setRecruitersLoading] = useState(true);
+
+  useEffect(() => {
+    fetchRelevantRecruiters()
+      .then((data) => setRecruiters(data))
+      .catch((err) => console.error(err))
+      .finally(() => setRecruitersLoading(false));
+  }, []);
+
+  const rowOne = recruiters.slice(0, 5);
+  const rowTwo = recruiters.slice(5, 10);
+
+  return (
+    <div>
+      <Navbar />
+      <div id="home">
+        <HeroSection />
+      </div>
+
+      <div id="about">
+        {/* Full-screen Staggered Heading */}
+        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
+          <motion.h1
+            className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+          >
+            {"About Us".split(" ").map((word, wordIdx) => (
+              <span
+                key={wordIdx}
+                className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
+              >
+                {word.split("").map((char, charIdx) => (
+                  <motion.span
+                    key={charIdx}
+                    variants={{
+                      hidden: { y: "100%", opacity: 0 },
+                      visible: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 20,
+                        },
+                      },
+                    }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </motion.h1>
+        </div>
+
+        {/* Staggered Description — flows directly below heading */}
+        <section className="bg-white flex flex-col justify-center items-center px-4 md:px-24 pt-8 pb-24 w-full">
+          <motion.div
+            className="max-w-7xl flex flex-wrap justify-center text-left overflow-hidden w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.03,
+                },
+              },
+            }}
+          >
+            {"The Career Guidance and Placement Unit (CGPU) is dedicated to guiding our students towards successful career paths. We facilitate rigorous training, comprehensive skill development, and foster strong industry connections to ensure our graduates are industry-ready and equipped to excel in today's competitive professional landscape."
+              .split(" ")
+              .map((word, i) => (
+                <motion.span
+                  key={i}
+                  variants={{
+                    hidden: { y: "50%", opacity: 0 },
+                    visible: {
+                      y: 0,
+                      opacity: 1,
+                      transition: {
+                        type: "spring",
+                        stiffness: 150,
+                        damping: 20,
+                      },
+                    },
+                  }}
+                  className="inline-block text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-slate-800 mr-2 sm:mr-3 lg:mr-4 mb-2 sm:mb-3 lg:mb-4 leading-tight"
+                >
+                  {word}
+                </motion.span>
+              ))}
+          </motion.div>
+          <motion.div
+            className="flex flex-wrap gap-4 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Link href="/about">
+              <Button
+                variant="outline"
+                className="group border border-black w-48 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
+              >
+                <span>Our Team</span>
+                <ArrowRight className="transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </motion.div>
+        </section>
+      </div>
+
+      <div id="recruiters">
+        {/* Full-screen Staggered Heading */}
+        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
+          <StaggeredHeading text="Recruiters" />
+        </div>
+
+        <RecruitersSection
+          recruiters={recruiters}
+          recruitersLoading={recruitersLoading}
+        />
+      </div>
+
+      <div id="analytics">
+        {/* Full-screen Staggered Heading */}
+        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
+          <StaggeredHeading text="Placement Analytics" />
+        </div>
+
+        <PlacementAnalytics />
+      </div>
+
+      <div id="placements">
+        <div className="h-screen flex justify-center items-center gap-3 bg-white px-4 md:px-24 text-center">
+          <motion.h1
+            className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+          >
+            {"Top Placements".split(" ").map((word, wordIdx) => (
+              <span
+                key={wordIdx}
+                className="inline-block whitespace-nowrap mx-2 sm:mx-3 md:mx-4 lg:mx-6"
+              >
+                {word.split("").map((char, charIdx) => (
+                  <motion.span
+                    key={charIdx}
+                    variants={{
+                      hidden: { y: "100%", opacity: 0 },
+                      visible: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 20,
+                        },
+                      },
+                    }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </motion.h1>
+        </div>
+
+        <PlacementsSection />
+      </div>
+      {/* <div id="testimonials">
+        <div className="h-screen flex justify-start items-center gap-3 bg-white px-4 md:px-24 text-left w-full sticky top-0">
+          <motion.h1
+            className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+          >
+            {"Testimonials".split(" ").map((word, wordIdx) => (
+              <span
+                key={wordIdx}
+                className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
+              >
+                {word.split("").map((char, charIdx) => (
+                  <motion.span
+                    key={charIdx}
+                    variants={{
+                      hidden: { y: "100%", opacity: 0 },
+                      visible: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 20,
+                        },
+                      },
+                    }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            ))}
+          </motion.h1>
+        </div>
+
+        <TestimonialSection />
+      </div> */}
+      <div className="w-full bg-gray-100 py-12 px-4 md:px-24">
+        <Card className="max-w-6xl mx-auto border-none shadow-sm rounded-3xl overflow-hidden bg-white">
+          <CardContent className="p-0 flex flex-col md:flex-row justify-between">
+            <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left p-6 sm:p-10 md:p-16 w-full md:w-1/2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 text-black">Stay Connected</h2>
+              <p className="text-base sm:text-lg text-gray-500 mb-8 sm:mb-10 max-w-md">
+                Follow us on Instagram and LinkedIn for the latest updates, placement stories, career guidance tips, and event announcements.
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                <Link href="#" target="_blank" rel="noreferrer">
+                  <Button variant="outline" className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-5 w-5 text-[#E1306C]"
+                      aria-hidden
+                    >
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                    </svg>
+                    <span>Instagram</span>
+                  </Button>
+                </Link>
+                <Link href="#" target="_blank" rel="noreferrer">
+                  <Button variant="outline" className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-5 w-5 text-[#0A66C2]"
+                      aria-hidden
+                    >
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                    <span>LinkedIn</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 relative min-h-[250px] sm:min-h-[300px] md:min-h-[450px]">
+              <Image 
+                src="/vectorelements-sdwWlL_SJsA-unsplash.jpg" 
+                fill 
+                className="object-cover" 
+                alt="Connect with us on social media" 
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      <Footer />
     </div>
   );
 }

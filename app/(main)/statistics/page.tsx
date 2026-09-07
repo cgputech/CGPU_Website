@@ -22,6 +22,7 @@ import {
   Award,
   ChevronDown,
   Users,
+  IndianRupee
 } from "lucide-react";
 
 // ─── Tiny skeleton pulse ──────────────────────────────────────────────────────
@@ -130,13 +131,7 @@ export default function StatisticsPage() {
       </div>
 
       <div className="relative inline-block text-left mb-4">
-        <label htmlFor="year-select" className="sr-only">
-          Select Placement Year
-        </label>
         <div className="flex items-center space-x-2">
-          <span className="text-xs font-bold text-text-secondary uppercase tracking-wider">
-            Placement Year:
-          </span>
           <div className="relative">
             <select
               id="year-select"
@@ -147,7 +142,7 @@ export default function StatisticsPage() {
               {years.map((y) => (
                 <option key={y.id} value={y.id}>
                   {y.year} Campaign
-                </option>
+                </option> 
               ))}
             </select>
             <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-text-secondary pointer-events-none" />
@@ -161,26 +156,32 @@ export default function StatisticsPage() {
         <div className="lg:col-span-4 grid grid-cols-2 gap-4">
           {/* Highest Package */}
           <Card
-            className="p-5 min-h-[170px] flex flex-col justify-between"
+            className="p-5 min-h-[170px] flex flex-col justify-between text-white"
             hoverEffect={false}
+            style={{ background: "#ab2424"}}
           >
+           <div>
+              {kpiLoading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <div className="flex flex-col items-baseline gap-1">
+                  <div className="text-3xl md:text-5xl font-extrabold flex flex-row items-center">
+                     <IndianRupee className="w-8 h-8 md:w-10 md:h-10 -mr-1 -ml-1"/> 
+                      <span>
+                        {highestPackage ? `${highestPackage}` : "—"}
+                      </span>                  
+                  </div>
+                  <div className="text-xl md:text-2xl font-semibold opacity-90">LPA</div>  
+                </div>
+              )}
+            </div>
+
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold tracking-wider text-text-secondary">
+              <span className="text-sm font-bold tracking-wider opacity-90">
                 Highest Package
               </span>
             </div>
 
-            <div>
-              {kpiLoading ? (
-                <Skeleton className="h-8 w-24" />
-              ) : (
-                <>
-                  <div className="text-2xl md:text-3xl font-extrabold text-text-primary">
-                    {highestPackage ? `${highestPackage} LPA` : "—"}
-                  </div>
-                </>
-              )}
-            </div>
           </Card>
 
           {/* Average Package */}
@@ -188,63 +189,60 @@ export default function StatisticsPage() {
             className="p-5 min-h-[170px] flex flex-col justify-between"
             hoverEffect={false}
           >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-bold tracking-wider text-text-secondary">
+           
+            <div>
+              {kpiLoading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <div className="flex flex-col items-start align-center gap-1">
+                  <div className="text-3xl md:text-5xl font-extrabold flex flex-row items-center text-text-primary">
+                    <IndianRupee className="w-8 h-8 md:w-10 md:h-10 -mr-1 -ml-1"/> 
+                    <span>
+                      {averagePackage ? `${averagePackage}` : "—"}
+                    </span>
+                  </div>
+                  <div className="text-xl md:text-2xl font-semibold text-text-secondary">LPA</div>  
+                </div>
+              )}
+            </div>
+
+             <div className="flex justify-between items-start">
+              <span className="text-sm font-bold tracking-wider text-text-secondary">
                 Average Package
               </span>
             </div>
 
-            <div>
-              {kpiLoading ? (
-                <Skeleton className="h-8 w-24" />
-              ) : (
-                <>
-                  <div className="text-2xl md:text-3xl font-extrabold text-text-primary">
-                    {averagePackage ? `${averagePackage} LPA` : "—"}
-                  </div>
-                </>
-              )}
-            </div>
           </Card>
 
           {/* Total Offers */}
           <Card
-            className="col-span-2 p-5 min-h-[170px] flex flex-col justify-between"
+            className="col-span-2 p-5 min-h-[170px] flex flex-col justify-between bg-slate-900 text-white"
             hoverEffect={false}
           >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-bold tracking-wider text-text-secondary">
-                Total Offers
-              </span>
-            </div>
-
+           
             <div>
               {kpiLoading ? (
                 <Skeleton className="h-8 w-24" />
               ) : (
                 <>
-                  <div className="text-3xl md:text-4xl font-extrabold text-text-primary">
+                  <div className="text-5xl md:text-7xl font-extrabold">
                     {totalStudents?.totalOffers ?? "—"}
                   </div>
                 </>
               )}
             </div>
+
+             <div className="flex justify-between items-start">
+              <span className="text-sm font-bold tracking-wider opacity-90">
+                Total Offers
+              </span>
+            </div>
+
           </Card>
         </div>
 
         {/* Chart Section */}
         <Card className="lg:col-span-8 p-6 min-h-[380px]" hoverEffect={false}>
-          <div className="mb-6">
-            <h2 className="flex items-center text-lg font-bold text-text-primary">
-              <TrendingUp className="h-5 w-5 text-primary-red mr-2" />
-              Average Package by Department
-            </h2>
-
-            <p className="text-sm text-text-secondary mt-1">
-              Department-wise salary distribution
-            </p>
-          </div>
-
           {deptLoading ? (
             <div className="flex items-center justify-center h-[320px]">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-red" />
@@ -266,7 +264,7 @@ export default function StatisticsPage() {
       {/* ── Department Table ── */}
       <div className="space-y-4">
         <h2 className="text-base font-extrabold text-text-primary">
-          Detailed Department Performance Breakdown
+          Department wise performance 
         </h2>
 
         {deptLoading ? (

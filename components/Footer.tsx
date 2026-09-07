@@ -3,9 +3,9 @@ import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-background">
+    <footer className="w-full bg-transparent border-t border-transparent">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-2">
           {/* Brand */}
           <div className="max-w-md">
             <div className="flex items-center gap-3">
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           {/* Links + Contact */}
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div>
               <h4 className="mb-4 text-sm font-medium">
                 Quick Links
@@ -83,8 +83,8 @@ export default function Footer() {
                 <li className="flex gap-2">
                   <Mail className="h-4 w-4 shrink-0" />
                   <a
-                    href="mailto:placement@sctce.ac.in"
-                    className="hover:text-primary"
+                    href="mailto:cgpu@sctce.ac.in"
+                    className="hover:text-primary transition-colors"
                   >
                     cgpu@sctce.ac.in
                   </a>

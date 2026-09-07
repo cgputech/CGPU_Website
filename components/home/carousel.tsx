@@ -1,297 +1,399 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { memo, useEffect, useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "motion/react";
+import { Button } from "../ui/button";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-const placements = [
+/* ── Placement Data ───────────────────────────────────────── */
+
+const individualInfo = [
   {
-    id: 1,
-    company: "Infosys",
-    avgLpa: "16 LPA",
-    studentsPlaced: 3,
-    year: 2027,
-    posterUrl:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783956545/Photo_from_Abhiram_AR_nmsddo.jpg",
+    id: "1",
+    title: "Akhileshwaran",
+    subtitle: "Infosys",
+    lpa: "4.5 LPA",
+    url: "https://res.cloudinary.com/dlzy7vwio/image/upload/w_500,h_600,c_fill,g_face,q_auto,f_auto/v1786192742/3_cp2riz.png",
   },
   {
-    id: 2,
-    company: "Lokam.ai",
-    avgLpa: "49 LPA",
-    studentsPlaced: 2,
-    year: 2027,
-    posterUrl:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783956546/Photo_from_Abhiram_AR_uatxbc.jpg",
+    id: "2",
+    title: "Camilla Wilson",
+    subtitle: "Zoho",
+    lpa: "5 LPA",
+    url: "https://i.pravatar.cc/500?img=47",
   },
   {
-    id: 3,
-    company: "CareStack",
-    avgLpa: "8.5 LPA",
-    studentsPlaced: 2,
-    year: 2026,
-    posterUrl:
-      "https://res.cloudinary.com/dlzy7vwio/image/upload/v1783959131/Photo_from_Abhiram_AR_bbsjy6.jpg",
+    id: "3",
+    title: "Olive Nacelle",
+    subtitle: "TCS Digital",
+    lpa: "6.5 LPA",
+    url: "https://i.pravatar.cc/500?img=32",
+  },
+  {
+    id: "4",
+    title: "Mohammad Sinan",
+    subtitle: "Lokam.ai",
+    lpa: "6 LPA",
+    url: "https://res.cloudinary.com/dlzy7vwio/image/upload/w_500,h_600,c_fill,g_face,q_auto,f_auto/v1786192747/6_eqmysk.png",
+  },
+  {
+    id: "5",
+    title: "Jessica Dobrev",
+    subtitle: "Wipro",
+    lpa: "5.5 LPA",
+    url: "https://i.pravatar.cc/500?img=44",
+  },
+  {
+    id: "6",
+    title: "Dev Bhagavan",
+    subtitle: "CareStack",
+    lpa: "7.2 LPA",
+    url: "https://res.cloudinary.com/dlzy7vwio/image/upload/w_500,h_600,c_fill,g_face,q_auto,f_auto/v1786192742/2_msml1y.png",
+  },
+  {
+    id: "7",
+    title: "Bharath B S",
+    subtitle: "CareStack",
+    lpa: "7.2 LPA",
+    url: "https://res.cloudinary.com/dlzy7vwio/image/upload/w_500,h_600,c_fill,g_face,q_auto,f_auto/v1786192721/1_fvjmzs.png",
+  },
+  {
+    id: "8",
+    title: "Sasha Kim",
+    subtitle: "Accenture",
+    lpa: "8 LPA",
+    url: "https://i.pravatar.cc/500?img=52",
   },
 ];
 
-export default function PlacementCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
+type PlacementItem = (typeof individualInfo)[0];
 
-  const nextPlacement = () => {
-    setCurrentIndex((prev) => (prev + 1) % placements.length);
-  };
+/* ── useInView: fires true/false as an element crosses the viewport ── */
 
-  const prevPlacement = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + placements.length) % placements.length,
+function useInView(threshold = 0.25) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold },
     );
-  };
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.clientX);
-  };
+  return [ref, inView] as const;
+}
 
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+/* ── Expandable Profile Modal ─────────────────────────────── */
 
-    setIsDragging(false);
-
-    const diff = startX - e.clientX;
-
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? nextPlacement() : prevPlacement();
-    }
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = startX - e.changedTouches[0].clientX;
-
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? nextPlacement() : prevPlacement();
-    }
-  };
-
-  const getCardStyle = (index: number): React.CSSProperties => {
-    const totalCards = placements.length;
-    const diff = index - currentIndex;
-
-    let normalizedDiff = diff;
-
-    if (diff > totalCards / 2) {
-      normalizedDiff = diff - totalCards;
-    } else if (diff < -totalCards / 2) {
-      normalizedDiff = diff + totalCards;
-    }
-
-    const isActive = normalizedDiff === 0;
-    const isNext = normalizedDiff === 1 || normalizedDiff === -(totalCards - 1);
-
-    const isPrev = normalizedDiff === -1 || normalizedDiff === totalCards - 1;
-
-    let zIndex = 1;
-    let opacity = 0;
-    let scale = 0.8;
-    let translateX = "0%";
-    let rotate = 0;
-
-    if (isActive) {
-      zIndex = 30;
-      opacity = 1;
-      scale = 1;
-    } else if (isNext) {
-      zIndex = 20;
-      opacity = 0.45;
-      scale = 0.9;
-      translateX = "15%";
-      rotate = 6;
-    } else if (isPrev) {
-      zIndex = 20;
-      opacity = 0.45;
-      scale = 0.9;
-      translateX = "-15%";
-      rotate = -6;
-    }
-
-    return {
-      position: "absolute",
-      inset: 0,
-      zIndex,
-      opacity,
-      transform: `translateX(${translateX}) scale(${scale}) rotate(${rotate}deg)`,
-      transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
-      pointerEvents: isActive ? "auto" : "none",
-      filter: isActive ? "none" : "blur(2px)",
-    };
-  };
+function ProfileModal({
+  item,
+  onClose,
+  suffix = "",
+}: {
+  item: PlacementItem;
+  onClose: () => void;
+  suffix?: string;
+}) {
+  const layoutId = `placement-strip-${item.id}${suffix}`;
 
   return (
-    <section
-      id="placements"
-      className="relative overflow-hidden bg-background py-16 md:py-20"
-    >
-      <div className="absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
-      <div className="absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/4 translate-y-1/2 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/90"
+      />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-14 text-center">
-          <Badge className="mb-4 px-4 py-1">Achievements</Badge>
-
-          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-            Our Campus{" "}
-            <span className="text-primary-red italic">Placements</span>
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground md:text-base">
-            Celebrating our students transitioning from academic excellence to
-            professional success with leading global organizations.
-          </p>
-        </div>
-
-        {/* Carousel */}
-        <div className="flex justify-center">
-          <div
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={() => setIsDragging(false)}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="relative w-full max-w-[256px] cursor-grab active:cursor-grabbing md:max-w-[512px]"
-          >
-            {/* Hidden placeholder to dynamically size the container based on the card's real height */}
-            <div
-              className="invisible pointer-events-none opacity-0"
-              aria-hidden="true"
-            >
-              <Card className="flex flex-col overflow-hidden border-border/60 py-0">
-                <CardContent className="relative aspect-[4/5] w-full p-0" />
-                <CardFooter className="border-t bg-card p-3 md:p-4">
-                  <div className="w-full space-y-2 md:space-y-4 flex flex-col items-center">
-                    <div className="text-center">
-                      <h3 className="text-base font-bold tracking-tight md:text-lg">
-                        Placeholder
-                      </h3>
-                      <p className="text-[10px] text-muted-foreground md:text-xs">
-                        Placeholder
-                      </p>
-                    </div>
-                    <div className="flex flex-row gap-1 md:gap-2">
-                      <Badge className="px-2 py-1 md:px-3 md:py-2">Badge</Badge>
-                    </div>
-                  </div>
-                </CardFooter>
-              </Card>
-            </div>
-            {placements.map((placement, index) => (
-              <div key={placement.id} style={getCardStyle(index)}>
-                <Card className="flex h-full flex-col overflow-hidden border-border/60 py-0 shadow-2x">
-                  {/* Poster */}
-                  <CardContent className="relative flex-none aspect-[4/5] w-full p-0 bg-white">
-                    <Image
-                      src={placement.posterUrl}
-                      alt={`${placement.company} placement poster`}
-                      fill
-                      priority={index === currentIndex}
-                      className="object-cover"
-                      sizes="(max-width: 768px) 90vw, 600px"
-                    />
-                  </CardContent>
-
-                  {/* Footer */}
-                  <CardFooter className="border-t bg-card p-3 md:p-4 md:h-32">
-                    <div className="w-full space-y-2 md:space-y-4 flex flex-col items-center">
-                      <div className="text-center">
-                        <h3 className="text-base font-bold tracking-tight md:text-lg text-md">
-                          {placement.company}
-                        </h3>
-
-                        <p className="text-[10px] text-muted-foreground md:text-xs">
-                          Campus Recruitment Drive
-                        </p>
-                      </div>
-
-                      <div className="flex flex-row gap-1 md:gap-2">
-                        <Badge className="bg-primary-red px-2 py-1 text-[10px] text-white md:px-3 md:py-2 md:text-xs">
-                          Max {placement.avgLpa}
-                        </Badge>
-
-                        <Badge
-                          variant="default"
-                          className="px-2 py-1 text-[10px] md:px-3 md:py-2 md:text-xs"
-                        >
-                          {placement.studentsPlaced} placed
-                        </Badge>
-
-                        <Badge
-                          variant="outline"
-                          className="px-2 py-1 text-[10px] md:px-3 md:py-2 md:text-xs"
-                        >
-                          {placement.year}
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="mt-10 flex items-center justify-center gap-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={prevPlacement}
-            className="h-10 w-10 rounded-full border"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-
-          <div className="flex items-center gap-2">
-            {placements.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={
-                  index === currentIndex
-                    ? "h-2 w-8 rounded-full bg-primary-red transition-all"
-                    : "h-2 w-2 rounded-full bg-muted-foreground/30 transition-all"
-                }
-              />
-            ))}
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={nextPlacement}
-            className="h-10 w-10 rounded-full border"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
-        </div>
-      </div>
-      <div className="flex justify-center mt-10">
-        <Link
-          href="/gallery"
-          className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary hover:text-primary"
+      <motion.div
+        layoutId={layoutId}
+        className="relative w-full max-w-5xl h-[85vh] bg-black rounded-2xl overflow-hidden z-10 flex flex-col md:flex-row border border-white/10 shadow-2xl"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-sm"
+          aria-label="Close profile"
         >
-          Explore Gallery
-          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </Link>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+
+        <div className="relative h-[45%] w-full shrink-0 overflow-hidden md:h-full md:w-[45%]">
+          <motion.img
+            layoutId={`img-${layoutId}`}
+            src={item.url}
+            alt={`Portrait of ${item.title}`}
+            width={500}
+            height={600}
+            decoding="async"
+            className="h-full w-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/40" />
+        </div>
+
+        <div className="p-8 sm:p-10 w-full md:flex-1 flex flex-col justify-center overflow-y-auto">
+          <motion.p
+            layoutId={`company-${layoutId}`}
+            className="text-primary-red text-xs font-semibold tracking-widest uppercase mb-3"
+          >
+            {item.subtitle}
+          </motion.p>
+          <motion.h3
+            layoutId={`name-${layoutId}`}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-6 pb-6 border-b border-white/10"
+          >
+            {item.title}
+          </motion.h3>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col gap-5 text-sm text-white/70 leading-relaxed grow"
+          >
+            <p>
+              Congratulations to{" "}
+              <strong className="text-white">{item.title}</strong> for securing
+              a position at{" "}
+              <strong className="text-white">{item.subtitle}</strong>! This
+              achievement is a testament to their dedication, hard work, and
+              technical expertise developed during their time at our
+              institution.
+            </p>
+
+            <div>
+              <h4 className="text-white font-semibold tracking-tight mb-1">
+                Company
+              </h4>
+              <p className="text-white/50">{item.subtitle}</p>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold tracking-tight mb-1">
+                Package
+              </h4>
+              <p className="text-white/50">{item.lpa}</p>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold tracking-tight mb-1">
+                Achievement
+              </h4>
+              <p className="text-white/50">
+                Successfully cleared all rounds of the recruitment process and
+                received a confirmed offer from {item.subtitle}.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+
+const PlacementCard = memo(function PlacementCard({
+  item,
+  onSelect,
+  suffix = "",
+}: {
+  item: PlacementItem;
+  onSelect: (item: PlacementItem, suffix?: string) => void;
+  suffix?: string;
+}) {
+  const layoutId = `placement-strip-${item.id}${suffix}`;
+
+  return (
+    // layoutId lives on its own node so the shared-element transition into the
+    // modal never fights with the hover scale animation on the inner layer.
+    <motion.div
+      layoutId={layoutId}
+      layout="position"
+      className="w-full h-[28vh] sm:h-[32vh] lg:h-[36vh] min-h-[160px] max-h-[320px]"
+    >
+      <motion.div
+        onClick={() => onSelect(item, suffix)}
+        whileHover={{ scale: 1.03 }}
+        transition={{ type: "spring", stiffness: 260, damping: 22 }}
+        className="relative h-full w-full overflow-hidden rounded-2xl cursor-pointer bg-zinc-100 shadow-sm"
+      >
+        <motion.img
+          layoutId={`img-${layoutId}`}
+          src={item.url}
+          alt={`Portrait of ${item.title}`}
+          width={500}
+          height={600}
+          decoding="async"
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover object-top grayscale"
+        />
+
+        {/* Floating name/company/LPA chip, overlapping the bottom edge of the photo */}
+        <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white px-4 py-2.5 shadow-md">
+          <motion.h3
+            layoutId={`name-${layoutId}`}
+            layout="position"
+            className="text-sm font-semibold tracking-tight text-zinc-900 truncate"
+          >
+            {item.title}
+          </motion.h3>
+          <motion.p
+            layoutId={`company-${layoutId}`}
+            layout="position"
+            className="text-xs text-zinc-500 truncate"
+          >
+            {item.subtitle} · {item.lpa}
+          </motion.p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+});
+
+/* ── Full-screen group with scroll-based stagger ────────────────── */
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.94 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 220, damping: 26 },
+  },
+};
+
+export default function PlacementsSection() {
+  const [selected, setSelected] = useState<PlacementItem | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showRow2, setShowRow2] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Trigger the discrete animation when scroll crosses 20%
+    setShowRow2(latest > 0.2);
+  });
+
+  useEffect(() => {
+    if (scrollYProgress.get() > 0.2) {
+      setShowRow2(true);
+    }
+  }, [scrollYProgress]);
+
+  const groupOne = individualInfo.slice(0, 4);
+  const groupTwo = individualInfo.slice(4, 8);
+
+  return (
+    <section ref={containerRef} className="bg-white h-auto sm:h-[200vh] relative z-10 py-10 sm:py-0" id="placements">
+      <div className="static sm:sticky top-0 h-auto sm:h-screen w-full flex flex-col items-center justify-center gap-8 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8 sm:overflow-hidden">
+        <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-6xl items-center">
+          {/* First Group triggers normally as it comes into view */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 w-full"
+          >
+            {groupOne.map((item) => (
+              <motion.div key={item.id} variants={cardVariants}>
+                <PlacementCard item={item} onSelect={setSelected} suffix="-top" />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Second Group (Mobile): Uses whileInView as they scroll normally */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "50px" }}
+            className="grid grid-cols-2 sm:hidden gap-4 w-full"
+          >
+            {groupTwo.map((item) => (
+              <motion.div key={item.id} variants={cardVariants}>
+                <PlacementCard item={item} onSelect={setSelected} suffix="-mobile" />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Second Group (Desktop): Uses scroll progress state because it is sticky */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={showRow2 ? "visible" : "hidden"}
+            className="hidden sm:grid sm:grid-cols-4 gap-6 w-full"
+          >
+            {groupTwo.map((item) => (
+              <motion.div key={item.id} variants={cardVariants}>
+                <PlacementCard item={item} onSelect={setSelected} suffix="-desktop" />
+              </motion.div>
+            ))}
+          </motion.div>
+          <Link href="/placements" className="mt-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={showRow2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover="hover"
+              whileTap={{ scale: 0.96 }}
+              style={{ pointerEvents: showRow2 ? "auto" : "none" }}
+            >
+              <Button
+                variant="outline"
+                className="group border border-black w-48 h-12 cursor-pointer rounded-3xl overflow-hidden"
+              >
+                <motion.span
+                  variants={{ hover: { x: -4 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  More Placements
+                </motion.span>
+                <motion.span
+                  variants={{ hover: { x: 4 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="inline-flex"
+                >
+                  <ArrowRight />
+                </motion.span>
+              </Button>
+            </motion.div>
+          </Link>
+        </div>
       </div>
     </section>
   );

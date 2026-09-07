@@ -22,22 +22,39 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Placements", href: "/placements" },
-  { name: "Recruiters", href: "/recruiters" },
-  { name: "Statistics", href: "/statistics" },
-  { name: "About", href: "/about" },
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Recruiters", href: "#recruiters"},
+  { name: "Statistics", href: "#analytics" },
+  { name: "Placements", href: "#placements" },
 ];
-
-const galleryLink = { name: "Gallery", href: "/gallery" };
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 8);
+      
+      const sections = navLinks
+        .filter(link => link.href.startsWith("#"))
+        .map(link => link.href.substring(1));
+        
+      for (const section of [...sections].reverse()) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // Adjust threshold based on your navbar height + some buffer
+          if (rect.top <= 150) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -47,8 +64,12 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (href.startsWith("#")) {
+      return activeSection === href.substring(1);
+    }
+    return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  };
 
   const pillLinkClass = (active: boolean, accent = false) =>
     cn(
@@ -61,10 +82,11 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex h-[--navbar-height] items-center justify-center bg-transparent px-4 md:px-0 py-3 md:py-4",
+        "fixed top-0 left-0 z-50 w-full flex h-[--navbar-height] items-center justify-center px-4 md:px-0 py-3 md:py-4 transition-all duration-300",
+        scrolled ? "bg-white/95 backdrop-blur-md" : "bg-white"
       )}
     >
-      <div className="relative flex w-full max-w-4xl items-center justify-start md:justify-center border-b border-border/40 md:border-none pb-3 md:pb-0">
+      <div className="relative flex w-full items-center justify-start md:justify-center border-b border-border/40 md:border-none pb-3 md:pb-0">
         {/* Mobile — shadcn Sheet + Button */}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
@@ -79,7 +101,7 @@ export default function Navbar() {
           </SheetTrigger>
 
           <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
-            <SheetHeader className="border-b px-6 py-5 text-left">
+            <SheetHeader className="border-b px-6 py-5 flex flex-row items-center justify-between text-left">
               <SheetTitle>CGPU</SheetTitle>
             </SheetHeader>
 
@@ -102,50 +124,36 @@ export default function Navbar() {
                 </Button>
               ))}
             </nav>
-
-            <div className="border-t px-4 py-5">
-              <Button
-                className="w-full bg-primary-red hover:bg-primary-red-hover"
-                asChild
-              >
-                <Link href={galleryLink.href}>Gallery</Link>
-              </Button>
-            </div>
           </SheetContent>
         </Sheet>
 
-        {/* Desktop — shadcn NavigationMenu pill */}
-        <NavigationMenu
-          viewport={false}
-          className="hidden max-w-none md:flex"
-          aria-label="Main navigation"
-        >
-          <NavigationMenuList className="gap-1 rounded-full border border-border bg-transparent/50 p-1.5 shadow-sm backdrop-blur-md">
-            {navLinks.map((link) => (
-              <NavigationMenuItem key={link.name}>
-                <NavigationMenuLink
-                  asChild
-                  className={pillLinkClass(isActive(link.href))}
-                >
-                  <Link href={link.href}>{link.name}</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
-
-            <NavigationMenuItem className="flex items-center">
-              <Separator orientation="vertical" className="mx-1 h-5" />
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={pillLinkClass(false, true)}
-              >
-                <Link href={galleryLink.href}>{galleryLink.name}</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        {/* Desktop & Logo wrapper */}
+        <div className="flex flex-1 ml-4 md:ml-0 justify-between items-center md:flex-none md:w-3/4">
+          <div className="flex items-center">
+            <h1 className="text-2xl text-center font-light font-stretch-75%">CGPU</h1>
+          </div>
+          <NavigationMenu
+            viewport={false}
+            className="hidden max-w-none md:flex"
+            aria-label="Main navigation"
+          >
+            <NavigationMenuList className="gap-1 rounded-full border border-border bg-white  p-1.5 shadow-sm backdrop-blur-md">
+              {navLinks.map((link) => (
+                <NavigationMenuItem key={link.name}>
+                  <NavigationMenuLink
+                    asChild
+                    className={pillLinkClass(isActive(link.href))}
+                  >
+                    <Link href={link.href}>{link.name}</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+          <Button asChild variant="outline" className="w-24 h-12  hover:bg-transparent text-md">
+            <Link href="/gallery">Gallery</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );

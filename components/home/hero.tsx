@@ -1,10 +1,12 @@
-"use client";
+"use client"
 
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { ContactDialog } from "./contact-dialog";
 import { Badge } from "@/components/ui/badge";
+import Navbar from '@/components/Navbar';
+
 
 export default function Hero() {
   const fadeInUp = {
@@ -17,22 +19,11 @@ export default function Hero() {
   } as const;
 
   return (
-    <div className="w-full px-4 pt-2 pb-4 sm:px-6 sm:pt-3 sm:pb-6 lg:px-8 lg:pt-4 lg:pb-8">
-      <section className="relative flex min-h-[calc(100vh-8rem)] flex-col justify-center overflow-hidden rounded-3xl">
-        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-6 px-6 py-12 text-center md:gap-7">
-          {/* Logo */}
-          <motion.div variants={fadeInUp} initial="initial" animate="animate">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/cgpu-header-logo.png"
-              alt="CGPU SCTCE"
-              className="mx-auto h-16 w-auto object-contain sm:h-20 md:h-24"
-            />
-          </motion.div>
-
-          {/* Subtitle + Heading */}
+    <div className="w-full min-h-screen px-4 pt-2 pb-4 sm:px-6 sm:pt-3 sm:pb-6 lg:px-8 lg:pt-4 lg:pb-8 flex flex-col">
+      <section className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-3xl">      
+        <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center gap-6 px-6 py-12 text-center md:gap-7">
           <div className="flex flex-col items-center gap-4">
-            <motion.p
+            {/* <motion.p
               variants={fadeInUp}
               initial="initial"
               animate="animate"
@@ -41,7 +32,7 @@ export default function Hero() {
               Career Guidance & Placement Unit{" "}
               <span className="hidden md:inline">|</span>{" "}
               <span className="block md:inline">SCTCE</span>
-            </motion.p>
+            </motion.p> */}   
 
             <motion.div variants={fadeInUp} initial="initial" animate="animate">
               <h1 className="font-sans text-4xl font-bold leading-none tracking-[-0.04em] text-text-primary sm:text-6xl md:text-7xl">
@@ -143,3 +134,4 @@ export default function Hero() {
     </div>
   );
 }
+

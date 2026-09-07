@@ -170,16 +170,8 @@ const testimonials: TestimonialCardProps[] = [
 
 export default function TestimonialSection() {
   return (
-    <section className="py-16 md:py-24 border-b border-border bg-background">
+    <section className="py-16 md:py-24 border-b border-border bg-white border h-screen w-[90dvw]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4">
-        <Badge variant="default">Testimonials</Badge>
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center">
-          Words from Those Who{" "}
-          <span className="italic font-bold md:text-5xl text-3xl text-primary-red">
-            lived it
-          </span>
-        </h2>
-
         {/*
           Bento — 2 equal portrait cards
           Desktop / tablet: side-by-side (max ~380px each, centred)
