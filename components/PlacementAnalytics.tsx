@@ -113,7 +113,7 @@ function StatCounter({
 export default function PlacementAnalytics() {
   return (
     <section
-      className="w-full flex flex-col gap-8 items-center py-16 px-6 bg-white"
+      className="relative z-10 bg-white px-4 sm:px-6 lg:px-8 py-16 sm:py-24"
       id="statistics"
     >
       <div className="flex flex-col justify-evenly items-center w-full">

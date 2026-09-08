@@ -351,7 +351,7 @@ export default function Home() {
 
       <div id="analytics">
         {/* Full-screen Staggered Heading */}
-        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
+        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full sticky top-0 z-0">
           <StaggeredHeading text="Placement Analytics" />
         </div>
 
@@ -359,7 +359,7 @@ export default function Home() {
       </div>
 
       <div id="placements">
-        <div className="h-screen flex justify-center items-center gap-3 bg-white px-4 md:px-24 text-center">
+        <div className="h-screen flex justify-center items-center gap-3 bg-white px-4 md:px-24 text-center sticky top-0">
           <motion.h1
             className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
             initial="hidden"
@@ -521,7 +521,9 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-        <Footer />
+        <div className="mt-5">
+          <Footer />
+        </div>
       </div>
     </div>
   );

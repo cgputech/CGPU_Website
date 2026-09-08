@@ -78,7 +78,7 @@ const footerVariant = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-14 pb-20 overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-14 sm:pb-20 overflow-hidden">
       <BackButton />
 
       {/* ── Heading ──────────────────────────────────────────── */}
@@ -86,49 +86,33 @@ export default function AboutPage() {
         variants={headingContainer}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap justify-center gap-x-6 mb-6"
+        className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 mb-4 sm:mb-8 mt-8"
         aria-label="Our Team"
       >
         {["Our", "Team"].map((word) => (
           <motion.span
             key={word}
             variants={wordVariant}
-            className="text-[clamp(60px,12vw,100px)] font-light leading-none tracking-tight text-zinc-900 select-none"
+            className="md:text-[clamp(60px,12vw,100px)] text-[clamp(30px,12vw,50px)] font-light leading-none tracking-tight text-zinc-900 select-none"
           >
             {word}
           </motion.span>
         ))}
       </motion.div>
-
-      {/* ── Subtitle ─────────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.18, duration: 0.7, ease: "easeOut" }}
-        className="max-w-2xl text-center mb-12 space-y-4"
-      >
-        <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
-          The Career Guidance &amp; Placement Unit of SCTCE is a student-driven
-          initiative that connects aspiring engineers with leading companies
-          across the country. We handle everything from skill-building workshops
-          and mock interviews to on-campus recruitment drives — so that every
-          student walks out with more than just a degree.
-        </p>
-      </motion.div>
-
+      
       {/* ── Cards ────────────────────────────────────────────── */}
       <motion.div
         variants={cardContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl"
+        className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 w-full max-w-4xl"
       >
         {FEATURED.map((person) => (
           <motion.div
             key={person.id}
             variants={cardVariant}
-            className="w-full h-[36vh] min-h-[260px] max-h-[400px]"
+            className="w-full aspect-[4/5] sm:aspect-auto sm:h-[32vh] sm:min-h-[240px] sm:max-h-[380px] first:xs:col-span-2 first:md:col-span-1"
           >
             <div className="relative h-full w-full overflow-hidden rounded-2xl bg-zinc-100 shadow-sm">
               {/* Photo */}
@@ -144,16 +128,17 @@ export default function AboutPage() {
               />
 
               {/* Floating info chip */}
-              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white px-4 py-2.5 shadow-md">
-                <p className="text-[10px] font-semibold tracking-widest uppercase text-primary-red mb-0.5">
+              <div className="absolute inset-x-2.5 sm:inset-x-3 bottom-2.5 sm:bottom-3 rounded-xl bg-white px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-md">
+                <p className="text-[9px] sm:text-[10px] font-semibold tracking-widest uppercase text-primary-red mb-0.5">
                   {person.role}
                 </p>
                 <h3 className="text-sm font-semibold tracking-tight text-zinc-900 truncate">
                   {person.name}
                 </h3>
+
                 <a
                   href={`mailto:${person.email}`}
-                  className="text-xs text-zinc-400 hover:text-primary-red transition-colors truncate block"
+                  className="text-xs text-zinc-400 hover:text-primary-red transition-colors truncate block py-0.5 -my-0.5"
                 >
                   {person.email}
                 </a>
@@ -168,10 +153,13 @@ export default function AboutPage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="mt-12 text-xl text-black font-light text-center"
+        className="mt-8 sm:mt-12 text-base sm:text-xl text-black font-light text-center px-4"
       >
-        And <span className="text-primary-red text-3xl">{TOTAL_TEAM - FEATURED.length}</span>  dedicated people working behind
-        the scenes — and many more to come.
+        And{" "}
+        <span className="text-primary-red text-2xl sm:text-3xl">
+          {TOTAL_TEAM - FEATURED.length}
+        </span>{" "}
+        dedicated people working behind the scenes — and many more to come.
       </motion.p>
     </div>
   );

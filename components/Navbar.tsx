@@ -20,6 +20,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import Image from 'next/image';
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -129,8 +130,9 @@ export default function Navbar() {
 
         {/* Desktop & Logo wrapper */}
         <div className="flex flex-1 ml-4 md:ml-0 justify-between items-center md:flex-none md:w-3/4">
-          <div className="flex items-center">
-            <h1 className="text-2xl text-center font-light font-stretch-75%">CGPU</h1>
+          <div className="flex items-center justify-center gap-4">
+            <Image src="/CGPU-LOGO - dark.png" width={120} height={120} alt="cgpu-logo" />
+            {/* <h1 className="text-2xl text-center font-light font-stretch-75%">CGPU</h1> */}
           </div>
           <NavigationMenu
             viewport={false}
