@@ -166,11 +166,12 @@ export default function StatisticsPage() {
               ) : (
                 <div className="flex flex-col items-baseline gap-1">
                   <div className="text-3xl md:text-5xl font-extrabold flex flex-row items-center">
+                     <IndianRupee className="w-8 h-8 md:w-10 md:h-10 -mr-1 -ml-1"/> 
                       <span>
                         {highestPackage ? `${highestPackage}` : "—"}
                       </span>                  
                   </div>
-                  <div className="text-xl md:text-2xl font-semibold opacity-90">LPA</div>  
+                  <div className="text-xl md:text-2xl font-semibold opacity-90">CTC</div>  
                 </div>
               )}
             </div>
@@ -194,13 +195,13 @@ export default function StatisticsPage() {
                 <Skeleton className="h-8 w-24" />
               ) : (
                 <div className="flex flex-col items-start align-center gap-1">
-                  <div className="text-3xl md:text-5xl font-extrabold flex flex-row items-center text-text-primary">
+                  <div className="text-3xl md:text-4xl font-extrabold flex flex-row items-center text-text-primary">
                     <IndianRupee className="w-8 h-8 md:w-10 md:h-10 -mr-1 -ml-1"/> 
                     <span>
                       {averagePackage ? `${averagePackage}` : "—"}
                     </span>
                   </div>
-                  <div className="text-xl md:text-2xl font-semibold text-text-secondary">LPA</div>  
+                  <div className="text-xl md:text-2xl font-semibold text-text-secondary">CTC</div>  
                 </div>
               )}
             </div>
@@ -250,7 +251,7 @@ export default function StatisticsPage() {
             <InteractiveChart
               type="bar"
               data={barChartData}
-              yLabel="Average Salary (LPA)"
+              yLabel="Average Salary (CTC)"
             />
           ) : (
             <div className="flex items-center justify-center h-[320px] text-sm text-text-secondary">
@@ -334,7 +335,7 @@ export default function StatisticsPage() {
                         </td> */}
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-extrabold text-text-primary text-right">
                           {dept.avgPackage > 0
-                            ? `${dept.avgPackage.toFixed(2)} LPA`
+                            ? `${dept.avgPackage.toFixed(2)} CTC`
                             : "—"}
                         </td>
                       </tr>
