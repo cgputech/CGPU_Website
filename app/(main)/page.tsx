@@ -47,7 +47,7 @@ const CompanyIcon = ({ company, priority = false }: CompanyIconProps) => {
   if (!company.logo_url) return null;
 
   return (
-    <div className="relative h-20 w-32 md:h-28 md:w-48 grayscale hover:grayscale-0 transition-all duration-300">
+    <div className="relative h-20 w-32 md:h-28 md:w-48 transition-all duration-300">
       <Image
         src={company.logo_url}
         alt={company.company_name}

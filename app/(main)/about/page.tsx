@@ -11,8 +11,8 @@ const PLACEMENT_OFFICER = {
   id: "po",
   name: "Sreejith",
   role: "Placement Officer",
-  url: "https://res.cloudinary.com/dlzy7vwio/image/upload/c_fill,g_face,w_500,h_600,q_auto,f_auto/v1784010633/1000128137_1_nxahj8.jpg",
-  objectPosition: "center 30%",
+  url: "https://res.cloudinary.com/dlzy7vwio/image/upload/v1788880744/Photo_from_Abhiram_AR_1_j5frvz.jpg",
+  objectPosition: "top 30%"
 };
 
 const LEADS = [
@@ -443,7 +443,7 @@ export default function AboutPage() {
             variants={cardContainer}
             initial="hidden"
             animate="visible"
-            className="w-full max-w-xs mx-auto"
+            className="w-full max-w-md mx-auto"
           >
             <motion.div variants={cardVariant}>
               <MemberCard
@@ -451,12 +451,11 @@ export default function AboutPage() {
                 role={PLACEMENT_OFFICER.role}
                 url={PLACEMENT_OFFICER.url}
                 objectPosition={PLACEMENT_OFFICER.objectPosition}
-                heightClass="h-[52vh] min-h-[320px] max-h-[500px]"
+                heightClass="aspect-[4/3] h-auto"
               />
             </motion.div>
           </motion.div>
         </section>
-
         {/* ── Tier 2 · Student Leads ─────────────────────── */}
         <section>
           <SectionLabel label="Student Leads" />

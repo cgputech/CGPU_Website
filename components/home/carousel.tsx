@@ -134,7 +134,7 @@ const PlacementCard = memo(function PlacementCard({
             height={600}
             decoding="async"
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover grayscale"
+            className="absolute inset-0 h-full w-full object-cover grayscale-75"
             style={{ objectPosition: item.objectPosition }}
           />
         </div>
