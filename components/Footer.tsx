@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -9,9 +10,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="max-w-md">
             <div className="flex items-center gap-3">
-              <img
-                src="/cgpulogo.png"
+              <Image
+                src="/icon.png"
                 alt="CGPU SCTCE"
+                width={32}
+                height={32}
                 className="h-10 w-10 object-contain"
               />
 
@@ -51,15 +54,15 @@ export default function Footer() {
 
                 <li>
                   <Link
-                    href="/team"
+                    href="/placements"
                     className="hover:text-primary transition-colors"
                   >
-                    Team
+                    Placements
                   </Link>
                 </li>
 
                 <li>
-                  <Link
+                  <Link 
                     href="/gallery"
                     className="hover:text-primary transition-colors"
                   >

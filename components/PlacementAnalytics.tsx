@@ -118,19 +118,19 @@ export default function PlacementAnalytics() {
     >
       <div className="flex flex-col justify-evenly items-center w-full">
         <StatCounter
-          target={2100}
+          target={4000}
           label="Total Offers"
           imageSrc="/studio-humi-SgoYeJZsX90-unsplash.jpg"
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."
         />
         <StatCounter
-          target={200}
+          target={193}
           label="Recruiters"
           imageSrc="/shahid-mehmood-jBgGBq1Q5a0-unsplash.jpg"
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."
         />
         <StatCounter
-          target={24}
+          target={49}
           label="Highest LPA"
           imageSrc="/willy-the-wizard-8bWvdH7YxRw-unsplash.jpg"
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."

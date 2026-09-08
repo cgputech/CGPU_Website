@@ -15,6 +15,7 @@ import {
 import { listRecruiters } from "@/services/recruiters";
 import type { RecruiterWithStats } from "@/services/types/db";
 import Image from "next/image";
+import { BackButton } from "@/components/ui/back-button";
 import {
   CardFooter,
   CardHeader,

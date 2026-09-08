@@ -25,7 +25,6 @@ export async function createPlacementYear(
     .insert({
       year: input.year,
       total_students_eligible: input.total_students_eligible ?? 0,
-      total_placed: input.total_placed ?? 0,
       total_offers: input.total_offers ?? 0,
     })
     .select()

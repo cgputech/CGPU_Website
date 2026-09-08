@@ -32,7 +32,7 @@ async function fetchRelevantRecruiters() {
     "Litmus7",
     "Trimble",
     "Wipro",
-    "H&R Block"
+    "H&R Block",
   ];
 
   return recruiters.filter((r) => companies.includes(r.company_name));
@@ -116,7 +116,11 @@ function StaggeredHeading({
           className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
         >
           {word.split("").map((char, charIdx) => (
-            <motion.span key={charIdx} variants={charVariants} className="inline-block">
+            <motion.span
+              key={charIdx}
+              variants={charVariants}
+              className="inline-block"
+            >
               {char}
             </motion.span>
           ))}
@@ -133,103 +137,176 @@ function RecruitersSection({
   recruiters: Recruiter[];
   recruitersLoading: boolean;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [showRow2, setShowRow2] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Trigger the discrete animation when scroll crosses 20%
-    setShowRow2(latest > 0.2);
-  });
-
-  useEffect(() => {
-    if (scrollYProgress.get() > 0.2) {
-      setShowRow2(true);
-    }
-  }, [scrollYProgress]);
-
   const rowOne = recruiters.slice(0, 5);
   const rowTwo = recruiters.slice(5, 10);
 
   return (
-    <section
-      ref={containerRef}
-      className="bg-white h-auto sm:h-[200vh] relative z-10 py-10 sm:py-0"
-    >
-      <div className="static sm:sticky top-0 h-auto sm:h-screen w-full flex flex-col items-center justify-center gap-8 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8 sm:overflow-hidden">
-        {recruitersLoading ? (
-          <p className="text-slate-400 text-sm">Loading recruiters…</p>
-        ) : recruiters.length === 0 ? (
-          <p className="text-slate-400 text-sm">No recruiters to show yet.</p>
-        ) : (
-          <div className="flex flex-col gap-8 sm:gap-6 w-full max-w-6xl items-center">
-            {/* Mobile: Unified Grid for all 10 items so they pair up perfectly in grid-cols-2 */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-              className="grid grid-cols-2 sm:hidden gap-x-4 gap-y-8 w-full place-items-center"
-            >
-              {recruiters.map((item, index) => (
-                <motion.div key={item.id ?? index} variants={cardVariants}>
-                  <CompanyIcon company={item} priority={index < 4} />
-                </motion.div>
-              ))}
-            </motion.div>
+    <section className="relative z-10 bg-white px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      {recruitersLoading ? (
+        <p className="text-slate-400 text-sm text-center">
+          Loading recruiters…
+        </p>
+      ) : recruiters.length === 0 ? (
+        <p className="text-slate-400 text-sm text-center">
+          No recruiters to show yet.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-6xl mx-auto items-center">
+          {/* Mobile: unified grid so all 10 items pair up in grid-cols-2 */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-2 sm:hidden gap-x-4 gap-y-8 w-full place-items-center"
+          >
+            {recruiters.map((item, index) => (
+              <motion.div key={item.id ?? index} variants={cardVariants}>
+                <CompanyIcon company={item} priority={index < 4} />
+              </motion.div>
+            ))}
+          </motion.div>
 
-            {/* Desktop: First Row */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-              className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
-            >
-              {rowOne.map((item, index) => (
-                <motion.div key={item.id ?? index} variants={cardVariants}>
-                  <CompanyIcon company={item} priority={true} />
-                </motion.div>
-              ))}
-            </motion.div>
+          {/* Desktop: row 1 */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+          >
+            {rowOne.map((item, index) => (
+              <motion.div key={item.id ?? index} variants={cardVariants}>
+                <CompanyIcon company={item} priority={true} />
+              </motion.div>
+            ))}
+          </motion.div>
 
-            {/* Desktop: Second Row (Sticky animation) */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate={showRow2 ? "visible" : "hidden"}
-              className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
-            >
-              {rowTwo.map((item, index) => (
-                <motion.div key={item.id ?? index} variants={cardVariants}>
-                  <CompanyIcon company={item} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        )}
+          {/* Desktop: row 2 — now a plain whileInView reveal instead of a scroll-progress pin */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+          >
+            {rowTwo.map((item, index) => (
+              <motion.div key={item.id ?? index} variants={cardVariants}>
+                <CompanyIcon company={item} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      )}
 
-        {/* CTA — only shown after the second row has animated in */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={showRow2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
+      <motion.div
+        className="flex justify-center mt-10 sm:mt-14"
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <Link href="/recruiters">
+          <Button
+            variant="outline"
+            className="group border border-black w-56 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
+          >
+            <span>See More Recruiters</span>
+            <ArrowRight className="transition-transform group-hover:translate-x-1" />
+          </Button>
+        </Link>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ── About Section (pinned heading, description scrolls over it) ── */
+
+function AboutSection() {
+  return (
+    <section className="relative h-auto sm:h-[170vh] bg-white">
+      {/* Pinned heading — full screen only from sm: up, where sticky is active */}
+      <div className="sticky top-0 h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full py-16 sm:py-0 z-0">
+        <motion.h1
+          className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerHeadingVariants}
         >
-          <Link href="/recruiters">
+          {"About Us".split(" ").map((word, wordIdx) => (
+            <span
+              key={wordIdx}
+              className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
+            >
+              {word.split("").map((char, charIdx) => (
+                <motion.span
+                  key={charIdx}
+                  variants={charVariants}
+                  className="inline-block"
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+          ))}
+        </motion.h1>
+      </div>
+
+      {/* Description — no forced min-height on mobile, just natural content + padding */}
+      <section className="relative z-10 bg-white flex flex-col justify-center items-center px-4 md:px-24 py-16 sm:py-24 w-full sm:min-h-screen">
+        <motion.div
+          className="max-w-7xl flex flex-wrap justify-center text-left w-full"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.03 } },
+          }}
+        >
+          {"The Career Guidance and Placement Unit (CGPU) is dedicated to guiding our students towards successful career paths. We facilitate rigorous training, comprehensive skill development, and foster strong industry connections to ensure our graduates are industry-ready and equipped to excel in today's competitive professional landscape."
+            .split(" ")
+            .map((word, i) => (
+              <motion.span
+                key={i}
+                variants={{
+                  hidden: { y: "50%", opacity: 0 },
+                  visible: {
+                    y: 0,
+                    opacity: 1,
+                    transition: {
+                      type: "spring" as const,
+                      stiffness: 150,
+                      damping: 20,
+                    },
+                  },
+                }}
+                className="inline-block text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-slate-800 mr-2 sm:mr-3 lg:mr-4 mb-2 sm:mb-3 lg:mb-4 leading-tight"
+              >
+                {word}
+              </motion.span>
+            ))}
+        </motion.div>
+
+        <motion.div
+          className="flex flex-wrap gap-4 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Link href="/about">
             <Button
               variant="outline"
-              className="group border border-black w-56 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
+              className="group border border-black w-48 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
             >
-              <span>See More Recruiters</span>
+              <span>Our Team</span>
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
         </motion.div>
-      </div>
+      </section>
     </section>
   );
 }
@@ -257,113 +334,12 @@ export default function Home() {
 
       <div id="about">
         {/* Full-screen Staggered Heading */}
-        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
-          <motion.h1
-            className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.08,
-                },
-              },
-            }}
-          >
-            {"About Us".split(" ").map((word, wordIdx) => (
-              <span
-                key={wordIdx}
-                className="inline-block whitespace-nowrap mr-3 sm:mr-5 md:mr-8 lg:mr-10"
-              >
-                {word.split("").map((char, charIdx) => (
-                  <motion.span
-                    key={charIdx}
-                    variants={{
-                      hidden: { y: "100%", opacity: 0 },
-                      visible: {
-                        y: 0,
-                        opacity: 1,
-                        transition: {
-                          type: "spring" as const,
-                          stiffness: 200,
-                          damping: 20,
-                        },
-                      },
-                    }}
-                    className="inline-block"
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </motion.h1>
-        </div>
-
-        {/* Staggered Description — flows directly below heading */}
-        <section className="bg-white flex flex-col justify-center items-center px-4 md:px-24 pt-8 pb-24 w-full">
-          <motion.div
-            className="max-w-7xl flex flex-wrap justify-center text-left overflow-hidden w-full"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.03,
-                },
-              },
-            }}
-          >
-            {"The Career Guidance and Placement Unit (CGPU) is dedicated to guiding our students towards successful career paths. We facilitate rigorous training, comprehensive skill development, and foster strong industry connections to ensure our graduates are industry-ready and equipped to excel in today's competitive professional landscape."
-              .split(" ")
-              .map((word, i) => (
-                <motion.span
-                  key={i}
-                  variants={{
-                    hidden: { y: "50%", opacity: 0 },
-                    visible: {
-                      y: 0,
-                      opacity: 1,
-                      transition: {
-                        type: "spring" as const,
-                        stiffness: 150,
-                        damping: 20,
-                      },
-                    },
-                  }}
-                  className="inline-block text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-slate-800 mr-2 sm:mr-3 lg:mr-4 mb-2 sm:mb-3 lg:mb-4 leading-tight"
-                >
-                  {word}
-                </motion.span>
-              ))}
-          </motion.div>
-          <motion.div
-            className="flex flex-wrap gap-4 mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Link href="/about">
-              <Button
-                variant="outline"
-                className="group border border-black w-48 h-12 cursor-pointer rounded-3xl hover:bg-transparent"
-              >
-                <span>Our Team</span>
-                <ArrowRight className="transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </motion.div>
-        </section>
+        <AboutSection />
       </div>
 
       <div id="recruiters">
         {/* Full-screen Staggered Heading */}
-        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full">
+        <div className="h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full sticky top-0 z-0">
           <StaggeredHeading text="Recruiters" />
         </div>
 
@@ -482,13 +458,24 @@ export default function Home() {
         <Card className="max-w-6xl mx-auto border-none shadow-sm rounded-3xl overflow-hidden bg-white">
           <CardContent className="p-0 flex flex-col md:flex-row justify-between">
             <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left p-6 sm:p-10 md:p-16 w-full md:w-1/2">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 text-black">Stay Connected</h2>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 text-black">
+                Stay Connected
+              </h2>
               <p className="text-base sm:text-lg text-gray-500 mb-8 sm:mb-10 max-w-md">
-                Follow us on Instagram and LinkedIn for the latest updates, placement stories, career guidance tips, and event announcements.
+                Follow us on Instagram and LinkedIn for the latest updates,
+                placement stories, career guidance tips, and event
+                announcements.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <Link href="#" target="_blank" rel="noreferrer">
-                  <Button variant="outline" className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto">
+                <Link
+                  href="https://www.instagram.com/cgpu.sctce"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -501,8 +488,15 @@ export default function Home() {
                     <span>Instagram</span>
                   </Button>
                 </Link>
-                <Link href="#" target="_blank" rel="noreferrer">
-                  <Button variant="outline" className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto">
+                <Link
+                  href="https://www.linkedin.com/company/cgpu-sctce"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    className="rounded-3xl gap-2 px-6 h-14 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-black text-md cursor-pointer transition-colors w-full sm:w-auto"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -518,17 +512,17 @@ export default function Home() {
               </div>
             </div>
             <div className="w-full md:w-1/2 relative min-h-[250px] sm:min-h-[300px] md:min-h-[450px]">
-              <Image 
-                src="/vectorelements-sdwWlL_SJsA-unsplash.jpg" 
-                fill 
-                className="object-cover" 
-                alt="Connect with us on social media" 
+              <Image
+                src="/vectorelements-sdwWlL_SJsA-unsplash.jpg"
+                fill
+                className="object-cover"
+                alt="Connect with us on social media"
               />
             </div>
           </CardContent>
         </Card>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }

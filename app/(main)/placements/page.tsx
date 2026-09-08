@@ -4,6 +4,7 @@ import Loading from "@/app/loading";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Search, Calendar, Award, Building2 } from "lucide-react";
+import { BackButton } from "@/components/ui/back-button";
 import { listDrives } from "@/services/drives";
 import type { RecruiterVisitWithRelations } from "@/services/types/db";
 import {
@@ -100,6 +101,7 @@ export default function PlacementsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
+      <BackButton />
       {/* Header */}
       <div className="pb-6 mb-10 border-b border-border-custom flex flex-col md:flex-row items-center justify-center gap-4">
         <div>
