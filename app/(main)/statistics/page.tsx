@@ -166,7 +166,6 @@ export default function StatisticsPage() {
               ) : (
                 <div className="flex flex-col items-baseline gap-1">
                   <div className="text-3xl md:text-5xl font-extrabold flex flex-row items-center">
-                     <IndianRupee className="w-8 h-8 md:w-10 md:h-10 -mr-1 -ml-1"/> 
                       <span>
                         {highestPackage ? `${highestPackage}` : "—"}
                       </span>                  
