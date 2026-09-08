@@ -103,7 +103,7 @@ function StaggeredHeading({
     <motion.h1
       className={
         className ??
-        "text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+        "text-[60px] sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
       }
       initial="hidden"
       whileInView="visible"
@@ -228,7 +228,7 @@ function AboutSection() {
       {/* Pinned heading — full screen only from sm: up, where sticky is active */}
       <div className="sticky top-0 h-screen flex justify-center items-center bg-white px-4 md:px-24 w-full py-16 sm:py-0 z-0">
         <motion.h1
-          className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+          className="text-[50px] sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
@@ -361,7 +361,7 @@ export default function Home() {
       <div id="placements">
         <div className="h-screen flex justify-center items-center gap-3 bg-white px-4 md:px-24 text-center sticky top-0">
           <motion.h1
-            className="text-5xl sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
+            className="text-[50px] sm:text-7xl md:text-9xl lg:text-[150px] font-light flex flex-wrap justify-center overflow-hidden w-full"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}

@@ -105,7 +105,9 @@ function StatCounter({
         </div>
       </div>
 
-      <p className="text-sm sm:text-base w-full lg:w-96 text-left lg:text-right text-gray-500">{description}</p>
+      <p className="text-sm sm:text-base w-full lg:w-96 text-left lg:text-right text-gray-500">
+        {description}
+      </p>
     </div>
   );
 }
@@ -118,25 +120,28 @@ export default function PlacementAnalytics() {
     >
       <div className="flex flex-col justify-evenly items-center w-full">
         <StatCounter
-          target={4000}
+          target={900}
           label="Total Offers"
           imageSrc="/studio-humi-SgoYeJZsX90-unsplash.jpg"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."
+          description="Since 2023, our students have secured over 900 job offers across a wide range of industries, reflecting consistent placement momentum and strong employer confidence in the talent coming out of our campus."
         />
         <StatCounter
-          target={193}
+          target={100}
           label="Recruiters"
           imageSrc="/shahid-mehmood-jBgGBq1Q5a0-unsplash.jpg"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."
+          description="More than 100 recruiters, spanning startups, MNCs, and core engineering firms, have visited campus since 2023 to hire from our talent pool, building long-term hiring relationships year after year."
         />
         <StatCounter
-          target={49}
-          label="Highest LPA"
+          target={49.7}
+          label="Highest CTC"
           imageSrc="/willy-the-wizard-8bWvdH7YxRw-unsplash.jpg"
-          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ipsa nulla sed, nisi quia, magni ratione excepturi nesciunt odit necessitatibus mollitia voluptatem consequuntur voluptatibus amet quidem tenetur deserunt. Cumque, veritatis."
+          description="The highest package offered to a student since 2023 stands at ₹49.7 CTC, showcasing the exceptional caliber of talent and the trust top-tier companies place in our graduates."
         />
         <Link href="/statistics" className="mt-8 mb-4">
-          <Button variant="outline" className="w-56 h-14 px-4 py-3 border border-gray-800 rounded-3xl cursor-pointer">
+          <Button
+            variant="outline"
+            className="w-56 h-14 px-4 py-3 border border-gray-800 rounded-3xl cursor-pointer"
+          >
             <span className="text-md">View Detailed Analytics</span>
             <ArrowRight />
           </Button>
