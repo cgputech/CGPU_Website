@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/back-button";
 
 export type PosterData = {
   id: string;
@@ -29,6 +30,7 @@ export function GalleryClient({
   return (
     <div className="relative min-h-screen overflow-hidden bg-background py-16 md:py-24">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <BackButton />
         {/* Header */}
         <div className="mb-8 text-center md:mb-16">
           <Badge className="mb-4 px-4 py-1 shadow-sm">Gallery</Badge>

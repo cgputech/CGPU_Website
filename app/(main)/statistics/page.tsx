@@ -24,6 +24,7 @@ import {
   Users,
   IndianRupee
 } from "lucide-react";
+import { BackButton } from "@/components/ui/back-button";
 
 // ─── Tiny skeleton pulse ──────────────────────────────────────────────────────
 function Skeleton({ className = "" }: { className?: string }) {
@@ -117,7 +118,8 @@ export default function StatisticsPage() {
   const selectedYear = years.find((y) => y.id === selectedYearId);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-8 md:pb-12">
+      <BackButton />
       {/* ── Header + Year selector ── */}
       <div className="flex flex-col md:items-center justify-between border-b border-border-custom pb-6 mb-8 gap-4">
         <div>

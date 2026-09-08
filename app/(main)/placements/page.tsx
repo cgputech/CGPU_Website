@@ -100,7 +100,7 @@ export default function PlacementsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-12 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-8 md:pb-12">
       <BackButton />
       {/* Header */}
       <div className="pb-6 mb-10 border-b border-border-custom flex flex-col md:flex-row items-center justify-center gap-4">

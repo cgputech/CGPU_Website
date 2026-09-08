@@ -318,46 +318,6 @@ function SectionLabel({ label }: { label: string }) {
   );
 }
 
-/* ── Scroll-triggered staggered grid ────────────────────────── */
-
-function StaggeredGrid({
-  members,
-  cols = 2,
-}: {
-  members: ExecomMember[];
-  cols?: 2 | 3 | 4;
-}) {
-  const { ref, inView } = useInView(0.1);
-
-  const gridCols =
-    cols === 2
-      ? "grid-cols-2"
-      : cols === 3
-        ? "grid-cols-2 sm:grid-cols-3"
-        : "grid-cols-2 sm:grid-cols-3 md:grid-cols-4";
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={cardContainer}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      className={`grid ${gridCols} gap-4 sm:gap-5`}
-    >
-      {members.map((m) => (
-        <motion.div key={m.id} variants={cardVariant}>
-          <MemberCard
-            name={m.name}
-            role={m.role}
-            url={m.url}
-            objectPosition={m.objectPosition}
-          />
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
 /* ── Team section: label + grid share one scroll trigger ─────── */
 
 function TeamSection({
