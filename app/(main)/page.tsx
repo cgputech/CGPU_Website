@@ -1,20 +1,17 @@
 "use client";
 
-import AnimatedText from "@/components/AnimatedText";
 import Navbar from "@/components/Navbar";
 import PlacementAnalytics from "@/components/PlacementAnalytics";
 import HeroSection from "@/components/hero";
 import PlacementsSection from "@/components/home/carousel";
-import RevealBox from "@/components/revealBox";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { ArrowRight, Mail } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Recruiter } from "@/services/types/db";
 import { listRecruiters } from "@/services/recruiters";
-import { motion, useScroll, useMotionValueEvent } from "motion/react";
-import TestimonialSection from "@/components/home/testimonial";
+import { motion } from "motion/react";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

@@ -1,8 +1,21 @@
+import type { Metadata } from "next";
 import { listAssets } from "@/services/assets";
 import { listPlacementYears } from "@/services/placement-years";
 import { GalleryClient, type PosterData } from "./gallery-client";
 
 export const revalidate = 3600; // Optionally cache for 1 hour, or remove for dynamic
+
+export const metadata: Metadata = {
+  title: "Placement Gallery & Posters | CGPU SCTCE",
+  description:
+    "Explore placement drive posters, recruitment success stories, and campaign highlights over the years at Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
+  openGraph: {
+    title: "Placement Gallery & Posters | CGPU SCTCE",
+    description:
+      "Collection of placement drives, recruitment posters, and student achievements at SCTCE Trivandrum.",
+    type: "website",
+  },
+};
 
 export default async function GalleryPage() {
   // Fetch assets and placement years in parallel
