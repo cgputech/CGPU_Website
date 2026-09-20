@@ -171,16 +171,16 @@ export default function PlacementsPage() {
       <BackButton />
 
       {/* Header */}
-      <header className="pb-6 mb-8 border-b border-border-custom flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <header className="pb-8 mb-10 md:mb-12 border-b border-border-custom flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-text-primary">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-text-primary whitespace-nowrap">
             Company-wise{" "}
-            <span className="text-3xl md:text-5xl font-semibold tracking-tight text-primary-red italic">
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-primary-red italic">
               Placements
             </span>
           </h1>
 
-          <p className="mt-2 text-sm md:text-base text-text-secondary">
+          <p className="mt-5 md:mt-6 text-sm md:text-base text-text-secondary">
             Since {FIRST_PLACEMENT_YEAR},{" "}
             <strong className="font-semibold text-text-primary">
               {pluralize(totalCompanies, "company", "companies")}
@@ -246,7 +246,7 @@ export default function PlacementsPage() {
                   ? `${years[0]}–${years[years.length - 1]}`
                   : String(years[0] ?? "");
               return (
-                <p className="px-1 text-sm leading-relaxed text-text-secondary">
+                <p className="rounded-lg border border-border-custom bg-white px-4 py-3 text-sm leading-relaxed text-text-secondary">
                   Across{" "}
                   <strong className="font-semibold text-text-primary">
                     {yearRange}
@@ -297,12 +297,12 @@ export default function PlacementsPage() {
                 return (
                   <li
                     key={s.year}
-                    className="px-1 text-sm leading-relaxed text-text-secondary"
+                    className="rounded-lg border border-border-custom bg-white px-4 py-3 text-sm leading-relaxed text-text-secondary"
                   >
                     <strong className="font-semibold text-text-primary">
-                      SCTCE {s.year} placements:
+                      {s.year} placements
                     </strong>{" "}
-                    {pluralize(s.offers, "offer")} from{" "}
+                    — {pluralize(s.offers, "offer")} from{" "}
                     {pluralize(s.companies, "company", "companies")}
                     {packageText ? `, highest package ${packageText}` : ""}.
                   </li>
