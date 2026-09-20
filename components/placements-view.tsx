@@ -483,7 +483,7 @@ export default function PlacementsView() {
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-16 pt-20 md:pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto">
         <BackButton />
 
         {/* ── Page Header ── */}
@@ -929,7 +929,7 @@ export default function PlacementsView() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {galleryPreview.map((item) => (
               <div
                 key={item.id}
@@ -981,7 +981,7 @@ export default function PlacementsView() {
           {/* Grid of Poster / Drive Cards */}
           {paginatedDrives.length > 0 ? (
             <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {paginatedDrives.map((drive) => {
                   const companyName = drive.recruiter?.company_name || "Unknown Company";
                   const packageDisplay = drive.max_package

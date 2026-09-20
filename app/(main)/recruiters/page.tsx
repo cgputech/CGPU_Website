@@ -2,14 +2,25 @@ import type { Metadata } from "next";
 import RecruitersView from "@/components/recruiters-view";
 
 export const metadata: Metadata = {
-  title: "Recruitment Partners & Corporate Recruiters | CGPU SCTCE",
+  title: "SCTCE Recruiters | Companies Visited & Recruitment History",
   description:
-    "Explore top recruiters, corporate partners, and hiring companies visiting Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
+    "SCTCE recruiters from the first campus visit to today: companies visited over the years. By CGPU, Trivandrum.",
+  alternates: {
+    canonical: "/recruiters",
+  },
   openGraph: {
-    title: "Recruitment Partners | CGPU SCTCE",
+    title: "SCTCE Recruiters | Companies Visiting SCTCE | CGPU SCTCE",
     description:
-      "Connecting top MNCs, engineering firms, and tech startups with SCTCE Trivandrum engineering graduates.",
+      "The recruitment journey at Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum: companies visited, repeat recruiters and yearly trends.",
+    url: "/recruiters",
+    siteName: "CGPU SCTCE",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SCTCE Recruiters | Companies Visited & Recruitment History",
+    description:
+      "Companies that have visited SCTCE Trivandrum, from the first recruiter to today.",
   },
 };
 

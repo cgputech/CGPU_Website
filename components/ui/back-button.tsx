@@ -2,15 +2,19 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function BackButton() {
   return (
-    <Link
-      href="/"
-      className="fixed top-4 left-4 sm:top-5 sm:left-5 z-50 inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs font-medium text-zinc-600 shadow-sm backdrop-blur-sm transition-all hover:border-zinc-300 hover:text-zinc-900 hover:shadow-md"
+    <Button
+      asChild
+      variant="link"
+      className="fixed top-4 left-4 sm:top-5 sm:left-5 z-50 text-sm font-medium text-zinc-500 hover:text-zinc-900 px-2.5 py-1.5 h-auto"
     >
-      <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
-      <span>Back</span>
-    </Link>
+      <Link href="/">
+        <ArrowLeft className="h-4 w-4 shrink-0" />
+        Back
+      </Link>
+    </Button>
   );
 }

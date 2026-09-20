@@ -2,17 +2,21 @@ import PlacementsPage from "./placement-client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Placement Drives | CGPU SCTCE",
+  title: "SCTCE Company-wise Placements | Students Hired & Packages",
   description:
-    "Explore recruitment statistics, salary packages, department placement rates, YoY trends, sector splits, and drive records at Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
+    "Company-wise placements at SCTCE: companies that recruited, number of students hired and package offered for 2026, 2025, 2024 and 2023. By CGPU, Trivandrum.",
+  alternates: {
+    canonical: "/placements",
+  },
   openGraph: {
-    title: "Placement Statistics & Campaigns | CGPU SCTCE",
+    title: "SCTCE Company-wise Placements | CGPU SCTCE",
     description:
-      "Explore recruitment statistics, batch packages, branch placement percentages, YoY trends, and recruiter drives at SCTCE Trivandrum.",
+      "See which companies recruited from SCTCE, how many students they hired and the package offered.",
+    url: "/placements",
+    siteName: "CGPU SCTCE",
     type: "website",
   },
 };
-
 export default function Placements() {
-  return <PlacementsPage />
+  return <PlacementsPage />;
 }

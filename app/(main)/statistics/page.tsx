@@ -2,14 +2,23 @@ import type { Metadata } from "next";
 import StatisticsView from "@/components/statistics-view";
 
 export const metadata: Metadata = {
-  title: "Placement Analytics & Metrics | CGPU SCTCE",
+  title: "SCTCE Placement Statistics | Packages, Branch-wise & Trends",
   description:
-    "In-depth placement analytics, department performance breakdown, highest and average CTC metrics, and salary charts for Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
+    "SCTCE placement statistics for 2026, 2025, 2024 and 2023: highest package, branch-wise placement percentage, and year-over-year trends.",
+
   openGraph: {
-    title: "Placement Analytics & Metrics | CGPU SCTCE",
+    title: "SCTCE Placement Statistics 2026, 2025 & 2024 | CGPU SCTCE",
     description:
-      "Comprehensive placement statistics, department performance metrics, and CTC breakdown for SCTCE Trivandrum.",
+      "Recruitment statistics, salary packages, branch-wise placement rates, and YoY trends at Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
+    url: "/placements/statistics", 
+    siteName: "CGPU SCTCE",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SCTCE Placement Statistics | Packages, Branch-wise & Trends",
+    description:
+      "Packages, branch-wise placement rates and yearly trends at SCTCE Trivandrum.",
   },
 };
 
