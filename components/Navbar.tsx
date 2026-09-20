@@ -83,11 +83,11 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 z-50 w-full flex h-[--navbar-height] items-center justify-center px-4 md:px-0 py-3 md:py-4 transition-all duration-300",
+        "fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 md:px-0 pt-3 md:pt-5 pb-2 md:pb-3 transition-all duration-300",
         scrolled ? "bg-white/95 backdrop-blur-md" : "bg-white"
       )}
     >
-      <div className="relative flex w-full items-center justify-start md:justify-center border-b border-border/40 md:border-none pb-3 md:pb-0">
+      <div className="relative flex w-full items-center justify-start md:justify-center pb-3 md:pb-0">
         {/* Mobile — shadcn Sheet + Button */}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>

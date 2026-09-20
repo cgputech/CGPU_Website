@@ -12,13 +12,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CGPU SCTCE | Placement & Career Guidance Unit - Sree Chitra Thirunal College of Engineering",
+  title: "Home",
   description: "The Career Guidance & Placement Unit (CGPU) of Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum, facilitates professional placements, internships, and skill training campaigns.",
   openGraph: {
     title: "CGPU SCTCE | Career Guidance & Placement Cell",
     description: "Connecting world-class recruiters with industry-ready engineering graduates from Sree Chitra Thirunal College of Engineering (SCTCE), Trivandrum.",
     type: "website",
   },
+  icons: {
+    icon: [
+      {
+        url: '/icon.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ]
+  }
 };
 
 export default function RootLayout({

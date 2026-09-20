@@ -151,7 +151,7 @@ function RecruitersSection({
           No recruiters to show yet.
         </p>
       ) : (
-        <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-6xl mx-auto items-center">
+        <div className="flex flex-col gap-8 sm:gap-10 w-full max-w-8xl mx-auto items-center">
           {/* Mobile: unified grid so all 10 items pair up in grid-cols-2 */}
           <motion.div
             variants={containerVariants}
@@ -173,7 +173,7 @@ function RecruitersSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
-            className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+            className="hidden sm:grid sm:grid-cols-5 gap-x-8 gap-y-10 w-full place-items-center max-w-7xl"
           >
             {rowOne.map((item, index) => (
               <motion.div key={item.id ?? index} variants={cardVariants}>
@@ -188,7 +188,7 @@ function RecruitersSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
-            className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center"
+            className="hidden sm:grid sm:grid-cols-5 gap-x-16 gap-y-10 w-full place-items-center max-w-7xl"
           >
             {rowTwo.map((item, index) => (
               <motion.div key={item.id ?? index} variants={cardVariants}>
@@ -256,7 +256,7 @@ function AboutSection() {
       {/* Description — no forced min-height on mobile, just natural content + padding */}
       <section className="relative z-10 bg-white flex flex-col justify-center items-center px-4 md:px-24 py-16 sm:py-24 w-full sm:min-h-screen">
         <motion.div
-          className="max-w-7xl flex flex-wrap justify-center text-left w-full"
+          className="flex flex-wrap justify-center w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
