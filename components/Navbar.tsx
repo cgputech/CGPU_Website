@@ -121,6 +121,19 @@ export default function Navbar() {
                   <Link href={link.href}>{link.name}</Link>
                 </Button>
               ))}
+              <Button
+                variant="ghost"
+                className="h-10 w-full justify-start rounded-full px-4 text-sm font-medium"
+                asChild
+              >
+                <a
+                  href="https://app.notion.com/p/The-Everything-Placement-Guide-3ef11dcd9a8a805e841ac03f8271a4d0?source=copy_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Guide
+                </a>
+              </Button>
             </nav>
           </SheetContent>
         </Sheet>
@@ -149,8 +162,14 @@ export default function Navbar() {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-          <Button asChild variant="outline" className="w-24 h-12  hover:bg-transparent text-md">
-            <Link href="/gallery">Gallery</Link>
+          <Button asChild variant="default" className="h-12 px-5 text-md bg-primary-red hover:bg-primary-red/90 text-white">
+            <a
+              href="https://app.notion.com/p/The-Everything-Placement-Guide-3ef11dcd9a8a805e841ac03f8271a4d0?source=copy_link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Guide
+            </a>
           </Button>
         </div>
       </div>
