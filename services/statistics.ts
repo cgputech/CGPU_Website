@@ -185,3 +185,46 @@ export async function fetchDepartmentsData(
     };
   });
 }
+
+// ─── 5. Placement Year Live Summary (Offers, Recruiters, Visits) ─────────────
+
+export type PlacementYearLiveSummary = {
+  totalOffers: number;
+  totalRecruiters: number;
+  totalVisits: number;
+  monthsLeft: number;
+};
+
+export async function fetchPlacementYearSummary(
+  yearId: number,
+): Promise<PlacementYearLiveSummary> {
+  const supabase = getClient();
+
+  const [yearRes, visitsRes] = await Promise.all([
+    supabase
+      .from("placement_year")
+      .select("total_offers")
+      .eq("id", yearId)
+      .maybeSingle(),
+    supabase
+      .from("recruiter_visit")
+      .select("id, recruiter_id, total_offers")
+      .eq("placement_year_id", yearId),
+  ]);
+
+  const visits = visitsRes.data ?? [];
+  const totalOffersFromVisits = visits.reduce(
+    (acc, v) => acc + (v.total_offers || 0),
+    0,
+  );
+  const totalOffers = yearRes.data?.total_offers || totalOffersFromVisits;
+  const uniqueRecruiters = new Set(visits.map((v) => v.recruiter_id)).size;
+  const totalVisits = visits.length;
+
+  return {
+    totalOffers,
+    totalRecruiters: uniqueRecruiters,
+    totalVisits,
+    monthsLeft: 3,
+  };
+}

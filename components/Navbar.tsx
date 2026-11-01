@@ -53,12 +53,12 @@ export default function Navbar() {
   return (
     <>
       {/*
-        Fixed header bar — white background.
+        Fixed header bar — background: pure black (same as hero).
         pt-4/pb-3 (16px/12px) gives breathing room from viewport top — §10 spacing tokens.
         min-h-14 (56px) mobile / md:min-h-16 (64px) desktop — §9 app bar.
         Total approx height: ~84px mobile / ~96px desktop → matches --navbar-height in globals.css.
       */}
-      <header className="fixed inset-x-0 top-0 z-50 flex min-h-14 items-center bg-white px-4 pt-4 pb-3 md:min-h-16 md:px-6 md:pt-4 md:pb-4 lg:px-8">
+      <header className="fixed inset-x-0 top-0 z-50 flex min-h-14 items-center bg-transparent px-4 pt-4 pb-3 md:min-h-16 md:px-6 md:pt-4 md:pb-4 lg:px-8">
         {/* Container — max 1200px centred — §10 */}
         <div className="mx-auto flex w-full max-w-[75rem] items-center justify-center">
 

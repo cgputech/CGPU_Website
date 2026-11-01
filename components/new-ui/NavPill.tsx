@@ -22,8 +22,8 @@ export function NavPill({ children, className }: NavPillProps) {
     <nav
       aria-label="Main navigation"
       className={cn(
-        // Dark pill, 1px border (§7), backdrop blur for depth
-        "flex items-center rounded-full border border-white/10 bg-[#111111]",
+        // Pill container: #161616, 1px border (§7), backdrop blur for depth
+        "flex items-center rounded-full border border-white/10 bg-[#161616]",
         // Inner spacing: px-3 (12px = --space-3), py-2 (8px = --space-2)
         "px-3 py-2",
         // Subtle shadow for lift
