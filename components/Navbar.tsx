@@ -1,178 +1,131 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import Image from 'next/image';
+/**
+ * Navbar — layout reference: Screenshot from 2026-10-30 22-34-54.png
+ *
+ *   ┌──────────────────────────────────────────────────────┐
+ *   │  [Logo]  About  Recruiters  Statistics  Placements   │  ← dark pill
+ *   └──────────────────────────────────────────────────────┘
+ *       white header background, pill is dark
+ *
+ * Sizing (docs/sizes.md):
+ *   - App bar: 56px mobile / 64px desktop (§9)
+ *   - Nav link: min-height 44px touch, padding-x 12–16px (§9)
+ *   - Page margin: 16px / 24px / 32px (§10)
+ *   - Container max-width: 1200px (§2)
+ *
+ * No shadcn/ui. All primitives from components/new-ui.
+ */
 
-const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Recruiters", href: "#recruiters"},
-  { name: "Statistics", href: "#analytics" },
-  { name: "Placements", href: "#placements" },
-];
+import { useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+
+import { NavPill } from "@/components/new-ui/NavPill";
+import { NavLink } from "@/components/new-ui/NavLink";
+import { NavCTA } from "@/components/new-ui/NavCTA";
+import { MobileDrawer } from "@/components/new-ui/MobileDrawer";
+import { HamburgerButton } from "@/components/new-ui/HamburgerButton";
+
+/* ── Nav data ────────────────────────────────────────────── */
+
+const NAV_LINKS = [
+  { name: "About", href: "/about" },
+  { name: "Recruiters", href: "/recruiters" },
+  { name: "Statistics", href: "/statistics" },
+  { name: "Placements", href: "/placements" },
+] as const;
+
+/* ── Component ───────────────────────────────────────────── */
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 8);
-      
-      const sections = navLinks
-        .filter(link => link.href.startsWith("#"))
-        .map(link => link.href.substring(1));
-        
-      for (const section of [...sections].reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // Adjust threshold based on your navbar height + some buffer
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
-  const isActive = (href: string) => {
-    if (href.startsWith("#")) {
-      return activeSection === href.substring(1);
-    }
-    return href === "/" ? pathname === "/" : pathname.startsWith(href);
-  };
-
-  const pillLinkClass = (active: boolean, accent = false) =>
-    cn(
-      "inline-flex h-9 w-max items-center justify-center !rounded-full px-4 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-      active
-        ? "bg-primary-red text-white shadow-sm hover:bg-primary-red hover:text-white focus:bg-primary-red focus:text-white active:bg-primary-red active:text-white"
-        : "text-muted-foreground hover:bg-muted hover:text-foreground focus:bg-muted focus:text-foreground active:bg-muted active:text-foreground",
-    );
+  /** Route-based active: exact match for "/" , startsWith for all others. */
+  const isActive = useCallback(
+    (href: string) =>
+      href === "/" ? pathname === "/" : pathname.startsWith(href),
+    [pathname],
+  );
 
   return (
-    <header
-      className="fixed top-0 left-0 z-50 w-full flex items-center justify-center px-4 md:px-0 pt-3 md:pt-5 pb-2 md:pb-3 transition-all duration-300 bg-white"
-    >
-      <div className="relative flex w-full items-center justify-start md:justify-center pb-3 md:pb-0">
-        {/* Mobile — shadcn Sheet + Button */}
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full md:hidden"
-              aria-label="Open navigation menu"
-            >
-              <Menu className="size-5" />
-            </Button>
-          </SheetTrigger>
+    <>
+      {/*
+        Fixed header bar — white background.
+        pt-4/pb-3 (16px/12px) gives breathing room from viewport top — §10 spacing tokens.
+        min-h-14 (56px) mobile / md:min-h-16 (64px) desktop — §9 app bar.
+        Total approx height: ~84px mobile / ~96px desktop → matches --navbar-height in globals.css.
+      */}
+      <header className="fixed inset-x-0 top-0 z-50 flex min-h-14 items-center bg-white px-4 pt-4 pb-3 md:min-h-16 md:px-6 md:pt-4 md:pb-4 lg:px-8">
+        {/* Container — max 1200px centred — §10 */}
+        <div className="mx-auto flex w-full max-w-[75rem] items-center justify-center">
 
-          <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
-            <SheetHeader className="border-b px-6 py-5 flex flex-row items-center justify-between text-left">
-              <SheetTitle>CGPU</SheetTitle>
-            </SheetHeader>
+          {/*
+            NavPill spans full width on desktop, constrained on mobile.
+            Logo sits inside the pill on the left — matching the reference layout.
+            justify-between pushes links to center/right of logo.
+          */}
+          <NavPill className="w-full justify-between md:w-auto md:justify-start md:gap-4">
 
-            <nav
-              className="flex flex-1 flex-col gap-1 px-4 py-4"
-              aria-label="Mobile navigation"
+            {/* ── Logo (Home link) — left of pill ──── */}
+            <Link
+              href="/"
+              aria-label="CGPU — home"
+              className={[
+                // Touch target: min 44×44px → p-2 (8px) adds enough area
+                "flex shrink-0 items-center rounded-full p-2",
+                "transition-opacity hover:opacity-80",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]",
+              ].join(" ")}
             >
-              {navLinks.map((link) => (
-                <Button
+              {/* max-h-8 = 32px — slightly larger logo inside taller pill */}
+              <Image
+                src="/CGPU-LOGO - light.png"
+                width={100}
+                height={100}
+                alt="CGPU logo"
+                className="h-auto w-auto max-h-8"
+                priority
+              />
+            </Link>
+
+            {/* ── Nav links — desktop only ─────────── */}
+            <div className="hidden items-center gap-1 md:flex">
+              {NAV_LINKS.map((link) => (
+                <NavLink
                   key={link.name}
-                  variant="ghost"
-                  className={cn(
-                    "h-10 w-full justify-start rounded-full px-4 text-sm font-medium",
-                    isActive(link.href) &&
-                      "bg-soft-red text-primary-red hover:bg-soft-red hover:text-primary-red",
-                  )}
-                  asChild
+                  href={link.href}
+                  isActive={isActive(link.href)}
                 >
-                  <Link href={link.href}>{link.name}</Link>
-                </Button>
+                  {link.name}
+                </NavLink>
               ))}
-              <Button
-                variant="ghost"
-                className="h-10 w-full justify-start rounded-full px-4 text-sm font-medium"
-                asChild
-              >
-                <a
-                  href="https://app.notion.com/p/The-Everything-Placement-Guide-3ef11dcd9a8a805e841ac03f8271a4d0?source=copy_link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Guide
-                </a>
-              </Button>
-            </nav>
-          </SheetContent>
-        </Sheet>
+            </div>
 
-        {/* Desktop & Logo wrapper */}
-        <div className="flex flex-1 ml-4 md:ml-0 justify-between items-center md:flex-none md:w-3/4">
-          <div className="flex items-center justify-center gap-4">
-            <Image src="/CGPU-LOGO - dark.png" width={120} height={120} alt="cgpu-logo" />
-            {/* <h1 className="text-2xl text-center font-light font-stretch-75%">CGPU</h1> */}
-          </div>
-          <NavigationMenu
-            viewport={false}
-            className="hidden max-w-none md:flex"
-            aria-label="Main navigation"
-          >
-            <NavigationMenuList className="gap-1 rounded-full border border-border bg-white  p-1.5 shadow-sm backdrop-blur-md">
-              {navLinks.map((link) => (
-                <NavigationMenuItem key={link.name}>
-                  <NavigationMenuLink
-                    asChild
-                    className={pillLinkClass(isActive(link.href))}
-                  >
-                    <Link href={link.href}>{link.name}</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-          <Button asChild variant="default" className="h-12 px-5 text-md bg-primary-red hover:bg-primary-red/90 text-white">
-            <a
-              href="https://app.notion.com/p/The-Everything-Placement-Guide-3ef11dcd9a8a805e841ac03f8271a4d0?source=copy_link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Guide
-            </a>
-          </Button>
+            {/* ── Gallery CTA — desktop: inside pill right; mobile: in drawer ── */}
+            <NavCTA href="/gallery" size="md" className="hidden md:inline-flex">
+              Gallery
+            </NavCTA>
+
+            {/* ── Hamburger — mobile only ───────────── */}
+            <HamburgerButton
+              onClick={() => setMobileOpen(true)}
+              className="md:hidden"
+            />
+          </NavPill>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile drawer */}
+      <MobileDrawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        links={NAV_LINKS as unknown as { name: string; href: string }[]}
+        isActive={isActive}
+        cta={{ href: "/gallery", label: "Gallery" }}
+      />
+    </>
   );
 }
