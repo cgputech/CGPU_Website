@@ -5,7 +5,7 @@ import PlacementAnalytics from "@/components/PlacementAnalytics";
 import HeroSection from "@/components/hero";
 import PlacementsSection from "@/components/home/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
@@ -403,6 +403,83 @@ export default function Home() {
 
         <PlacementsSection />
       </div>
+
+      {/* ── The Everything Placement Guide (TEPG) Section ── */}
+      <div id="guide" className="w-full bg-white py-16 sm:py-24 px-4 md:px-24">
+        <Card className="max-w-6xl mx-auto border border-zinc-200/80 shadow-sm rounded-3xl overflow-hidden bg-gradient-to-br from-zinc-950 via-zinc-900 to-black text-white relative">
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <Image
+              src="/TEGP BG.jpeg"
+              fill
+              className="object-cover"
+              alt="TEPG Background"
+            />
+          </div>
+          <CardContent className="p-0 flex flex-col md:flex-row justify-between relative z-10">
+            <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left p-8 sm:p-12 md:p-16 w-full md:w-3/5">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-6 text-white leading-tight">
+                The Everything Placement Guide
+              </h2>
+              <p className="text-base sm:text-lg text-zinc-300 mb-8 max-w-xl font-light leading-relaxed">
+                Cracking top-tier companies isn’t about luck; it’s about execution. The Everything Placement Guide (TEPG) brings together years of accumulated placement intelligence from CGPU SCTCE into one unified platform. From rigorous technical screening paths to final HR negotiations, we’ve laid out the blueprint. Your job is to execute.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-2">
+                <Button
+                  asChild
+                  className="rounded-full gap-2 px-8 h-14 bg-primary-red hover:bg-primary-red/90 text-white text-sm sm:text-base font-medium transition-all shadow-md hover:shadow-lg hover:scale-[1.02] cursor-pointer"
+                >
+                  <a
+                    href="https://app.notion.com/p/The-Everything-Placement-Guide-3ef11dcd9a8a805e841ac03f8271a4d0?source=copy_link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>EXPLORE TEPG HERE</span>
+                    <ExternalLink className="size-4" />
+                  </a>
+                </Button>
+
+                {/* Sreenandan LinkedIn Button */}
+                <a
+                  href="https://www.linkedin.com/in/sreenandan-s-21sept2004/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-transparent border border-white/20 rounded-full py-1.5 pl-1.5 pr-5 cursor-pointer"
+                >
+                  <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/20 shrink-0 bg-zinc-800">
+                    <Image
+                      src="https://res.cloudinary.com/dlzy7vwio/image/upload/c_fill,g_face,w_500,h_600,q_auto,f_auto/v1782394477/Sreenandan_S_R6A_krgknx.jpg"
+                      alt="Sreenandan"
+                      fill
+                      className="object-cover"
+                      style={{ objectPosition: "center top" }}
+                    />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[11px] uppercase tracking-wider text-zinc-400 font-medium">
+                      Prepared by
+                    </span>
+                    <span className="text-sm sm:text-base font-medium text-white leading-tight">
+                      Sreenandan
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div className="w-full md:w-2/5 relative min-h-[260px] sm:min-h-[320px] md:min-h-auto flex items-center justify-center p-6 md:p-10">
+              <div className="relative w-full h-full min-h-[240px] md:min-h-[340px] rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                <Image
+                  src="/TEGP Hero.jpeg"
+                  fill
+                  className="object-cover"
+                  alt="The Everything Placement Guide preview"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* <div id="testimonials">
         <div className="h-screen flex justify-start items-center gap-3 bg-white px-4 md:px-24 text-left w-full sticky top-0">
           <motion.h1
